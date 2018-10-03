@@ -1,22 +1,25 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { COLLECTIONS } from '../imports/collections';
+import { SessionProps} from "../imports/sessionProperties"
+
+import '../imports/routes.js';
+import '../imports/methods.js';
 
 import './main.html';
+import './session.html';
+import './landing.html';
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-});
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
+export let sessionsHandle;
+export let storiesHandle;
+export let estimatesHandle;
 
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
+Meteor.startup(() => {
+    Tracker.autorun(() => {
+        const selectedSession = Session.get(SessionProps.SELECTED_SESSION);
+        sessionsHandle = Meteor.subscribe(COLLECTIONS.SESSIONS, selectedSession);
+        storiesHandle = Meteor.subscribe(COLLECTIONS.STORIES, selectedSession);
+        estimatesHandle = Meteor.subscribe(COLLECTIONS.ESTIMATES, selectedSession);
+    });
 });

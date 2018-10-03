@@ -1,0 +1,23 @@
+<template name="session">
+    <form>
+        <div class="form-group">
+            <label for="inputStoryName">Neue Story:</label>
+            <input type="text" class="form-control" id="inputStoryName">
+        </div>
+        <button type="submit" class="btn btn-default btn-create-story">Erstellen</button>
+    </form>
+
+    {{#if isLoading}}
+        {{>loading}}
+    {{else}}
+        {{#each stories}}
+            <div class="row">
+                <div>{{name}} -
+                    <button class="btn btn-xs btn-success btn-start-poker">Schätzung</button>
+                </div>
+            </div>
+        {{else}}
+            <div></div>
+        {{/each}}
+    {{/if}}
+</template>

@@ -1,4 +1,40 @@
 body {
-  padding: 10px;
-  font-family: sans-serif;
+    padding: 10px;
+    font-family: sans-serif;
 }
+
+.gamezone {
+    clear: both;
+    margin: 1rem;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.gamezone .gamer {
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.gamezone .gamer.its-me {
+    background: #c6dcd8;
+}
+
+.gamezone .gamer.its-me img {
+    cursor: pointer;
+}
+
+.gamezone img {
+    width: 100px;
+    height: 150px;
+}
+
+.gamezone div {
+    text-align: center;
+}
+
+.gamezone .buttons {
+    padding: 0.5rem;
+}
+
