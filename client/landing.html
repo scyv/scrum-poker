@@ -1,9 +1,11 @@
 <template name="landing">
-    <form>
-        <div class="form-group">
-            <label for="inputSessionName">Neue Sitzung:</label>
-            <input type="text" class="form-control" id="inputSessionName">
+    <form class="form col-sm-12">
+        <div class="input-group col-md-6">
+            <span class="input-group-addon">Name für die Sitzung</span>
+            <input type="text" id="inputSessionName" class="form-control" placeholder="Story Reading XY...">
+            <span class="input-group-btn">
+                <button class="btn btn-default btn-create-session" type="submit">Starten</button>
+            </span>
         </div>
-        <button type="submit" class="btn btn-default btn-create-session">Starten</button>
     </form>
 </template>

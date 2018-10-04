@@ -3,6 +3,20 @@ body {
     font-family: sans-serif;
 }
 
+.form {
+    text-align: center;
+}
+
+.form .input-group {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.story-table {
+    float: none;
+    margin: 1rem auto 1rem auto;
+}
+
 .gamezone {
     clear: both;
     margin: 1rem;

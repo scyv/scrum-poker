@@ -10,4 +10,3 @@ export function setUserName(userName) {
     Session.set(SessionProps.USER_NAME, userName);
     ClientStorage.set("userName", userName);
 }
-

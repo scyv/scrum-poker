@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor"
 import * as Common from "../imports/common";
 import { SessionProps} from "../imports/sessionProperties"
+import {COLLECTIONS} from "../imports/collections";
 
 import { sessionsHandle, storiesHandle} from "./main";
 
@@ -25,6 +26,7 @@ Template.session.events({
                 alert(err);
             } else {
                 $("#inputStoryName").val("");
+                Meteor.subscribe(COLLECTIONS.STORIES, Session.get(SessionProps.SELECTED_SESSION));
             }
         });
     },

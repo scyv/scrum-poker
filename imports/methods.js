@@ -19,7 +19,7 @@ Meteor.methods({
             participants: []
         };
 
-        Stories.insert(story, (err, storyId)=> {
+        return Stories.insert(story, (err, storyId)=> {
             if (err) {
                 console.err(err);
             } else {

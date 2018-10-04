@@ -7,14 +7,8 @@ export const CARDS = {
     BREAK: {
         img: imgPath + "planning poker_Coffee break.png"
     },
-    BREAK2: {
-        img: imgPath + "planning poker_Eat a brownie.png"
-    },
     NO_IDEA: {
         img: imgPath + "planning poker_Here be dragons.png"
-    },
-    SP00: {
-        img: imgPath + "planning poker_Yak Shaving.png"
     },
     SP01: {
         img: imgPath + "planning poker_Low hanging fruit.png"
@@ -45,5 +39,11 @@ export const CARDS = {
     },
     UNLIMITED: {
         img: imgPath + "planning poker_When pigs fly.png"
+    },
+    SPECIAL1: {
+        img: imgPath + "planning poker_Eat a brownie.png"
+    },
+    SPECIAL2: {
+        img: imgPath + "planning poker_Yak Shaving.png"
     }
 };
