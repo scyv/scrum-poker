@@ -17,6 +17,10 @@ body {
     margin: 1rem auto 1rem auto;
 }
 
+.buttons {
+    text-align: center;
+}
+
 .gamezone {
     clear: both;
     margin: 1rem;
@@ -32,7 +36,8 @@ body {
 }
 
 .gamezone .gamer.its-me {
-    background: #c6dcd8;
+    background: #fff0f0;
+    border: 1px solid #ffaaaa;
 }
 
 .gamezone .gamer.its-me img {
@@ -40,8 +45,8 @@ body {
 }
 
 .gamezone img {
-    width: 100px;
-    height: 150px;
+    width: 15rem;
+    height: 22.5rem;
 }
 
 .gamezone div {
@@ -52,3 +57,15 @@ body {
     padding: 0.5rem;
 }
 
+.gamezone .buttons button {
+    width: 15rem;
+}
+
+.gamezone .btn-ready:hover {
+    background: #498249;
+    color: #FFFFFF;
+}
+
+.gamezone .user-name .glyphicon-ok {
+    color: #498249;
+}

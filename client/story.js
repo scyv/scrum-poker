@@ -74,12 +74,12 @@ Template.story.helpers({
     cardImage() {
         const story = getStory();
         if (story.allVisible && this.ready) {
-            return CARDS[this.estimate].img;
+            return CARDS[this.estimate];
         } else {
             if (this.name === Common.getUserName()) {
-                return CARDS[getSelectedCardKey()].img;
+                return CARDS[getSelectedCardKey()];
             } else {
-                return CARDS.COVER.img;
+                return CARDS.COVER;
             }
         }
     }
@@ -107,10 +107,15 @@ Template.story.events({
     'click .btn-not-ready'() {
         Meteor.call("estimateNotReady", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
     },
-    'click .btn-show-all'() {
-        Meteor.call("showCards", Session.get(SessionProps.SELECTED_STORY));
+    'click .btn-turn-cards'() {
+        Meteor.call("turnCards", Session.get(SessionProps.SELECTED_STORY));
     },
     'click .btn-overview'() {
         Router.go("session", {sessionId: Session.get(SessionProps.SELECTED_SESSION)});
+    },
+    'click .btn-save-estimate'() {
+        if (getSession().owner === Common.getUserName()) {
+            Meteor.call("saveEstimate", Session.get(SessionProps.SELECTED_STORY), parseInt($('#inputStoryPoints').val()));
+        }
     }
 });

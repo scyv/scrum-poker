@@ -1,18 +1,34 @@
 <template name="story">
-    {{#with session}}
-        <button class="btn btn-default btn-overview">Übersicht</button>
-    {{/with}}
     {{#with story}}
-        <h3>{{name}}</h3>
-        {{#if isParticipant}}
-            <button class="pull-right btn btn-default btn-cancel-participation">Nicht teilnehmen</button>
-        {{else}}
-            <button class="pull-right btn btn-primary btn-participate">Teilnehmen</button>
-        {{/if}}
-        {{#if isOwner}}
-            <button class="pull-right btn btn-primary btn-show-all">Alle umdrehen</button>
-        {{/if}}
-
+        {{#with session}}
+            <button class="btn btn-link btn-overview">Zurück zur Übersicht</button>
+        {{/with}}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="pull-right buttons">
+                    {{#if isParticipant}}
+                        <button class="btn btn-default btn-cancel-participation">Nicht teilnehmen</button>
+                    {{else}}
+                        <button class="btn btn-primary btn-participate">Teilnehmen</button>
+                    {{/if}}
+                    {{#if isOwner}}
+                        <button class="btn btn-primary btn-turn-cards">Karten umdrehen</button>
+                    {{/if}}
+                </div>
+                <p class="lead"><span class="text-muted">Pokerrunde für:</span> {{name}}</p>
+                {{#if isOwner}}
+                        <div class="input-group col-md-6">
+                            <span class="input-group-addon">Storypoints</span>
+                            <input type="text" class="form-control" id="inputStoryPoints" value="{{estimate}}"
+                                   placeholder="Hier das Ergebnis der Schätzung eintragen">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-default btn-save-estimate">Schätzung eintragen
+                                </button>
+                            </span>
+                        </div>
+                {{/if}}
+            </div>
+        </div>
         <div class="gamezone">
             {{#each participants}}
                 <div class="gamer {{itsMe}}">
@@ -23,16 +39,21 @@
                         {{/if}}
                     </div>
                     <div>
-                        <img src="{{cardImage}}"/>
+                        {{#with cardImage}}
+                            <img src="{{img}}" title="{{title}}"/><br>
+                            <span>{{title}}</span>
+                        {{/with}}
                     </div>
                     {{#if itsMe}}
-                    <div class="buttons">
-                        {{#if isReady}}
-                            <button class="btn btn-xs btn-danger btn-not-ready">Ändern</button>
-                        {{else}}
-                            <button class="btn btn-xs btn-default btn-ready"><i class="glyphicon glyphicon-ok"></i> Fertig</button>
-                        {{/if}}
-                    </div>
+                        <div class="buttons">
+                            {{#if isReady}}
+                                <button class="btn btn-xs btn-danger btn-not-ready">Ändern</button>
+                            {{else}}
+                                <button class="btn btn-xs btn-default btn-ready"><i class="glyphicon glyphicon-ok"></i>
+                                    Fertig
+                                </button>
+                            {{/if}}
+                        </div>
                     {{/if}}
                 </div>
             {{/each}}

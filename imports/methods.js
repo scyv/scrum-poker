@@ -76,10 +76,18 @@ Meteor.methods({
             $set: {"participants.$.ready": false}
         });
     },
-    showCards(storyId) {
+    turnCards(storyId) {
         check(storyId, String);
+        const story = Stories.findOne({_id: storyId});
         Stories.update({_id: storyId}, {
-            $set: {"allVisible": true}
+            $set: {"allVisible": !story.allVisible}
+        });
+    },
+    saveEstimate(storyId, estimate) {
+        check(storyId, String);
+        check(estimate, Number);
+        Stories.update({_id: storyId}, {
+            $set: {"estimate": estimate}
         });
     }
 });

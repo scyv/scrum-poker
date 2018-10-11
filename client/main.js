@@ -15,8 +15,6 @@ export let sessionsHandle;
 export let storiesHandle;
 export let estimatesHandle;
 
-export const reactiveTrigger = new ReactiveVar(0);
-
 Meteor.startup(() => {
     Tracker.autorun(() => {
         const selectedSession = Session.get(SessionProps.SELECTED_SESSION);
