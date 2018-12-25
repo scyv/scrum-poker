@@ -1,11 +1,27 @@
 <template name="landing">
-    <form class="form col-sm-12">
-        <div class="input-group col-md-6">
-            <span class="input-group-addon">Name für die Sitzung</span>
-            <input type="text" id="inputSessionName" class="form-control" placeholder="Story Reading XY...">
+    <div class="landing">
+        <h3>Neue Sitzung erstellen</h3>
+
+        <form class="form col-sm-12">
+            <label>Name für die Sitzung</label>
+            <div class="input-group col-md-6">
+                <input type="text" id="inputSessionName" class="form-control" placeholder="Story Reading XY...">
             <span class="input-group-btn">
-                <button class="btn btn-default btn-create-session" type="submit">Starten</button>
+                <button class="btn btn-success btn-create-session" type="button">Starten</button>
             </span>
-        </div>
-    </form>
+            </div>
+        </form>
+
+        <h3>oder an Sitzung teilnehmen</h3>
+
+        <form class="form col-sm-12">
+            <label>ID der Sitzung</label>
+            <div class="input-group col-md-6">
+                <input type="text" id="inputSessionId" class="form-control" placeholder="z.B. 85ai22aE7ftGMnysX">
+            <span class="input-group-btn">
+                <button class="btn btn-default btn-open-session" type="button">Teilnehmen</button>
+            </span>
+            </div>
+        </form>
+    </div>
 </template>

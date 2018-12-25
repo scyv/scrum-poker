@@ -9,7 +9,7 @@ import '../imports/methods.js';
 import './main.html';
 import './session.html';
 import './landing.html';
-
+import './shareLink.html';
 
 export let sessionsHandle;
 export let storiesHandle;
@@ -22,4 +22,10 @@ Meteor.startup(() => {
         storiesHandle = Meteor.subscribe(COLLECTIONS.STORIES, selectedSession);
         estimatesHandle = Meteor.subscribe(COLLECTIONS.ESTIMATES, selectedSession);
     });
+});
+
+Template.layout.events({
+   "click .title"() {
+       Router.go("landing");
+   }
 });

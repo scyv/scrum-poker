@@ -3,6 +3,13 @@ body {
     font-family: sans-serif;
 }
 
+.panel, .lead {
+    margin-bottom: 10px;
+}
+.row {
+    padding: 10px;
+}
+
 .form {
     text-align: center;
 }
@@ -12,13 +19,22 @@ body {
     margin-right: auto;
 }
 
+.landing h3 {
+    text-align: center;
+}
+
 .story-table {
     float: none;
     margin: 1rem auto 1rem auto;
 }
 
 .buttons {
-    text-align: center;
+    text-align: left;
+    margin-top: 10px;
+}
+
+button.btn-overview {
+    padding-left: 0;
 }
 
 .gamezone {
@@ -28,6 +44,11 @@ body {
     align-content: center;
     justify-content: center;
     flex-wrap: wrap;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .gamezone .gamer {
@@ -38,6 +59,8 @@ body {
 .gamezone .gamer.its-me {
     background: #fff0f0;
     border: 1px solid #ffaaaa;
+    width: auto;
+    transition: width 1s ease-out;
 }
 
 .gamezone .gamer.its-me img {
@@ -47,6 +70,16 @@ body {
 .gamezone img {
     width: 15rem;
     height: 22.5rem;
+}
+
+.gamezone .card {
+    position: relative;
+}
+
+.gamezone .controls {
+    line-height: 22.5rem;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .gamezone div {

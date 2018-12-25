@@ -4,7 +4,15 @@ import {COLLECTIONS} from "../imports/collections";
 import "../imports/methods";
 
 Meteor.startup(() => {
-    // code to run on server at startup
+    Sessions.find().forEach(sess => {
+        if (sess.stories) {
+            sess.stories.forEach(story => {
+                console.log("Migrating story: " + story);
+                Stories.update({_id: story}, {$set: {sessionId: sess._id}});
+                Sessions.update({_id: sess._id}, {$set: {stories: null}});
+            })
+        }
+    });
 });
 
 Meteor.publish(COLLECTIONS.SESSIONS, sessionId => {
@@ -20,9 +28,5 @@ Meteor.publish(COLLECTIONS.ESTIMATES, storyId => {
 });
 
 Meteor.publish(COLLECTIONS.STORIES, sessionId => {
-    const session = Sessions.findOne({_id: sessionId});
-    if (session) {
-        return Stories.find({_id: {$in: session.stories}});
-    }
-    return [];
+    return Stories.find({sessionId: sessionId});
 });

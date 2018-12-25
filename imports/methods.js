@@ -10,23 +10,20 @@ Meteor.methods({
         return Sessions.insert({name: name, owner: owner});
     },
     createStory(name, sessionId) {
+
         check(name, String);
         check(sessionId, String);
 
         const story = {
             name: name,
             result: undefined,
+            sessionId: sessionId,
             participants: []
         };
 
         return Stories.insert(story, (err, storyId)=> {
             if (err) {
                 console.err(err);
-            } else {
-                const session = Sessions.findOne({_id: sessionId});
-                if (session) {
-                    Sessions.update({_id: sessionId}, {$addToSet: {stories: storyId}});
-                }
             }
         });
     },
