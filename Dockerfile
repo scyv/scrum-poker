@@ -1,3 +1,4 @@
+# This image is based on the image from: https://github.com/scyv/meteor-docker-base
 FROM meteor-base
 LABEL maintainer="scyv@posteo.de"
 
