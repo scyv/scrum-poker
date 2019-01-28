@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo-db
+    restart: always
+    command: mongod --smallfiles --oplogSize 128
+    networks:
+      - mongodb
+    expose:
+      - 27017
+    volumes:
+      - mongo-db:/data/db
+      - mongo-db-dump:/dump
+
+  scrumpoker:
+    image: scrum-poker:latest
+    container_name: poker-app
+    restart: always
+    networks:
+      - mongodb
+    ports:
+      - 3000:8080
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/poker
+      - ROOT_URL=http://localhost
+      - MAIL_URL=smtp://user:pass@mailserver.example.com:25/
+      - MAIL_FROM='Example Support <support@example.com>'
+      # The following is needed when using multiple instances of the meteor app!
+      # - MONGO_OPLOG_URL=mongodb://<username>:<password>@<mongoDbURL>/local?authSource=admin&replicaSet=rsPoker
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-db:
+    driver: local
+  mongo-db-dump:
+    driver: local
+
+networks:
+  mongodb:
+    driver: bridge
