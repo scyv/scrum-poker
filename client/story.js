@@ -1,9 +1,9 @@
-import { Meteor } from "meteor/meteor"
-import { ReactiveVar } from "meteor/reactive-var"
+import {Meteor} from "meteor/meteor"
+import {ReactiveVar} from "meteor/reactive-var"
 
 import * as Common from "../imports/common";
-import { SessionProps} from "../imports/sessionProperties"
-import { CARDS } from "../imports/cards"
+import {SessionProps} from "../imports/sessionProperties"
+import {CARDS} from "../imports/cards"
 
 
 import './story.html'
@@ -75,9 +75,12 @@ Template.story.helpers({
         return this.estimate ? (this.estimate + "SP") : "--";
     },
     participants() {
-        return _.sortBy(this.participants, (p) => {
-            return p.name;
-        })
+        return [
+            ...this.participants.filter((p) => p.name === Common.getUserName()),
+            ..._.sortBy(this.participants.filter((p) => p.name !== Common.getUserName()), (p) => {
+                return p.name;
+            })
+        ];
     },
     showOrHide() {
         return this.allVisible ? "verdecken" : "zeigen";

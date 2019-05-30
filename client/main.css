@@ -41,8 +41,8 @@ button.btn-overview {
     clear: both;
     margin: 1rem;
     display: flex;
-    align-content: center;
-    justify-content: center;
+    align-content: start;
+    justify-content: start;
     flex-wrap: wrap;
 
     -webkit-user-select: none;
