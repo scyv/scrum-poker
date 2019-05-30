@@ -4,7 +4,6 @@ import { ReactiveVar } from "meteor/reactive-var"
 import * as Common from "../imports/common";
 import { SessionProps} from "../imports/sessionProperties"
 import { CARDS } from "../imports/cards"
-import { sessionsHandle, storiesHandle} from "./main"
 
 
 import './story.html'
