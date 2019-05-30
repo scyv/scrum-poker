@@ -1,7 +1,7 @@
-import { Meteor } from "meteor/meteor"
-import { SessionProps} from "../imports/sessionProperties"
+import {Meteor} from "meteor/meteor"
+import {SessionProps} from "../imports/sessionProperties"
 
-import { sessionsHandle, storiesHandle} from "./main";
+import {sessionsHandle, storiesHandle} from "./main";
 
 import './session.html';
 
@@ -30,6 +30,15 @@ Template.session.helpers({
     },
     estimate() {
         return this.estimate ? (this.estimate + "SP") : "--";
+    },
+    spsum() {
+        let sum = 0;
+        Stories.find().forEach(s => {
+            if (s.estimate) {
+                sum += s.estimate;
+            }
+        });
+        return sum + "SP";
     }
 });
 
