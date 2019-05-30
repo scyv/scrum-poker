@@ -5,6 +5,8 @@ import * as Common from "../imports/common";
 import {SessionProps} from "../imports/sessionProperties"
 import {CARDS} from "../imports/cards"
 
+import {sessionsHandle, storiesHandle} from "./main";
+
 
 import './story.html'
 
@@ -96,6 +98,9 @@ Template.story.onDestroyed(function () {
 });
 
 Template.story.helpers({
+    isLoading() {
+        return !(sessionsHandle.ready() && storiesHandle.ready());
+    },
     isOwner() {
         return getSession().owner === Common.getUserName();
     },
