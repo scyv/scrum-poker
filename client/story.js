@@ -54,8 +54,45 @@ function saveEstimate() {
     }
 }
 
+function setReady() {
+    Meteor.call("estimateReady",
+        Common.getUserName(),
+        Session.get(SessionProps.SELECTED_STORY),
+        getSelectedCardKey()
+    );
+}
+
+function setNotReady() {
+    Meteor.call("estimateNotReady", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
+}
+
+function handleShortcuts(evt) {
+    const isReady = Session.get("ready");
+    if (!isReady) {
+        if (evt.which === 37) { // left
+            decreaseCardIndex();
+        }
+        if (evt.which === 39) { // right
+            increaseCardIndex();
+        }
+    }
+
+    if (evt.which === 13 || evt.which === 32) { // enter or space
+        if (isReady) {
+            setNotReady();
+        } else {
+            setReady();
+        }
+    }
+}
+
 Template.story.onRendered(function () {
     selectedCardIdx.set(1);
+    $(document).bind("keydown", handleShortcuts);
+});
+
+Template.story.onDestroyed(function () {
+    $(document).unbind("keydown", handleShortcuts)
 });
 
 Template.story.helpers({
@@ -63,6 +100,7 @@ Template.story.helpers({
         return getSession().owner === Common.getUserName();
     },
     isReady() {
+        Session.set("ready", this.ready);
         return this.ready;
     },
     isParticipant() {
@@ -131,14 +169,10 @@ Template.story.events({
         }
     },
     'click .btn-ready'() {
-        Meteor.call("estimateReady",
-            Common.getUserName(),
-            Session.get(SessionProps.SELECTED_STORY),
-            getSelectedCardKey()
-        );
+        setReady();
     },
     'click .btn-not-ready'() {
-        Meteor.call("estimateNotReady", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
+        setNotReady();
     },
     'click .btn-turn-cards'() {
         Meteor.call("turnCards", Session.get(SessionProps.SELECTED_STORY));
