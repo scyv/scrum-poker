@@ -15,6 +15,10 @@ function startSession() {
     });
 }
 
+Template.landing.onRendered(()=> {
+    document.title = "Scrum-Poker";
+});
+
 Template.landing.events({
     'click .btn-create-session'() {
         startSession();

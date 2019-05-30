@@ -17,6 +17,11 @@ function createStory() {
     });
 }
 
+Template.session.onRendered(() => {
+    const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+    document.title = Sessions.findOne({_id: sessionId}).name;
+});
+
 Template.session.helpers({
     isLoading() {
         return !(sessionsHandle.ready() && storiesHandle.ready());
