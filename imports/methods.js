@@ -16,7 +16,6 @@ Meteor.methods({
 
         const story = {
             name: name,
-            result: undefined,
             sessionId: sessionId,
             participants: []
         };

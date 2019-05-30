@@ -25,6 +25,9 @@ Template.session.helpers({
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
         return Sessions.findOne({_id: sessionId}).name;
     },
+    sessionId() {
+        return Session.get(SessionProps.SELECTED_SESSION);
+    },
     stories() {
         return Stories.find();
     },

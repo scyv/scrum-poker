@@ -19,14 +19,13 @@
                             <td><h4>{{name}}</h4></td>
                             <td>{{estimate}}</td>
                             <td>
-                                <button class="btn btn-xs btn-success btn-start-poker" type="button">Starten
-                                </button>
+                                <button class="btn btn-xs btn-success btn-start-poker" type="button">Starten</button>
                             </td>
                         </tr>
                     {{/each}}
                     <tr>
                         <td>Summe:</td>
-                        <td>{{spsum}}</td>
+                        <td>{{spsum}} (<a href="./download/{{sessionId}}">Excel Export</a>)</td>
                         <td></td>
                     </tr>
                     </tbody>

@@ -1,4 +1,4 @@
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
 import {COLLECTIONS} from "../imports/collections";
 
 import "../imports/methods";
@@ -30,3 +30,27 @@ Meteor.publish(COLLECTIONS.ESTIMATES, storyId => {
 Meteor.publish(COLLECTIONS.STORIES, sessionId => {
     return Stories.find({sessionId: sessionId});
 });
+
+Router.route("/session/download/:sessionId", function () {
+    const data = Stories.find({sessionId: this.params.sessionId}).fetch();
+    const fields = [
+        {
+            key: "name",
+            title: "Name",
+        },
+        {
+            key: "estimate",
+            title: "Schätzung",
+            type: "number"
+        }
+    ];
+
+    const title = "Stories";
+    const file = Excel.export(title, fields, data);
+    const headers = {
+        "Content-type": "application/vnd.openxmlformats",
+        "Content-Disposition": "attachment; filename=" + title + ".xlsx"
+    };
+    this.response.writeHead(200, headers);
+    this.response.end(file, "binary");
+}, {where: "server"});
