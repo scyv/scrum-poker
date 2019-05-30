@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.5",
-    "meteor-node-stubs": "^0.4.1"
+    "meteor-node-stubs": "^0.4.1",
+    "node-excel-export": "^1.4.4"
   }
 }
