@@ -1,6 +1,24 @@
 <template name="shareLink">
     <div class="alert alert-info">
-        Für Teilnahme, diesen Link kopieren: <input type="text" class="form-control currentLink" readonly
-                                                    value="{{currentLink}}"/>
+        Für Teilnahme, diesen Link kopieren: <button class="pull-right btn btn-link btn-showqr" data-toggle="modal" data-target="#qrcode-modal">Qr-Code zeigen</button>
+        <input type="text" class="form-control currentLink" readonly value="{{currentLink}}"/>
+    </div>
+    <div id="qrcode-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Teilnahmelink</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>{{currentLink}}</p>
+                    <p id="qrcode"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

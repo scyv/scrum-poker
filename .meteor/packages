@@ -22,3 +22,4 @@ iron:router
 twbs:bootstrap
 ostrio:cstorage
 underscore@1.0.10
+dschulz:jquery-qrcode
