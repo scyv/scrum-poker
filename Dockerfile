@@ -13,7 +13,7 @@ COPY ${SRC_PATH} /home/meteor/app
 
 RUN chown meteor:meteor --recursive /home/meteor/app && \
     cd /home/meteor/app && \
-    gosu meteor:meteor /home/meteor/.meteor/meteor npm install && \
+    gosu meteor:meteor /home/meteor/.meteor/meteor npm install --production && \
     gosu meteor:meteor /home/meteor/.meteor/meteor build --directory /home/meteor/app_build && \
     cd /home/meteor/app_build/bundle/programs/server/ && \
     gosu meteor:meteor npm install && \
