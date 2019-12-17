@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 export const COLLECTIONS = {
     SESSIONS: "sessions",
     STORIES: "stories",
-    ESTIMATES: "estimates"
+    STATISTICS: "statistics"
 };
 
 /**
@@ -22,10 +22,12 @@ Sessions = new Mongo.Collection(COLLECTIONS.SESSIONS);
  */
 Stories = new Mongo.Collection(COLLECTIONS.STORIES);
 
+
 /**
  * _id: the id
- * storyPoints: the estimate story points
- * user: the estimating user
+ * sessionCount: Number of sessions
+ * storyCount: Number of stories,
+ * storyPoints: Sum of Storypoints
+ *
  */
-Estimates = new Mongo.Collection(COLLECTIONS.ESTIMATES);
-
+Statistics = new Mongo.Collection(COLLECTIONS.STATISTICS);

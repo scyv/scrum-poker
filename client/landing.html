@@ -1,30 +1,37 @@
 <template name="landing">
     <div class="landing">
         <div class="row">
-        <h3>Neue Sitzung erstellen</h3>
-
-        <form class="form col-sm-12">
-            <label for="inputSessionName">Name für die Sitzung</label>
-            <div class="input-group col-md-6">
-                <input type="text" id="inputSessionName" autofocus class="form-control" placeholder="Story Reading XY...">
-            <span class="input-group-btn">
-                <button class="btn btn-success btn-create-session" type="button">Starten</button>
-            </span>
-            </div>
-        </form>
+            <h1>Willkommen zum digitalen Scrum Poker!</h1>
+            {{#if ready}}
+                <p class="text-center">{{rounds}} Runden, {{stories}} Stories, {{storyPoints}} Storypoints</p>
+            {{else}}
+                <p>&nbsp;</p>
+            {{/if}}
         </div>
         <div class="row">
-        <h3>oder an Sitzung teilnehmen</h3>
-
-        <form class="form col-sm-12">
-            <label for="inputSessionId">ID der Sitzung</label>
-            <div class="input-group col-md-6">
-                <input type="text" id="inputSessionId" class="form-control" placeholder="z.B. 85ai22aE7ftGMnysX">
-            <span class="input-group-btn">
-                <button class="btn btn-default btn-open-session" type="button">Teilnehmen</button>
-            </span>
+            <h4>Neue Pokerrunde erstellen</h4>
+            <form class="form col-sm-12">
+                <label for="inputSessionName">Name für die Sitzung</label>
+                <div class="input-group col-md-6">
+                    <input type="text" id="inputSessionName" autofocus class="form-control" placeholder="Story Reading XY...">
+                <span class="input-group-btn">
+                    <button class="btn btn-success btn-create-session" type="button">Starten</button>
+                </span>
+                </div>
+            </form>
             </div>
-        </form>
+            <div class="row">
+            <h4>oder an Pokerrunde teilnehmen</h4>
+
+            <form class="form col-sm-12">
+                <label for="inputSessionId">ID der Sitzung</label>
+                <div class="input-group col-md-6">
+                    <input type="text" id="inputSessionId" class="form-control" placeholder="z.B. 85ai22aE7ftGMnysX">
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-open-session" type="button">Teilnehmen</button>
+                </span>
+                </div>
+            </form>
         </div>
     </div>
 </template>

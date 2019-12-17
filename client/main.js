@@ -13,14 +13,14 @@ import './shareLink.html';
 
 export let sessionsHandle;
 export let storiesHandle;
-export let estimatesHandle;
+export let statisticsHandle;
 
 Meteor.startup(() => {
     Tracker.autorun(() => {
         const selectedSession = Session.get(SessionProps.SELECTED_SESSION);
         sessionsHandle = Meteor.subscribe(COLLECTIONS.SESSIONS, selectedSession);
         storiesHandle = Meteor.subscribe(COLLECTIONS.STORIES, selectedSession);
-        estimatesHandle = Meteor.subscribe(COLLECTIONS.ESTIMATES, selectedSession);
+        statisticsHandle = Meteor.subscribe("statistics");
     });
 });
 

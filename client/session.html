@@ -5,6 +5,7 @@
         <div class="row">
             <div class="col-md-6 story-table">
                 <p class="lead">{{sessionName}}</p>
+                {{#if storiesAvailable}}
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -16,10 +17,15 @@
                     <tbody>
                     {{#each stories}}
                         <tr>
-                            <td><h4>{{name}}</h4></td>
+                            <td>
+                                <h4>
+                                    {{name}}
+                                    <button class="btn btn-xs btn-link btn-edit-story" type="button" data-toggle="modal" data-target="#edit-modal">Bearbeiten</button>
+                                </h4>
+                            </td>
                             <td>{{estimate}}</td>
                             <td>
-                                <button class="btn btn-xs btn-success btn-start-poker" type="button">Starten</button>
+                                <button class="btn btn-xs btn-success btn-start-poker" type="button">Schätzung Starten</button>
                             </td>
                         </tr>
                     {{/each}}
@@ -30,6 +36,9 @@
                     </tr>
                     </tbody>
                 </table>
+                {{else}}
+                    Noch keine Story angelegt. Bevor Sie schätzen können, muss eine Story angelegt werden.
+                {{/if}}
             </div>
         </div>
     {{/if}}
@@ -38,13 +47,35 @@
             <div class="input-group col-md-6">
                 <span class="input-group-addon">Neue Story</span>
                 <input autofocus type="text" class="form-control" id="inputStoryName">
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-default btn-create-story">Erstellen</button>
-            </span>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-create-story">Anlegen</button>
+                </span>
             </div>
         </form>
     </div>
     <div class="row">
         {{> shareLink}}
+    </div>
+    <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Bearbeiten</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon">Story Name:</span>
+                        <input type="text" class="form-control inputStoryName" value="{{selectedStoryObj.name}}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="pull-left btn btn-danger btn-delete-story" data-dismiss="modal">Löschen</button>
+                    <button type="button" class="btn btn-success btn-update-story" data-dismiss="modal">Speichern</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

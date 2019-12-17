@@ -1,16 +1,19 @@
 import { Meteor } from 'meteor/meteor'
 import { check } from "meteor/check";
 
-
 Meteor.methods({
     createSession(name, owner) {
         check(name, String);
         check(owner, String);
 
-        return Sessions.insert({name: name, owner: owner});
+        return Sessions.insert(
+            {
+                name: name,
+                owner: owner
+            }
+        );
     },
     createStory(name, sessionId) {
-
         check(name, String);
         check(sessionId, String);
 
@@ -20,11 +23,20 @@ Meteor.methods({
             participants: []
         };
 
-        return Stories.insert(story, (err, storyId)=> {
+        return Stories.insert(story, (err, storyId) => {
             if (err) {
                 console.err(err);
             }
         });
+    },
+    updateStory(storyObj, newName) {
+        check(newName, String);
+        check(storyObj._id, String);
+        Stories.update(storyObj._id, {$set: {name: newName}});
+    },
+    deleteStory(storyObj) {
+        check(storyObj._id, String);
+        Stories.remove(storyObj._id);
     },
     setStory(sessionId, storyId) {
         check(sessionId, String);

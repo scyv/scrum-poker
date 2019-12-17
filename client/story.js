@@ -91,6 +91,7 @@ function handleShortcuts(evt) {
 Template.story.onRendered(function () {
     selectedCardIdx.set(1);
     $(document).bind("keydown", handleShortcuts);
+    document.title = getStory().name;
 });
 
 Template.story.onDestroyed(function () {
@@ -192,6 +193,7 @@ Template.story.events({
         if (evt.keyCode === 13) {
             evt.preventDefault();
             saveEstimate();
+            evt.target.blur();
             return false;
         }
     }

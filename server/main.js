@@ -4,31 +4,53 @@ import * as Excel from "node-excel-export";
 import "../imports/methods";
 
 Meteor.startup(() => {
-    Sessions.find().forEach(sess => {
-        if (sess.stories) {
-            sess.stories.forEach(story => {
-                console.log("Migrating story: " + story);
-                Stories.update({_id: story}, {$set: {sessionId: sess._id}});
-                Sessions.update({_id: sess._id}, {$set: {stories: null}});
-            })
-        }
-    });
 });
 
-Meteor.publish(COLLECTIONS.SESSIONS, sessionId => {
+Meteor.publish(COLLECTIONS.SESSIONS, function (sessionId) {
     return Sessions.find({_id: sessionId});
 });
 
-Meteor.publish(COLLECTIONS.ESTIMATES, storyId => {
-    const story = Stories.findOne({_id: storyId});
-    if (story) {
-        return Estimates.find({_id: {$in: story.estimates}});
-    }
-    return [];
+Meteor.publish(COLLECTIONS.STORIES, function (sessionId) {
+    return Stories.find({sessionId: sessionId});
 });
 
-Meteor.publish(COLLECTIONS.STORIES, sessionId => {
-    return Stories.find({sessionId: sessionId});
+Meteor.publish(COLLECTIONS.STATISTICS, function () {
+    const publishedKeys = {};
+
+    const poll = () => {
+        const rawStories = Stories.rawCollection();
+        const aggregate = Meteor.wrapAsync(rawStories.aggregate, rawStories);
+        const storyPointSumResult = Promise.await(aggregate([{$group:{
+            _id: "totalSP",
+            sp: { $sum: "$estimate"}
+        }}]).toArray());
+
+        const data = [{
+            _id: "singleDoc",
+            sessionCount: Sessions.find().count(),
+            storyCount: Stories.find().count(),
+            storyPoints: storyPointSumResult[0].sp
+        }];
+
+        data.forEach((doc) => {
+            if (publishedKeys[doc._id]) {
+                this.changed(COLLECTIONS.STATISTICS, doc._id, doc);
+            } else {
+                publishedKeys[doc._id] = true;
+                this.added(COLLECTIONS.STATISTICS, doc._id, doc);
+            }
+        });
+    };
+
+    poll();
+    this.ready();
+
+    const interval = Meteor.setInterval(poll, 60000);
+
+    this.onStop(() => {
+        Meteor.clearInterval(interval);
+    });
+
 });
 
 Router.route("/session/download/:sessionId", function () {
