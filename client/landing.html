@@ -1,7 +1,7 @@
 <template name="landing">
     <div class="landing">
         <div class="row">
-            <h1>Willkommen zum digitalen Scrum Poker!</h1>
+            <h1 class="text-center">Willkommen zum digitalen Scrum Poker!</h1>
             {{#if ready}}
                 <p class="text-center">{{rounds}} Runden, {{stories}} Stories, {{storyPoints}} Storypoints</p>
             {{else}}
@@ -9,7 +9,7 @@
             {{/if}}
         </div>
         <div class="row">
-            <h4>Neue Pokerrunde erstellen</h4>
+            <h4 class="text-center">Neue Pokerrunde erstellen</h4>
             <form class="form col-sm-12">
                 <label for="inputSessionName">Name für die Sitzung</label>
                 <div class="input-group col-md-6">
@@ -21,7 +21,7 @@
             </form>
             </div>
             <div class="row">
-            <h4>oder an Pokerrunde teilnehmen</h4>
+            <h4 class="text-center">oder an Pokerrunde teilnehmen</h4>
 
             <form class="form col-sm-12">
                 <label for="inputSessionId">ID der Sitzung</label>
