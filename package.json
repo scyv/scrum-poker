@@ -1,13 +1,14 @@
 {
-  "name": "scrum-poker",
-  "version": "2",
-  "private": true,
-  "scripts": {
-    "start": "meteor run",
-    "visualize": "meteor --production --extra-packages bundle-visualizer"
-  },
-  "dependencies": {
-    "@babel/runtime": "7.7.2",
-    "node-excel-export": "^1.4.4"
-  }
+    "name": "scrum-poker",
+    "version": "3",
+    "private": true,
+    "scripts": {
+        "start": "meteor run",
+        "visualize": "meteor --production --extra-packages bundle-visualizer"
+    },
+    "dependencies": {
+        "@babel/runtime": "^7.8.3",
+        "meteor-node-stubs": "^1.0.0",
+        "node-excel-export": "^1.4.4"
+    }
 }

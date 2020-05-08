@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -25,6 +25,7 @@
 
 <template name="layout">
     <div class="container-fluid">
+        <p class="pull-right"><a href="/datenschutz">Datenschutz</a></p>
         <p class="title">
             <i class="glyphicon glyphicon-th-large"></i>
             Digital Scrum Poker
@@ -33,7 +34,13 @@
             {{> yield}}
         </div>
     </div>
-    <footer class="text-muted small"><hr>Version: 2 <br> Please contribute at <a href="https://github.com/scyv/scrum-poker">Github</a> <br> Powered by <a href="https://meteor.com">Meteor</a> <br> Card images are from <a href="https://github.com/redbooth/scrum-poker-cards">here</a> and licensed under <a href="https://creativecommons.org/licenses/by/3.0/us/">Creative Commons - Attribution (CC BY 3.0)</a></footer>
+    <footer class="text-muted small">
+        <hr>Version: 3 <br>
+        Please contribute at <a href="https://github.com/scyv/scrum-poker">Github</a> <br>
+        Powered by <a href="https://meteor.com">Meteor</a> <br> Card images are from <a
+            href="https://github.com/redbooth/scrum-poker-cards">here</a> and licensed under <a
+            href="https://creativecommons.org/licenses/by/3.0/us/">Creative Commons - Attribution (CC BY 3.0)</a>
+    </footer>
 </template>
 
 <template name="loading">Laden...</template>

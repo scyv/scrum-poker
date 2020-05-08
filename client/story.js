@@ -1,19 +1,18 @@
-import {Meteor} from "meteor/meteor"
-import {ReactiveVar} from "meteor/reactive-var"
+import { Meteor } from "meteor/meteor";
+import { ReactiveVar } from "meteor/reactive-var";
 
 import * as Common from "../imports/common";
-import {SessionProps} from "../imports/sessionProperties"
-import {CARDS} from "../imports/cards"
+import { SessionProps } from "../imports/sessionProperties";
+import { CARDS } from "../imports/cards";
 
-import {sessionsHandle, storiesHandle} from "./main";
+import { sessionsHandle, storiesHandle } from "./main";
 
-
-import './story.html'
+import "./story.html";
 
 let selectedCardIdx = new ReactiveVar(0);
 
 function isParticipant(story) {
-    return story.participants && story.participants.some(entry => entry.name === Common.getUserName());
+    return story.participants && story.participants.some((entry) => entry.name === Common.getUserName());
 }
 
 function getSelectedCardKey() {
@@ -40,7 +39,7 @@ function getSession() {
     if (session.showStory !== Session.get(SessionProps.SELECTED_STORY)) {
         Router.go("story", {
             sessionId: selectedSession,
-            storyId: session.showStory
+            storyId: session.showStory,
         });
     }
     return session;
@@ -52,16 +51,12 @@ function getStory() {
 
 function saveEstimate() {
     if (getSession().owner === Common.getUserName()) {
-        Meteor.call("saveEstimate", Session.get(SessionProps.SELECTED_STORY), parseInt($('#inputStoryPoints').val()));
+        Meteor.call("saveEstimate", Session.get(SessionProps.SELECTED_STORY), parseInt($("#inputStoryPoints").val()) || 0);
     }
 }
 
 function setReady() {
-    Meteor.call("estimateReady",
-        Common.getUserName(),
-        Session.get(SessionProps.SELECTED_STORY),
-        getSelectedCardKey()
-    );
+    Meteor.call("estimateReady", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY), getSelectedCardKey());
 }
 
 function setNotReady() {
@@ -71,15 +66,18 @@ function setNotReady() {
 function handleShortcuts(evt) {
     const isReady = Session.get("ready");
     if (!isReady) {
-        if (evt.which === 37) { // left
+        if (evt.which === 37) {
+            // left
             decreaseCardIndex();
         }
-        if (evt.which === 39) { // right
+        if (evt.which === 39) {
+            // right
             increaseCardIndex();
         }
     }
 
-    if (evt.which === 13 || evt.which === 32) { // enter or space
+    if (evt.which === 13 || evt.which === 32) {
+        // enter or space
         if (isReady) {
             setNotReady();
         } else {
@@ -95,7 +93,7 @@ Template.story.onRendered(function () {
 });
 
 Template.story.onDestroyed(function () {
-    $(document).unbind("keydown", handleShortcuts)
+    $(document).unbind("keydown", handleShortcuts);
 });
 
 Template.story.helpers({
@@ -116,14 +114,17 @@ Template.story.helpers({
         return getStory();
     },
     formattedEstimate() {
-        return this.estimate ? (this.estimate + "SP") : "--";
+        return this.estimate ? this.estimate + "SP" : "--";
     },
     participants() {
         return [
             ...this.participants.filter((p) => p.name === Common.getUserName()),
-            ..._.sortBy(this.participants.filter((p) => p.name !== Common.getUserName()), (p) => {
-                return p.name;
-            })
+            ..._.sortBy(
+                this.participants.filter((p) => p.name !== Common.getUserName()),
+                (p) => {
+                    return p.name;
+                }
+            ),
         ];
     },
     showOrHide() {
@@ -141,7 +142,6 @@ Template.story.helpers({
             if (story.allVisible && this.participant.ready) {
                 return CARDS[this.participant.estimate];
             } else {
-
                 if (this.participant.name === Common.getUserName()) {
                     return CARDS[getSelectedCardKey()];
                 } else {
@@ -149,52 +149,52 @@ Template.story.helpers({
                 }
             }
         }
-    }
+    },
 });
 
 Template.story.events({
-    'click .btn-participate'() {
+    "click .btn-participate"() {
         Meteor.call("participate", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
     },
-    'click .btn-cancel-participation'() {
+    "click .btn-cancel-participation"() {
         Meteor.call("cancelParticipation", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
     },
-    'click .its-me img'() {
+    "click .its-me img"() {
         if (!this.participant.ready) {
             increaseCardIndex();
         }
     },
-    'click .its-me .next-card'() {
+    "click .its-me .next-card"() {
         if (!this.ready) {
             increaseCardIndex();
         }
     },
-    'click .its-me .prev-card'() {
+    "click .its-me .prev-card"() {
         if (!this.ready) {
             decreaseCardIndex();
         }
     },
-    'click .btn-ready'() {
+    "click .btn-ready"() {
         setReady();
     },
-    'click .btn-not-ready'() {
+    "click .btn-not-ready"() {
         setNotReady();
     },
-    'click .btn-turn-cards'() {
+    "click .btn-turn-cards"() {
         Meteor.call("turnCards", Session.get(SessionProps.SELECTED_STORY));
     },
-    'click .btn-overview'() {
-        Router.go("session", {sessionId: Session.get(SessionProps.SELECTED_SESSION)});
+    "click .btn-overview"() {
+        Router.go("session", { sessionId: Session.get(SessionProps.SELECTED_SESSION) });
     },
-    'click .btn-save-estimate'() {
+    "click .btn-save-estimate"() {
         saveEstimate();
     },
-    'keydown #inputStoryPoints'(evt) {
+    "keydown #inputStoryPoints"(evt) {
         if (evt.keyCode === 13) {
             evt.preventDefault();
             saveEstimate();
             evt.target.blur();
             return false;
         }
-    }
+    },
 });

@@ -1,15 +1,15 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { COLLECTIONS } from '../imports/collections';
-import { SessionProps} from "../imports/sessionProperties"
+import { Template } from "meteor/templating";
+import { COLLECTIONS } from "../imports/collections";
+import { SessionProps } from "../imports/sessionProperties";
 
-import '../imports/routes.js';
-import '../imports/methods.js';
+import "../imports/routes.js";
+import "../imports/methods.js";
 
-import './main.html';
-import './session.html';
-import './landing.html';
-import './shareLink.html';
+import "./main.html";
+import "./session.html";
+import "./landing.html";
+import "./shareLink.html";
+import "./datenschutz.html";
 
 export let sessionsHandle;
 export let storiesHandle;
@@ -25,7 +25,7 @@ Meteor.startup(() => {
 });
 
 Template.layout.events({
-   "click .title"() {
-       Router.go("landing");
-   }
+    "click .title"() {
+        Router.go("landing");
+    },
 });
