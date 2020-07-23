@@ -3,9 +3,9 @@
         <div class="row">
             <h1 class="text-center">Willkommen zum digitalen Scrum Poker!</h1>
             {{#if ready}}
-                <p class="text-center">{{rounds}} Runden, {{stories}} Stories, {{storyPoints}} Storypoints</p>
+            <p class="text-center">{{rounds}} Runden, {{stories}} Stories, {{storyPoints}} Storypoints</p>
             {{else}}
-                <p>&nbsp;</p>
+            <p>&nbsp;</p>
             {{/if}}
         </div>
         <div class="row">
@@ -13,25 +13,60 @@
             <form class="form col-sm-12">
                 <label for="inputSessionName">Name für die Sitzung</label>
                 <div class="input-group col-md-6">
-                    <input type="text" id="inputSessionName" autofocus class="form-control" placeholder="Story Reading XY...">
-                <span class="input-group-btn">
-                    <button class="btn btn-success btn-create-session" type="button">Starten</button>
-                </span>
+                    <input type="text" id="inputSessionName" autofocus class="form-control"
+                        placeholder="Story Reading XY...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success btn-create-session" type="button">Starten</button>
+                    </span>
                 </div>
             </form>
-            </div>
-            <div class="row">
+        </div>
+        <div class="row">
             <h4 class="text-center">oder an Pokerrunde teilnehmen</h4>
 
             <form class="form col-sm-12">
                 <label for="inputSessionId">ID der Sitzung</label>
                 <div class="input-group col-md-6">
                     <input type="text" id="inputSessionId" class="form-control" placeholder="z.B. 85ai22aE7ftGMnysX">
-                <span class="input-group-btn">
-                    <button class="btn btn-default btn-open-session" type="button">Teilnehmen</button>
-                </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-open-session" type="button">Teilnehmen</button>
+                    </span>
                 </div>
             </form>
+        </div>
+        <h3 class="text-center">Wie funktioniert das?</h3>
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <div class="thumbnail">
+                    <img src="/img/screen/stories.png" alt="Stories">
+                    <div class="caption">
+                        <h3>Stories angeben</h3>
+                        <p>Tragen Sie die zu schätzenden Stories ein und laden Sie die Teilnehmer ein. Das Ergebnis kann
+                            als Excel Datei heruntergeladen werden.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <div class="thumbnail">
+                    <img src="/img/screen/estimate.png" alt="Stories">
+                    <div class="caption">
+                        <h3>Schätzen</h3>
+                        <p>Geschätzt wird mit <a href="https://github.com/redbooth/scrum-poker-cards">liebevoll
+                                gestalteten Karten</a> mit den Werten 1, 2, 3, 5, 8, 13, 20, 40, ∞, ?, ...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <div class="thumbnail">
+                    <img src="/img/screen/result.png" alt="Stories">
+                    <div class="caption">
+                        <h3>Ergebnis diskutieren</h3>
+                        <p>Sind alle bereit, werden die Karten aufgedeckt. Nun kann diskutiert werden und das Ergebnis
+                            eingetragen werden.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
