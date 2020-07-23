@@ -1,51 +1,54 @@
 <template name="session">
     {{#if isLoading}}
-        {{> loading}}
+    {{> loading}}
     {{else}}
-        <div class="row">
-            <div class="col-md-6 story-table">
-                <p class="lead">{{sessionName}}</p>
-                {{#if storiesAvailable}}
-                <table class="table table-hover">
-                    <thead>
+    <div class="row">
+        <div class="col-md-6 story-table">
+            <p class="lead">{{sessionName}}</p>
+            {{#if storiesAvailable}}
+            <table class="table table-hover">
+                <thead>
                     <tr>
                         <th>Story</th>
                         <th>Schätzung</th>
                         <th></th>
                     </tr>
-                    </thead>
-                    <tbody>
+                </thead>
+                <tbody>
                     {{#each stories}}
-                        <tr>
-                            <td>
-                                <h4>
-                                    {{name}}
-                                    <button class="btn btn-xs btn-link btn-edit-story" type="button" data-toggle="modal" data-target="#edit-modal">Bearbeiten</button>
-                                </h4>
-                            </td>
-                            <td>{{estimate}}</td>
-                            <td>
-                                <button class="btn btn-xs btn-success btn-start-poker" type="button">Schätzung Starten</button>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            <h4>
+                                {{name}}
+                                <button class="btn btn-xs btn-link btn-edit-story" type="button" data-toggle="modal"
+                                    data-target="#edit-modal">Bearbeiten</button>
+                            </h4>
+                        </td>
+                        <td>{{estimate}}</td>
+                        <td>
+                            <button class="btn btn-xs btn-success btn-start-poker" type="button">Schätzung
+                                Starten</button>
+                        </td>
+                    </tr>
                     {{/each}}
                     <tr>
                         <td>Summe:</td>
                         <td>{{spsum}} (<a href="./download/{{sessionId}}">Excel Export</a>)</td>
                         <td></td>
                     </tr>
-                    </tbody>
-                </table>
-                {{else}}
-                    Noch keine Story angelegt. Bevor Sie schätzen können, muss eine Story angelegt werden.
-                {{/if}}
-            </div>
+                </tbody>
+            </table>
+            {{else}}
+            Hallo {{userName}}, es wurde noch keine Story angelegt. Bevor Sie schätzen können, muss eine Story angelegt
+            werden.
+            {{/if}}
         </div>
+    </div>
     {{/if}}
     <div class="row">
         <form class="form row">
             <div class="input-group col-md-6">
-                <span class="input-group-addon">Neue Story</span>
+                <span class="input-group-addon">Neue Story:</span>
                 <input autofocus type="text" class="form-control" id="inputStoryName">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default btn-create-story">Anlegen</button>
@@ -71,8 +74,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="pull-left btn btn-danger btn-delete-story" data-dismiss="modal">Löschen</button>
-                    <button type="button" class="btn btn-success btn-update-story" data-dismiss="modal">Speichern</button>
+                    <button type="button" class="pull-left btn btn-danger btn-delete-story"
+                        data-dismiss="modal">Löschen</button>
+                    <button type="button" class="btn btn-success btn-update-story"
+                        data-dismiss="modal">Speichern</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
                 </div>
             </div>

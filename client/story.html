@@ -1,89 +1,90 @@
 <template name="story">
     {{#if isLoading}}
-        {{> loading}}
+    {{> loading}}
     {{else}}
-        {{#with story}}
-            <button class="btn btn-link btn-overview">Zurück zur Übersicht</button>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <p class="lead"><span class="text-muted">Pokerrunde für:</span> {{name}}</p>
-                    {{#if isOwner}}
-                        <div class="input-group col-md-6">
-                            <input type="text" class="form-control" id="inputStoryPoints" value="{{estimate}}"
-                                   autocomplete="off"
-                                   placeholder="Storypoints">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-default btn-save-estimate">Schätzung eintragen</button>
-                            </span>
-                        </div>
-                    <!--
-                        <div class="input-group col-md-6">
-                            {{#if allVisible}}
-                              <button>Vorgeschlagenen Wert {{proposal}} verwenden</button>
-                            {{/if}}
-                        </div>
-                        -->
+    {{#with story}}
+    <button class="btn btn-link btn-overview">Zurück zur Übersicht</button>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p class="lead"><span class="text-muted">Pokerrunde für:</span> {{name}}</p>
+            {{#if isOwner}}
+            <div class="input-group col-md-6">
+                <input type="text" class="form-control" id="inputStoryPoints" value="{{estimate}}" autocomplete="off"
+                    placeholder="Storypoints">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default btn-save-estimate">Schätzung eintragen</button>
+                </span>
+            </div>
+            {{else}}
+            <p>Schätzung: {{formattedEstimate}}</p>
+            {{/if}}
+            <div class="buttons text-center">
+                {{#if isParticipant}}
+                <button class="btn btn-default btn-cancel-participation">Nicht teilnehmen</button>
+                {{else}}
+                <button class="btn btn-success btn-participate">Teilnehmen</button>
+                {{/if}}
+                {{#if isOwner}}
+                <button class="btn btn-{{btnReadyClass}} btn-turn-cards pull-right">
+                    {{#if allVisible}}
+                    <i class="glyphicon glyphicon-eye-close"></i>
                     {{else}}
-                        <p>Schätzung: {{formattedEstimate}}</p>
+                    <i class="glyphicon glyphicon-eye-open"></i>
                     {{/if}}
-                    <div class="buttons">
-                        {{#if isParticipant}}
-                            <button class="btn btn-default btn-cancel-participation">Nicht teilnehmen</button>
-                        {{else}}
-                            <button class="btn btn-success btn-participate">Teilnehmen</button>
-                        {{/if}}
-                        {{#if isOwner}}
-                            <button class="btn btn-primary btn-turn-cards pull-right">Karten {{showOrHide}}</button>
-                        {{/if}}
-                    </div>
-                </div>
+                    Karten {{showOrHide}}
+                </button>
+                {{/if}}
             </div>
-            <div class="gamezone">
-                {{#each participants}}
-                    <div class="gamer {{itsMe}}">
-                        <div class="user-name">
-                            {{name}}
-                            {{#if ready}}
-                                <i class="glyphicon glyphicon-ok"></i>
-                            {{/if}}
-                        </div>
-                        <div>
-                            {{#if ready}}
-                            {{else}}
-                                {{#if itsMe}}
-                                    <i class="controls glyphicon glyphicon-arrow-left pull-left prev-card"></i>
-                                    <i class="controls glyphicon glyphicon-arrow-right pull-right next-card"></i>
-                                {{/if}}
-                            {{/if}}
-                            {{#with cardImage=cardImage participant=.}}
-                                <img alt="{{cardImage.title}}" src="{{cardImage.img}}" title="{{cardImage.title}}"/><br>
-                                <span>{{cardImage.title}}</span>
-                            {{/with}}
-                        </div>
-                        {{#if itsMe}}
-                            <div class="buttons">
-                                {{#if isReady}}
-                                    <button class="btn btn-xs btn-danger btn-not-ready">Ändern</button>
-                                {{else}}
-                                    <button class="btn btn-xs btn-default btn-ready"><i class="glyphicon glyphicon-ok"></i>
-                                        Fertig
-                                    </button>
-                                {{/if}}
-                            </div>
-                        {{/if}}
-                    </div>
-                {{/each}}
-            </div>
-        {{/with}}
-        <div class="row">
-            {{>shareLink}}
         </div>
-      <div class="row text-center">
+    </div>
+    <div class="gamezone">
+        {{#each participants}}
+        <div class="gamer {{itsMe}}">
+            <div class="user-name">
+                {{name}}
+                {{#if ready}}
+                <i class="glyphicon glyphicon-ok"></i>
+                {{/if}}
+            </div>
+            <div>
+                {{#if ready}}
+                {{else}}
+                {{#if itsMe}}
+                <i class="controls glyphicon glyphicon-arrow-left pull-left prev-card"></i>
+                <i class="controls glyphicon glyphicon-arrow-right pull-right next-card"></i>
+                {{/if}}
+                {{/if}}
+                {{#with cardImage=cardImage participant=.}}
+                <img alt="{{cardImage.title}}" src="{{cardImage.img}}" title="{{cardImage.title}}" /><br>
+                <span>{{cardImage.title}}</span>
+                {{/with}}
+            </div>
+            {{#if itsMe}}
+            <div class="buttons">
+                {{#if isReady}}
+                <button class="btn btn-xs btn-danger btn-not-ready">Ändern</button>
+                {{else}}
+                <button class="btn btn-xs btn-default btn-ready"><i class="glyphicon glyphicon-ok"></i>
+                    Fertig
+                </button>
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+        {{/each}}
+    </div>
+    {{#if isParticipant}}
+    <div class="row text-center hidden-xs">
         <span class="key">←</span> Vorherige Karte
         <span class="key">→</span> Nächste Karte
         <span class="key">Enter</span> Fertig
         <span class="key">ESC</span> Nochmal
-        <span class="key">1 - 0</span> Direktwahl
-      </div>
+        <span class="key">1, 2, ..., 0</span> Direktwahl
+    </div>
+    {{/if}}
+    {{/with}}
+    <div class="row">
+        {{>shareLink}}
+    </div>
     {{/if}}
 </template>

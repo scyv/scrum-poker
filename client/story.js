@@ -156,13 +156,11 @@ Template.story.helpers({
     allVisible() {
         return this.allVisible;
     },
-    proposal() {
-        return Math.floor(_.reduce(this.participants, function(memo, p) {
-            if (!p.estimate) {
-                return memo;
-            }
-            return memo + parseInt(p.estimate.substring(2), 10);
-        }, 0) / (this.participants.length === 0 ? 1 : this.participants.length));
+    btnReadyClass() {
+        if (this.participants.every((p) => p.ready)) {
+            return "success";
+        }
+        return "primary";
     },
     itsMe() {
         if (this.name === Common.getUserName()) {

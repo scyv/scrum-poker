@@ -1,10 +1,10 @@
-import {Meteor} from "meteor/meteor"
-import {SessionProps} from "../imports/sessionProperties"
+import { Meteor } from "meteor/meteor";
+import { SessionProps } from "../imports/sessionProperties";
 import * as Common from "../imports/common";
 
-import {sessionsHandle, storiesHandle} from "./main";
+import { sessionsHandle, storiesHandle } from "./main";
 
-import './session.html';
+import "./session.html";
 
 function createStory() {
     const name = $("#inputStoryName").val();
@@ -20,8 +20,8 @@ function createStory() {
 
 Template.session.onRendered(() => {
     const sessionId = Session.get(SessionProps.SELECTED_SESSION);
-    document.title = Sessions.findOne({_id: sessionId}).name;
-    const session = Sessions.findOne({_id: sessionId});
+    document.title = Sessions.findOne({ _id: sessionId }).name;
+    const session = Sessions.findOne({ _id: sessionId });
     if (session && !session.owner) {
         Meteor.call("setSessionOwner", sessionId, Common.getUserName());
     }
@@ -31,12 +31,15 @@ Template.session.helpers({
     isLoading() {
         return !(sessionsHandle.ready() && storiesHandle.ready());
     },
+    userName() {
+        return Common.getUserName();
+    },
     storiesAvailable() {
         return Stories.find().count() > 0;
     },
     sessionName() {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
-        return Sessions.findOne({_id: sessionId}).name;
+        return Sessions.findOne({ _id: sessionId }).name;
     },
     sessionId() {
         return Session.get(SessionProps.SELECTED_SESSION);
@@ -48,48 +51,48 @@ Template.session.helpers({
         return Session.get(SessionProps.SELECTED_STORY_OBJ);
     },
     estimate() {
-        return this.estimate ? (this.estimate + "SP") : "--";
+        return this.estimate ? this.estimate + "SP" : "--";
     },
     spsum() {
         let sum = 0;
-        Stories.find().forEach(s => {
+        Stories.find().forEach((s) => {
             if (s.estimate) {
                 sum += s.estimate;
             }
         });
         return sum + "SP";
-    }
+    },
 });
 
 Template.session.events({
-    'click .btn-create-story'(evt) {
+    "click .btn-create-story"(evt) {
         evt.preventDefault();
         createStory();
     },
-    'keydown #inputStoryName'(evt) {
+    "keydown #inputStoryName"(evt) {
         if (evt.keyCode === 13) {
             evt.preventDefault();
             createStory();
             return false;
         }
     },
-    'click .btn-start-poker'() {
+    "click .btn-start-poker"() {
         const storyId = this._id;
         Meteor.call("setStory", Session.get(SessionProps.SELECTED_SESSION), this._id, () => {
             Router.go("story", {
                 sessionId: Session.get(SessionProps.SELECTED_SESSION),
-                storyId: storyId
+                storyId: storyId,
             });
-        })
+        });
     },
-    'click .btn-edit-story'() {
+    "click .btn-edit-story"() {
         Session.set(SessionProps.SELECTED_STORY_OBJ, this);
     },
-    'click .btn-update-story'() {
+    "click .btn-update-story"() {
         const newName = $(".inputStoryName").val();
         Meteor.call("updateStory", Session.get(SessionProps.SELECTED_STORY_OBJ), newName);
     },
-    'click .btn-delete-story'() {
+    "click .btn-delete-story"() {
         Meteor.call("deleteStory", Session.get(SessionProps.SELECTED_STORY_OBJ));
-    }
+    },
 });
