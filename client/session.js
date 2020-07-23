@@ -1,5 +1,6 @@
 import {Meteor} from "meteor/meteor"
 import {SessionProps} from "../imports/sessionProperties"
+import * as Common from "../imports/common";
 
 import {sessionsHandle, storiesHandle} from "./main";
 
@@ -20,6 +21,10 @@ function createStory() {
 Template.session.onRendered(() => {
     const sessionId = Session.get(SessionProps.SELECTED_SESSION);
     document.title = Sessions.findOne({_id: sessionId}).name;
+    const session = Sessions.findOne({_id: sessionId});
+    if (session && !session.owner) {
+        Meteor.call("setSessionOwner", sessionId, Common.getUserName());
+    }
 });
 
 Template.session.helpers({

@@ -37,6 +37,14 @@ button.btn-overview {
     padding-left: 0;
 }
 
+.key {
+    border: 1px #aeaeae solid;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #aeaeae;
+    padding: 10px;
+    margin-left: 10px;
+}
+
 .gamezone {
     clear: both;
     margin: 1rem;

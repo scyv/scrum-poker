@@ -66,23 +66,46 @@ function setNotReady() {
 function handleShortcuts(evt) {
     const isReady = Session.get("ready");
     if (!isReady) {
-        if (evt.which === 37) {
+        if (evt.key === "ArrowLeft") {
             // left
             decreaseCardIndex();
         }
-        if (evt.which === 39) {
+        if (evt.key === "ArrowRight") {
             // right
             increaseCardIndex();
         }
     }
 
-    if (evt.which === 13 || evt.which === 32) {
+    if (evt.key === "ESC") {
+        setNotReady();
+    }
+
+    if (evt.key === "Enter" || evt.key === " " || evt.key === "Spacebar") {
         // enter or space
         if (isReady) {
             setNotReady();
         } else {
             setReady();
         }
+    }
+
+    if (evt.key === "1") {
+        selectedCardIdx.set(3);
+    }
+    if (evt.key === "2") {
+        selectedCardIdx.set(4);
+    }
+    if (evt.key === "3") {
+        selectedCardIdx.set(5);
+    }
+    if (evt.key === "5") {
+        selectedCardIdx.set(6);
+    }
+    if (evt.key === "8") {
+        selectedCardIdx.set(7);
+    }
+    if (evt.key === "0") {
+        selectedCardIdx.set(14);
     }
 }
 
@@ -129,6 +152,17 @@ Template.story.helpers({
     },
     showOrHide() {
         return this.allVisible ? "verdecken" : "zeigen";
+    },
+    allVisible() {
+        return this.allVisible;
+    },
+    proposal() {
+        return Math.floor(_.reduce(this.participants, function(memo, p) {
+            if (!p.estimate) {
+                return memo;
+            }
+            return memo + parseInt(p.estimate.substring(2), 10);
+        }, 0) / (this.participants.length === 0 ? 1 : this.participants.length));
     },
     itsMe() {
         if (this.name === Common.getUserName()) {

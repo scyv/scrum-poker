@@ -1,14 +1,11 @@
 import { Meteor } from "meteor/meteor"
 import * as Common from "../imports/common";
-import { SessionProps} from "../imports/sessionProperties"
-
-import {statisticsHandle} from "./main";
 
 import './landing.html';
 
 function startSession() {
     const name = $("#inputSessionName").val();
-    Meteor.call("createSession", name, Common.getUserName(), (err, id) => {
+    Meteor.call("createSession", name, Common.getUserName() || "", (err, id) => {
         if (err) {
             alert(err);
         } else {
@@ -19,21 +16,6 @@ function startSession() {
 
 Template.landing.onRendered(()=> {
     document.title = "Scrum-Poker";
-});
-
-Template.landing.helpers({
-    ready() {
-        return statisticsHandle && statisticsHandle.ready();
-    },
-    rounds() {
-        return Statistics.findOne().sessionCount;
-    },
-    stories() {
-        return Statistics.findOne().storyCount;
-    },
-    storyPoints() {
-        return Statistics.findOne().storyPoints;
-    }
 });
 
 Template.landing.events({

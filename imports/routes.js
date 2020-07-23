@@ -1,6 +1,6 @@
-import { Meteor } from "meteor/meteor";
-import { SessionProps } from "./sessionProperties";
-import { COLLECTIONS } from "./collections";
+import {Meteor} from "meteor/meteor";
+import {SessionProps} from "./sessionProperties";
+import {COLLECTIONS} from "./collections";
 import * as Common from "./common";
 
 Router.configure({
@@ -14,13 +14,9 @@ function isLoggedIn() {
 Router.route(
     "/",
     function () {
-        if (isLoggedIn()) {
-            this.render("landing");
-        } else {
-            this.render("login");
-        }
+        this.render("landing");
     },
-    { name: "landing" }
+    {name: "landing"}
 );
 
 Router.route(
@@ -28,7 +24,7 @@ Router.route(
     function () {
         this.render("datenschutz");
     },
-    { name: "datenschutz" }
+    {name: "datenschutz"}
 );
 
 Router.route(
@@ -36,7 +32,7 @@ Router.route(
     function () {
         this.render("login");
     },
-    { name: "login" }
+    {name: "login"}
 );
 
 Router.route(
@@ -58,7 +54,7 @@ Router.route(
             this.render("login");
         }
     },
-    { name: "session" }
+    {name: "session"}
 );
 
 Router.route(
@@ -86,5 +82,5 @@ Router.route(
             this.render("login");
         }
     },
-    { name: "story" }
+    {name: "story"}
 );

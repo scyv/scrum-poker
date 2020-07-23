@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor'
-import { check } from "meteor/check";
+import {Meteor} from 'meteor/meteor'
+import {check} from "meteor/check";
 
 Meteor.methods({
     createSession(name, owner) {
@@ -12,6 +12,12 @@ Meteor.methods({
                 owner: owner
             }
         );
+    },
+    setSessionOwner(sessionId, owner) {
+        check(sessionId, String);
+        check(owner, String);
+
+        return Sessions.update(sessionId, {$set: {owner}});
     },
     createStory(name, sessionId) {
         check(name, String);
