@@ -76,7 +76,7 @@ function handleShortcuts(evt) {
         }
     }
 
-    if (evt.key === "ESC") {
+    if (evt.key === "Escape") {
         setNotReady();
     }
 
