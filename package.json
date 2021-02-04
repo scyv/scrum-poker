@@ -1,19 +1,25 @@
 {
-    "name": "scrum-poker",
-    "version": "4.0.0",
-    "description": "This is a scrum poker game",
-    "readme": "README.md",
-    "license": "MIT",
-    "repository": "https://github.com/scyv/scrum-poker.git",
-    "author": "Yves Schubert",
-    "private": true,
-    "scripts": {
-        "start": "meteor run",
-        "visualize": "meteor --production --extra-packages bundle-visualizer"
-    },
-    "dependencies": {
-        "@babel/runtime": "^7.10.5",
-        "meteor-node-stubs": "^1.0.0",
-        "node-excel-export": "^1.4.4"
-    }
+  "name": "scrum-poker",
+  "version": "5.0.0",
+  "description": "This is a scrum poker game",
+  "readme": "README.md",
+  "license": "MIT",
+  "repository": "https://github.com/scyv/scrum-poker.git",
+  "author": "Yves Schubert",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "markbuild": "git rev-parse --short HEAD > ./public/revision",
+    "build": "npm run markbuild && meteor build ../poker_build --server https://poker.digitalscrum.de --architecture os.linux.x86_64 ",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@babel/runtime": "7.12.13",
+    "meteor-node-stubs": "^1.0.1",
+    "node-excel-export": "^1.4.4",
+    "unique-names-generator": "^4.3.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  }
 }

@@ -29,3 +29,16 @@ Template.layout.events({
         Router.go("landing");
     },
 });
+
+const version = new ReactiveVar("");
+Template.layout.onRendered(() => {
+    fetch("/revision")
+        .then((resp) => resp.text())
+        .then((vers) => version.set(vers));
+});
+
+Template.layout.helpers({
+    version() {
+        return version.get();
+    },
+});

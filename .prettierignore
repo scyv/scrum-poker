@@ -1,0 +1,4 @@
+.meteor/
+.vscode/
+node_modules/
+public/

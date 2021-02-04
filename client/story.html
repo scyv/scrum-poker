@@ -1,16 +1,19 @@
 <template name="story">
-    {{#if isLoading}}
-    {{> loading}}
-    {{else}}
-    {{#with story}}
+    {{#if isLoading}} {{> loading}} {{else}} {{#with story}}
     <button class="btn btn-link btn-overview">Zurück zur Übersicht</button>
     <div class="panel panel-default">
         <div class="panel-body">
             <p class="lead"><span class="text-muted">Pokerrunde für:</span> {{name}}</p>
-            {{#if isOwner}}
+            {{#if isAllowed 'setEstimate'}}
             <div class="input-group col-md-6">
-                <input type="text" class="form-control" id="inputStoryPoints" value="{{estimate}}" autocomplete="off"
-                    placeholder="Storypoints">
+                <input
+                    type="text"
+                    class="form-control"
+                    id="inputStoryPoints"
+                    value="{{estimate}}"
+                    autocomplete="off"
+                    placeholder="Storypoints"
+                />
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-default btn-save-estimate">Schätzung eintragen</button>
                 </span>
@@ -23,15 +26,13 @@
                 <button class="btn btn-default btn-cancel-participation">Nicht teilnehmen</button>
                 {{else}}
                 <button class="btn btn-success btn-participate">Teilnehmen</button>
-                {{/if}}
-                {{#if isOwner}}
+                {{/if}} {{#if isAllowed 'turnCards'}}
                 <button class="btn btn-{{btnReadyClass}} btn-turn-cards pull-right">
                     {{#if allVisible}}
                     <i class="glyphicon glyphicon-eye-close"></i>
                     {{else}}
                     <i class="glyphicon glyphicon-eye-open"></i>
-                    {{/if}}
-                    Karten {{showOrHide}}
+                    {{/if}} Karten {{showOrHide}}
                 </button>
                 {{/if}}
             </div>
@@ -41,21 +42,16 @@
         {{#each participants}}
         <div class="gamer {{itsMe}}">
             <div class="user-name">
-                {{name}}
-                {{#if ready}}
+                {{name}} {{#if ready}}
                 <i class="glyphicon glyphicon-ok"></i>
                 {{/if}}
             </div>
             <div>
-                {{#if ready}}
-                {{else}}
-                {{#if itsMe}}
+                {{#if ready}} {{else}} {{#if itsMe}}
                 <i class="controls glyphicon glyphicon-arrow-left pull-left prev-card"></i>
                 <i class="controls glyphicon glyphicon-arrow-right pull-right next-card"></i>
-                {{/if}}
-                {{/if}}
-                {{#with cardImage=cardImage participant=.}}
-                <img alt="{{cardImage.title}}" src="{{cardImage.img}}" title="{{cardImage.title}}" /><br>
+                {{/if}} {{/if}} {{#with cardImage=cardImage participant=.}}
+                <img alt="{{cardImage.title}}" src="{{cardImage.img}}" title="{{cardImage.title}}" /><br />
                 <span>{{cardImage.title}}</span>
                 {{/with}}
             </div>
@@ -64,7 +60,8 @@
                 {{#if isReady}}
                 <button class="btn btn-xs btn-danger btn-not-ready">Ändern</button>
                 {{else}}
-                <button class="btn btn-xs btn-default btn-ready"><i class="glyphicon glyphicon-ok"></i>
+                <button class="btn btn-xs btn-default btn-ready">
+                    <i class="glyphicon glyphicon-ok"></i>
                     Fertig
                 </button>
                 {{/if}}
@@ -75,16 +72,11 @@
     </div>
     {{#if isParticipant}}
     <div class="row text-center hidden-xs">
-        <span class="key">←</span> Vorherige Karte
-        <span class="key">→</span> Nächste Karte
-        <span class="key">Enter</span> Fertig
-        <span class="key">ESC</span> Nochmal
+        <span class="key">←</span> Vorherige Karte <span class="key">→</span> Nächste Karte
+        <span class="key">Enter</span> Fertig <span class="key">ESC</span> Nochmal
         <span class="key">1, 2, ..., 0</span> Direktwahl
     </div>
-    {{/if}}
-    {{/with}}
-    <div class="row">
-        {{>shareLink}}
-    </div>
+    {{/if}} {{/with}}
+    <div class="row">{{>shareLink}}</div>
     {{/if}}
 </template>

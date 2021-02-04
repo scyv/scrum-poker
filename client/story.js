@@ -36,6 +36,11 @@ function decreaseCardIndex() {
 function getSession() {
     const selectedSession = Session.get(SessionProps.SELECTED_SESSION);
     const session = Sessions.findOne(selectedSession);
+    if (!session.showStory) {
+        Router.go("session", { sessionId: Session.get(SessionProps.SELECTED_SESSION) });
+        return session;
+    }
+
     if (session.showStory !== Session.get(SessionProps.SELECTED_STORY)) {
         Router.go("story", {
             sessionId: selectedSession,
@@ -46,12 +51,19 @@ function getSession() {
 }
 
 function getStory() {
-    return Stories.findOne(Session.get(SessionProps.SELECTED_STORY));
+    const story = Stories.findOne(Session.get(SessionProps.SELECTED_STORY));
+    document.title = story.name;
+    return story;
 }
 
 function saveEstimate() {
-    if (getSession().owner === Common.getUserName()) {
-        Meteor.call("saveEstimate", Session.get(SessionProps.SELECTED_STORY), parseInt($("#inputStoryPoints").val()) || 0);
+    const session = getSession();
+    if (session.owner === Common.getUserName() || session.perm_setEstimate) {
+        Meteor.call(
+            "saveEstimate",
+            Session.get(SessionProps.SELECTED_STORY),
+            parseInt($("#inputStoryPoints").val()) || 0
+        );
     }
 }
 
@@ -112,7 +124,6 @@ function handleShortcuts(evt) {
 Template.story.onRendered(function () {
     selectedCardIdx.set(1);
     $(document).bind("keydown", handleShortcuts);
-    document.title = getStory().name;
 });
 
 Template.story.onDestroyed(function () {
@@ -122,9 +133,6 @@ Template.story.onDestroyed(function () {
 Template.story.helpers({
     isLoading() {
         return !(sessionsHandle.ready() && storiesHandle.ready());
-    },
-    isOwner() {
-        return getSession().owner === Common.getUserName();
     },
     isReady() {
         Session.set("ready", this.ready);
@@ -182,6 +190,10 @@ Template.story.helpers({
             }
         }
     },
+    isAllowed(perm) {
+        const session = getSession();
+        return session.owner === Common.getUserName() || session["perm_" + perm];
+    },
 });
 
 Template.story.events({
@@ -226,6 +238,8 @@ Template.story.events({
             evt.preventDefault();
             saveEstimate();
             evt.target.blur();
+            Router.go("session", { sessionId: Session.get(SessionProps.SELECTED_SESSION) });
+
             return false;
         }
     },

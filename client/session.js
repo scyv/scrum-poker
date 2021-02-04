@@ -7,7 +7,7 @@ import { sessionsHandle, storiesHandle } from "./main";
 import "./session.html";
 
 function createStory() {
-    const name = $("#inputStoryName").val();
+    let name = $("#inputStoryName").val().trim();
     const sessionId = Session.get(SessionProps.SELECTED_SESSION);
     Meteor.call("createStory", name, sessionId, (err) => {
         if (err) {
@@ -62,6 +62,26 @@ Template.session.helpers({
         });
         return sum + "SP";
     },
+    checkpermission(perm) {
+        const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+        return Sessions.findOne({ _id: sessionId })["perm_" + perm];
+    },
+    isAllowed(perm) {
+        const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+        const session = Sessions.findOne({ _id: sessionId });
+        return session.owner === Common.getUserName() || session["perm_" + perm];
+    },
+    isOwner() {
+        const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+        const session = Sessions.findOne({ _id: sessionId });
+
+        return session.owner === Common.getUserName();
+    },
+    isRunning() {
+        const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+        const session = Sessions.findOne({ _id: sessionId });
+        return this._id === session.showStory;
+    },
 });
 
 Template.session.events({
@@ -94,5 +114,29 @@ Template.session.events({
     },
     "click .btn-delete-story"() {
         Meteor.call("deleteStory", Session.get(SessionProps.SELECTED_STORY_OBJ));
+    },
+    "change #cbPermCreateStory"() {
+        Meteor.call(
+            "setPermission",
+            "createStory",
+            $("#cbPermCreateStory").prop("checked"),
+            Session.get(SessionProps.SELECTED_SESSION)
+        );
+    },
+    "change #cbPermTurnCards"() {
+        Meteor.call(
+            "setPermission",
+            "turnCards",
+            $("#cbPermTurnCards").prop("checked"),
+            Session.get(SessionProps.SELECTED_SESSION)
+        );
+    },
+    "change #cbPermSetEstimate"() {
+        Meteor.call(
+            "setPermission",
+            "setEstimate",
+            $("#cbPermSetEstimate").prop("checked"),
+            Session.get(SessionProps.SELECTED_SESSION)
+        );
     },
 });
