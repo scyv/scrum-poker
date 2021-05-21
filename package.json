@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.12.13",
+    "chart.js": "^3.2.1",
     "meteor-node-stubs": "^1.0.1",
     "node-excel-export": "^1.4.4",
     "unique-names-generator": "^4.3.1"

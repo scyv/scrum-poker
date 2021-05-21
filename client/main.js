@@ -13,14 +13,14 @@ import "./datenschutz.html";
 
 export let sessionsHandle;
 export let storiesHandle;
-export let statisticsHandle;
+export let liveStatisticsHandle;
 
 Meteor.startup(() => {
     Tracker.autorun(() => {
         const selectedSession = Session.get(SessionProps.SELECTED_SESSION);
         sessionsHandle = Meteor.subscribe(COLLECTIONS.SESSIONS, selectedSession);
         storiesHandle = Meteor.subscribe(COLLECTIONS.STORIES, selectedSession);
-        statisticsHandle = Meteor.subscribe("statistics");
+        liveStatisticsHandle = Meteor.subscribe(COLLECTIONS.LIVE_STATISTICS);
     });
 });
 

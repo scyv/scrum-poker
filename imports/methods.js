@@ -20,6 +20,7 @@ Meteor.methods({
 
         return Sessions.insert({
             _id: id,
+            timestamp: new Date(),
             name: name,
             owner: owner,
             perm_turnCards: true,
@@ -48,6 +49,7 @@ Meteor.methods({
 
         const story = {
             name: name,
+            timestamp: new Date(),
             sessionId: sessionId,
             participants: [],
         };

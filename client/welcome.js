@@ -1,18 +1,18 @@
-import { statisticsHandle } from "./main";
+import { liveStatisticsHandle } from "./main";
 
 import "./welcome.html";
 
 Template.welcome.helpers({
     ready() {
-        return statisticsHandle && statisticsHandle.ready();
+        return liveStatisticsHandle?.ready();
     },
     rounds() {
-        return Statistics.findOne()?.sessionCount;
+        return LiveStatistics.findOne()?.sessionCount;
     },
     stories() {
-        return Statistics.findOne()?.storyCount;
+        return LiveStatistics.findOne()?.storyCount;
     },
     storyPoints() {
-        return Statistics.findOne()?.storyPoints;
+        return LiveStatistics.findOne()?.storyPoints;
     },
 });

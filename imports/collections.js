@@ -1,9 +1,10 @@
-import { Mongo } from 'meteor/mongo';
+import { Mongo } from "meteor/mongo";
 
 export const COLLECTIONS = {
     SESSIONS: "sessions",
     STORIES: "stories",
-    STATISTICS: "statistics"
+    STATISTICS: "statistics",
+    LIVE_STATISTICS: "liveStatistics",
 };
 
 /**
@@ -22,7 +23,6 @@ Sessions = new Mongo.Collection(COLLECTIONS.SESSIONS);
  */
 Stories = new Mongo.Collection(COLLECTIONS.STORIES);
 
-
 /**
  * _id: the id
  * sessionCount: Number of sessions
@@ -31,3 +31,4 @@ Stories = new Mongo.Collection(COLLECTIONS.STORIES);
  *
  */
 Statistics = new Mongo.Collection(COLLECTIONS.STATISTICS);
+LiveStatistics = new Mongo.Collection(COLLECTIONS.LIVE_STATISTICS);

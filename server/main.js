@@ -2,6 +2,7 @@ import { Meteor } from "meteor/meteor";
 import { COLLECTIONS } from "../imports/collections";
 import * as Excel from "node-excel-export";
 import "../imports/methods";
+import "./statistics";
 
 Meteor.startup(() => {});
 
@@ -12,8 +13,11 @@ Meteor.publish(COLLECTIONS.SESSIONS, function (sessionId) {
 Meteor.publish(COLLECTIONS.STORIES, function (sessionId) {
     return Stories.find({ sessionId: sessionId });
 });
-
 Meteor.publish(COLLECTIONS.STATISTICS, function () {
+    return Statistics.find({});
+});
+
+Meteor.publish(COLLECTIONS.LIVE_STATISTICS, function () {
     const publishedKeys = {};
 
     const poll = () => {
@@ -44,10 +48,10 @@ Meteor.publish(COLLECTIONS.STATISTICS, function () {
 
         data.forEach((doc) => {
             if (publishedKeys[doc._id]) {
-                this.changed(COLLECTIONS.STATISTICS, doc._id, doc);
+                this.changed(COLLECTIONS.LIVE_STATISTICS, doc._id, doc);
             } else {
                 publishedKeys[doc._id] = true;
-                this.added(COLLECTIONS.STATISTICS, doc._id, doc);
+                this.added(COLLECTIONS.LIVE_STATISTICS, doc._id, doc);
             }
         });
     };

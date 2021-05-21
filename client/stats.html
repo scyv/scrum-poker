@@ -1,0 +1,12 @@
+<template name="stats">
+    <div class="row">
+        <h1 class="text-center">Statistik</h1>
+        {{#if ready}}
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+        {{else}}
+        <p>Laden...</p>
+        {{/if}}
+    </div>
+</template>
