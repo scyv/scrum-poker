@@ -3,7 +3,8 @@ body {
     font-family: sans-serif;
 }
 
-.panel, .lead {
+.panel,
+.lead {
     margin-bottom: 10px;
 }
 .row {
@@ -104,9 +105,13 @@ button.btn-overview {
 
 .gamezone .btn-ready:hover {
     background: #498249;
-    color: #FFFFFF;
+    color: #ffffff;
 }
 
 .gamezone .user-name .glyphicon-ok {
     color: #498249;
+}
+
+.btn-preset-estimate {
+    cursor: pointer;
 }

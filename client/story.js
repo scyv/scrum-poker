@@ -194,6 +194,13 @@ Template.story.helpers({
         const session = getSession();
         return session.owner === Common.getUserName() || session["perm_" + perm];
     },
+    suggestedEstimate() {
+        if (!this.allVisible) {
+            return null;
+        }
+        const estimates = _.compact(this.participants.map((p) => parseInt(p.estimate.substring(2), 10)));
+        return _.uniq([_.min(estimates), Common.median(estimates), _.max(estimates)]);
+    },
 });
 
 Template.story.events({
@@ -242,5 +249,9 @@ Template.story.events({
 
             return false;
         }
+    },
+    "click .btn-preset-estimate"(evt) {
+        $("#inputStoryPoints").val($(evt.target).data("preset"));
+        saveEstimate();
     },
 });
