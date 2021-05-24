@@ -4,6 +4,7 @@ import { ReactiveVar } from "meteor/reactive-var";
 import * as Common from "../imports/common";
 import { SessionProps } from "../imports/sessionProperties";
 import { CARDS } from "../imports/cards";
+import { Stories, Sessions } from "../imports/collections";
 
 import { sessionsHandle, storiesHandle } from "./main";
 
@@ -86,6 +87,24 @@ function handleShortcuts(evt) {
             // right
             increaseCardIndex();
         }
+        if (evt.key === "1") {
+            selectedCardIdx.set(3);
+        }
+        if (evt.key === "2") {
+            selectedCardIdx.set(4);
+        }
+        if (evt.key === "3") {
+            selectedCardIdx.set(5);
+        }
+        if (evt.key === "5") {
+            selectedCardIdx.set(6);
+        }
+        if (evt.key === "8") {
+            selectedCardIdx.set(7);
+        }
+        if (evt.key === "0") {
+            selectedCardIdx.set(14);
+        }
     }
 
     if (evt.key === "Escape") {
@@ -99,25 +118,6 @@ function handleShortcuts(evt) {
         } else {
             setReady();
         }
-    }
-
-    if (evt.key === "1") {
-        selectedCardIdx.set(3);
-    }
-    if (evt.key === "2") {
-        selectedCardIdx.set(4);
-    }
-    if (evt.key === "3") {
-        selectedCardIdx.set(5);
-    }
-    if (evt.key === "5") {
-        selectedCardIdx.set(6);
-    }
-    if (evt.key === "8") {
-        selectedCardIdx.set(7);
-    }
-    if (evt.key === "0") {
-        selectedCardIdx.set(14);
     }
 }
 

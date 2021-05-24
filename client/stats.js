@@ -1,5 +1,5 @@
 import Chart from "chart.js/auto";
-import { COLLECTIONS } from "../imports/collections";
+import { COLLECTIONS, Statistics } from "../imports/collections";
 
 import "./stats.html";
 const dateformat = new Intl.DateTimeFormat("de-de", {

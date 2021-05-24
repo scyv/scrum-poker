@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { SessionProps } from "../imports/sessionProperties";
 import * as Common from "../imports/common";
+import { Sessions, Stories } from "../imports/collections";
 
 import { sessionsHandle, storiesHandle } from "./main";
 

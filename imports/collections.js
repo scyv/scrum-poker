@@ -13,7 +13,7 @@ export const COLLECTIONS = {
  * stories[]: list of stories
  * currentStory: the story that is currently in progress
  */
-Sessions = new Mongo.Collection(COLLECTIONS.SESSIONS);
+export const Sessions = new Mongo.Collection(COLLECTIONS.SESSIONS);
 
 /**
  * _id: the id
@@ -21,7 +21,7 @@ Sessions = new Mongo.Collection(COLLECTIONS.SESSIONS);
  * result: resulting vote
  * estimates[]: list of estimates
  */
-Stories = new Mongo.Collection(COLLECTIONS.STORIES);
+export const Stories = new Mongo.Collection(COLLECTIONS.STORIES);
 
 /**
  * _id: the id
@@ -30,5 +30,5 @@ Stories = new Mongo.Collection(COLLECTIONS.STORIES);
  * storyPoints: Sum of Storypoints
  *
  */
-Statistics = new Mongo.Collection(COLLECTIONS.STATISTICS);
-LiveStatistics = new Mongo.Collection(COLLECTIONS.LIVE_STATISTICS);
+export const Statistics = new Mongo.Collection(COLLECTIONS.STATISTICS);
+export const LiveStatistics = new Mongo.Collection(COLLECTIONS.LIVE_STATISTICS);

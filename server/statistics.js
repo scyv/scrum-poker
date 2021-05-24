@@ -1,4 +1,5 @@
 import { Meteor } from "meteor/meteor";
+import { Stories, Sessions, Statistics } from "../imports/collections";
 
 const makeSnapshot = () => {
     const rawStories = Stories.rawCollection();
@@ -23,6 +24,7 @@ const makeSnapshot = () => {
         storyCount: storyCountOffset + Stories.find().count(),
         storyPoints: storyPointsOffset + storyPointSumResult[0].sp,
     });
+    Meteor.setTimeout(makeSnapshot, 1000 * 60 * 60 * 24);
 };
 
-Meteor.setInterval(makeSnapshot, 1000 * 60 * 60 * 24);
+makeSnapshot();

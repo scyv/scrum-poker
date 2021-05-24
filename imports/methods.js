@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 import { uniqueNamesGenerator, adjectives, colors, animals, names, starWars } from "unique-names-generator";
+import { Sessions, Stories } from "./collections";
 
 Meteor.methods({
     createSession(name, owner) {

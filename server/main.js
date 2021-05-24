@@ -1,10 +1,12 @@
 import { Meteor } from "meteor/meteor";
-import { COLLECTIONS } from "../imports/collections";
+import { COLLECTIONS, Sessions, Statistics, Stories } from "../imports/collections";
 import * as Excel from "node-excel-export";
 import "../imports/methods";
 import "./statistics";
 
-Meteor.startup(() => {});
+Meteor.startup(() => {
+    console.log("Ready for e-business.");
+});
 
 Meteor.publish(COLLECTIONS.SESSIONS, function (sessionId) {
     return Sessions.find({ _id: sessionId });

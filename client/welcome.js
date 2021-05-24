@@ -1,3 +1,4 @@
+import { LiveStatistics } from "../imports/collections";
 import { liveStatisticsHandle } from "./main";
 
 import "./welcome.html";
