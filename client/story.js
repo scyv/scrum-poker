@@ -199,7 +199,7 @@ Template.story.helpers({
             return null;
         }
         const estimates = _.compact(this.participants.map((p) => parseInt(p.estimate.substring(2), 10)));
-        return _.uniq([_.min(estimates), Common.median(estimates), _.max(estimates)]);
+        return _.uniq([Common.median(estimates), _.max(estimates)]);
     },
 });
 
