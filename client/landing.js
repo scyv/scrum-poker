@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { uniqueNamesGenerator, adjectives, colors, animals, countries, names, starWars } from "unique-names-generator";
 import * as Common from "../imports/common";
+import { SessionProps } from "../imports/sessionProperties";
 
 import "./landing.html";
 
@@ -19,6 +20,9 @@ function startSession() {
         if (err) {
             alert(err);
         } else {
+            Session.set(SessionProps.SELECTED_SESSION, null);
+            Session.set(SessionProps.SELECTED_STORY, null);
+            Session.set(SessionProps.SELECTED_STORY_OBJ, null);
             Router.go("session", { sessionId: id });
         }
     });
