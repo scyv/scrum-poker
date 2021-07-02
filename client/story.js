@@ -63,7 +63,7 @@ function saveEstimate() {
         Meteor.call(
             "saveEstimate",
             Session.get(SessionProps.SELECTED_STORY),
-            parseInt($("#inputStoryPoints").val()) || 0
+            parseFloat($("#inputStoryPoints").val().replace(",", ".")) || 0
         );
     }
 }
@@ -145,7 +145,7 @@ Template.story.helpers({
         return getStory();
     },
     formattedEstimate() {
-        return this.estimate ? this.estimate + "SP" : "--";
+        return this.estimate >= 0 ? this.estimate + "SP" : "--";
     },
     participants() {
         return [
@@ -198,7 +198,10 @@ Template.story.helpers({
         if (!this.allVisible) {
             return null;
         }
-        const estimates = _.compact(this.participants.map((p) => parseInt(p.estimate.substring(2), 10)));
+        const estimates = _.compact(this.participants.map((p) => parseFloat(p.estimate.substring(2), 10)));
+        if (estimates.length === 0) {
+            return null;
+        }
         return _.uniq([Common.median(estimates), _.max(estimates)]);
     },
 });

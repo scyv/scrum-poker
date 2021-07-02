@@ -52,7 +52,7 @@ Template.session.helpers({
         return Session.get(SessionProps.SELECTED_STORY_OBJ);
     },
     estimate() {
-        return this.estimate ? this.estimate + "SP" : "--";
+        return this.estimate >= 0 ? this.estimate + "SP" : "--";
     },
     spsum() {
         let sum = 0;
@@ -61,7 +61,7 @@ Template.session.helpers({
                 sum += s.estimate;
             }
         });
-        return sum + "SP";
+        return (sum.toFixed(1).includes(".0") ? sum : sum.toFixed(1)) + "SP";
     },
     checkpermission(perm) {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
