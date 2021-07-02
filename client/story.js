@@ -198,7 +198,9 @@ Template.story.helpers({
         if (!this.allVisible) {
             return null;
         }
-        const estimates = _.compact(this.participants.map((p) => parseFloat(p.estimate.substring(2), 10)));
+        const estimates = _.compact(
+            this.participants.filter((p) => p.estimate).map((p) => parseFloat(p.estimate.substring(2), 10))
+        );
         if (estimates.length === 0) {
             return null;
         }
