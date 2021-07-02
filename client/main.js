@@ -1,6 +1,7 @@
 import { Template } from "meteor/templating";
 import { COLLECTIONS } from "../imports/collections";
 import { SessionProps } from "../imports/sessionProperties";
+import * as Common from "../imports/common";
 
 import "../imports/routes.js";
 import "../imports/methods.js";
@@ -38,6 +39,9 @@ Template.layout.onRendered(() => {
 });
 
 Template.layout.helpers({
+    userName() {
+        return Common.getUserName();
+    },
     version() {
         return version.get();
     },

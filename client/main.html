@@ -25,7 +25,12 @@
 
 <template name="layout">
     <div class="container-fluid">
-        <p class="pull-right"><a href="/datenschutz">Datenschutz</a></p>
+        <p class="pull-right">
+            {{#if userName}}
+            <span class="text-muted">Hallo {{userName}}!</span>
+            {{/if}}
+            <a href="/datenschutz">Datenschutz</a>
+        </p>
         <p class="title">
             <i class="glyphicon glyphicon-th-large"></i>
             Digital Scrum Poker
