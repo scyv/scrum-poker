@@ -1,23 +1,32 @@
 <template name="shareLink">
     <div class="alert alert-info">
-        Für Teilnahme, diesen Link kopieren oder QR-Code scannen:<button class="pull-right btn btn-link btn-showqr" data-toggle="modal" data-target="#qrcode-modal">QR-Code zeigen</button>
-        <input type="text" class="form-control currentLink" readonly value="{{currentLink}}"/>
+        {{MSG "shareLink.info"}}<button
+            class="pull-right btn btn-link btn-showqr"
+            data-toggle="modal"
+            data-target="#qrcode-modal"
+        >
+            {{MSG "shareLink.btnShowqr"}}
+        </button>
+        <input type="text" class="form-control currentLink" readonly value="{{currentLink}}" />
     </div>
     <div id="qrcode-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Teilnahmelink</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">{{MSG "shareLink.qr.participationLink"}}</h4>
                 </div>
                 <div class="modal-body text-center">
                     <p>{{currentLink}}</p>
                     <p id="qrcode"></p>
-                    <p>Scannen Sie diesen QR-Code und öffnen Sie die URL in Ihrem Browser.</p>
+                    <p>{{MSG "shareLink.qr.info"}}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        {{MSG "shareLink.qr.close"}}
+                    </button>
                 </div>
             </div>
         </div>

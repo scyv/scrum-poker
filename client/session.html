@@ -8,7 +8,7 @@
                 <thead>
                     <tr>
                         <th>Story</th>
-                        <th>Schätzung</th>
+                        <th>{{MSG "session.table.estimate"}}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -24,7 +24,7 @@
                                     data-toggle="modal"
                                     data-target="#edit-modal"
                                 >
-                                    Bearbeiten
+                                    {{MSG "session.table.edit"}}
                                 </button>
                             </h4>
                         </td>
@@ -32,25 +32,24 @@
                         <td>
                             {{#if isRunning}}
                             <button class="btn btn-xs btn-warning btn-start-poker" type="button">
-                                Schätzung Betreten
+                                {{MSG "session.table.btnJoin"}}
                             </button>
                             {{else}}
                             <button class="btn btn-xs btn-success btn-start-poker" type="button">
-                                Schätzung Starten
+                                {{MSG "session.table.btnStart"}}
                             </button>
                             {{/if}}
                         </td>
                     </tr>
                     {{/each}}
                     <tr>
-                        <td>Summe:</td>
+                        <td>{{MSG "session.table.sum"}}:</td>
                         <td>{{spsum}} (<a href="./download/{{sessionId}}">Excel Export</a>)</td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
-            {{else}} Hallo {{userName}}, es wurde noch keine Story angelegt. Bevor Sie schätzen können, muss eine Story
-            angelegt werden. {{/if}}
+            {{else}} {{MSG "session.table.nostory.hello"}} {{userName}}{{MSG "session.table.nostory.text"}} {{/if}}
         </div>
     </div>
     {{/if}} {{#if isAllowed 'createStory'}}
@@ -58,10 +57,12 @@
     <div class="row">
         <form class="form row">
             <div class="input-group col-md-6">
-                <span class="input-group-addon">Neue Story:</span>
+                <span class="input-group-addon">{{MSG "session.createStory.add"}}</span>
                 <input autofocus type="text" class="form-control" id="inputStoryName" />
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-create-story">Anlegen</button>
+                    <button type="button" class="btn btn-default btn-create-story">
+                        {{MSG "session.createStory.btnCreateStory"}}
+                    </button>
                 </span>
             </div>
         </form>
@@ -71,20 +72,20 @@
         <form class="form">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="cbPermCreateStory" checked="{{checkpermission 'createStory'}}" /> Allen
-                    Teilnehmern erlauben, Stories zu erstellen</label
-                >
+                    <input type="checkbox" id="cbPermCreateStory" checked="{{checkpermission 'createStory'}}" /> {{MSG
+                    "session.rights.createStory"}}
+                </label>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="cbPermTurnCards" checked="{{checkpermission 'turnCards'}}" /> Allen
-                    Teilnehmern erlauben, die Karten aufzudecken</label
-                >
+                    <input type="checkbox" id="cbPermTurnCards" checked="{{checkpermission 'turnCards'}}" /> {{MSG
+                    "session.rights.turnCards"}}
+                </label>
             </div>
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="cbPermSetEstimate" checked="{{checkpermission 'setEstimate'}}" /> Allen
-                    Teilnehmern erlauben, Schätzungen einzutragen</label
+                    <input type="checkbox" id="cbPermSetEstimate" checked="{{checkpermission 'setEstimate'}}" /> {{MSG
+                    "session.rights.setEstimate"}}</label
                 >
             </div>
         </form>
@@ -98,7 +99,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title">Bearbeiten</h4>
+                    <h4 class="modal-title">{{MSG "session.edit.title"}}</h4>
                 </div>
                 <div class="modal-body text-center">
                     <div class="input-group col-md-12">
@@ -108,12 +109,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="pull-left btn btn-danger btn-delete-story" data-dismiss="modal">
-                        Löschen
+                        {{MSG "session.edit.delete"}}
                     </button>
                     <button type="button" class="btn btn-success btn-update-story" data-dismiss="modal">
-                        Speichern
+                        {{MSG "session.edit.save"}}
                     </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        {{MSG "session.edit.close"}}
+                    </button>
                 </div>
             </div>
         </div>

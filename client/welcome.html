@@ -1,10 +1,12 @@
 <template name="welcome">
-<div class="row">
-  <h1 class="text-center">Willkommen zum digitalen Scrum Poker!</h1>
-  {{#if ready}}
-    <p class="text-center">{{rounds}} Runden, {{stories}} Stories, {{storyPoints}} Storypoints</p>
-  {{else}}
-    <p>&nbsp;</p>
-  {{/if}}
-</div>
+    <div class="row">
+        <h1 class="text-center">{{MSG "welcome.title"}}</h1>
+        {{#if ready}}
+        <p class="text-center">
+            {{rounds}} {{MSG "welcome.sessions"}} {{stories}} Stories, {{storyPoints}} Storypoints
+        </p>
+        {{else}}
+        <p>&nbsp;</p>
+        {{/if}}
+    </div>
 </template>

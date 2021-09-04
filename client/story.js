@@ -158,9 +158,6 @@ Template.story.helpers({
             ),
         ];
     },
-    showOrHide() {
-        return this.allVisible ? "verdecken" : "zeigen";
-    },
     allVisible() {
         return this.allVisible;
     },

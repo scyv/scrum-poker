@@ -27,7 +27,7 @@
     <div class="container-fluid">
         <p class="pull-right">
             {{#if userName}}
-            <span class="text-muted">Hallo {{userName}}!</span>
+            <span class="text-muted">{{MSG "layout.hello"}} {{userName}}!</span>
             {{/if}}
             <a href="/datenschutz">Datenschutz</a>
         </p>
@@ -47,4 +47,4 @@
     </footer>
 </template>
 
-<template name="loading">Laden...</template>
+<template name="loading">{{MSG "loading"}}</template>

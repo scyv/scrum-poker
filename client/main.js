@@ -11,10 +11,13 @@ import "./session.html";
 import "./landing.html";
 import "./shareLink.html";
 import "./datenschutz.html";
+import { messages } from "./messages";
 
 export let sessionsHandle;
 export let storiesHandle;
 export let liveStatisticsHandle;
+
+let language = "en";
 
 Meteor.startup(() => {
     Tracker.autorun(() => {
@@ -23,6 +26,10 @@ Meteor.startup(() => {
         storiesHandle = Meteor.subscribe(COLLECTIONS.STORIES, selectedSession);
         liveStatisticsHandle = Meteor.subscribe(COLLECTIONS.LIVE_STATISTICS);
     });
+
+    if (/^de\b/.test(navigator.language)) {
+        language = "de";
+    }
 });
 
 Template.layout.events({
@@ -45,4 +52,21 @@ Template.layout.helpers({
     version() {
         return version.get();
     },
+});
+
+const deepJsonSelect = (selector, obj) => {
+    const path = selector.split(".");
+    let selection = obj;
+    const success = path.every((s) => {
+        selection = selection[s];
+        return selection;
+    });
+    if (!success) {
+        return selector;
+    }
+    return selection;
+};
+
+Template.registerHelper("MSG", (textId) => {
+    return deepJsonSelect(textId + "." + language, messages);
 });

@@ -1,9 +1,9 @@
 <template name="story">
     {{#if isLoading}} {{> loading}} {{else}} {{#with story}}
-    <button class="btn btn-link btn-overview">Zurück zur Übersicht</button>
+    <button class="btn btn-link btn-overview">{{MSG "story.back"}}</button>
     <div class="panel panel-default">
         <div class="panel-body">
-            <p class="lead"><span class="text-muted">Pokerrunde für:</span> {{name}}</p>
+            <p class="lead"><span class="text-muted">{{MSG "story.title"}}</span> {{name}}</p>
             {{#if isAllowed 'setEstimate'}}
             <div class="input-group col-md-6">
                 <input
@@ -15,13 +15,18 @@
                     placeholder="Storypoints"
                 />
                 <span class="input-group-btn">
-                    <button type="submit" class="btn btn-default btn-save-estimate">Schätzung eintragen</button>
+                    <button type="submit" class="btn btn-default btn-save-estimate">
+                        {{MSG "story.btnSaveEstimate"}}
+                    </button>
                 </span>
             </div>
             {{#if suggestedEstimate}}
             <h4>
-                Vorschlag: {{#each suggestedEstimate}}
-                <span class="label label-primary btn-preset-estimate" title="{{.}} SP eintragen" data-preset="{{.}}"
+                {{MSG "story.suggestion"}}: {{#each suggestedEstimate}}
+                <span
+                    class="label label-primary btn-preset-estimate"
+                    title="{{MSG 'story.suggestionTitle'}} {{.}}"
+                    data-preset="{{.}}"
                     >{{.}} SP</span
                 >
                 {{/each}}
@@ -29,20 +34,18 @@
             {{else}}
             <h4>&nbsp;</h4>
             {{/if}} {{else}}
-            <p>Schätzung: {{formattedEstimate}}</p>
+            <p>{{MSG "story.estimation"}}: {{formattedEstimate}}</p>
             {{/if}}
             <div class="buttons text-center">
                 {{#if isParticipant}}
-                <button class="btn btn-default btn-cancel-participation">Nicht teilnehmen</button>
+                <button class="btn btn-default btn-cancel-participation">{{MSG "story.leave"}}</button>
                 {{else}}
-                <button class="btn btn-success btn-participate">Teilnehmen</button>
+                <button class="btn btn-success btn-participate">{{MSG "story.join"}}</button>
                 {{/if}} {{#if isAllowed 'turnCards'}}
                 <button class="btn btn-{{btnReadyClass}} btn-turn-cards pull-right">
                     {{#if allVisible}}
-                    <i class="glyphicon glyphicon-eye-close"></i>
-                    {{else}}
-                    <i class="glyphicon glyphicon-eye-open"></i>
-                    {{/if}} Karten {{showOrHide}}
+                    <i class="glyphicon glyphicon-eye-close"></i> {{MSG "story.cards.hide"}} {{else}}
+                    <i class="glyphicon glyphicon-eye-open"></i> {{MSG "story.cards.show"}} {{/if}}
                 </button>
                 {{/if}}
             </div>
@@ -68,11 +71,11 @@
             {{#if itsMe}}
             <div class="buttons">
                 {{#if isReady}}
-                <button class="btn btn-xs btn-danger btn-not-ready">Ändern</button>
+                <button class="btn btn-xs btn-danger btn-not-ready">{{MSG "story.game.change"}}</button>
                 {{else}}
                 <button class="btn btn-xs btn-default btn-ready">
                     <i class="glyphicon glyphicon-ok"></i>
-                    Fertig
+                    {{MSG "story.game.ready"}}
                 </button>
                 {{/if}}
             </div>
@@ -82,9 +85,10 @@
     </div>
     {{#if isParticipant}}
     <div class="row text-center hidden-xs">
-        <span class="key">←</span> Vorherige Karte <span class="key">→</span> Nächste Karte
-        <span class="key">Enter</span> Fertig <span class="key">ESC</span> Nochmal
-        <span class="key">1, 2, ..., 0</span> Direktwahl
+        <span class="key">←</span> {{MSG "story.game.keys.previous"}} <span class="key">→</span> {{MSG
+        "story.game.keys.next"}} <span class="key">Enter</span> {{MSG "story.game.keys.ready"}}
+        <span class="key">ESC</span> {{MSG "story.game.keys.change"}} <span class="key">1, 2, ..., 0</span> {{MSG
+        "story.game.keys.direct"}}
     </div>
     {{/if}} {{/with}}
     <div class="row">{{>shareLink}}</div>
