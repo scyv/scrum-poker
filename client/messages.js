@@ -139,7 +139,7 @@ export const messages = {
         rights: {
             createStory: {
                 de: "Allen Teilnehmern erlauben, Stories zu erstellen",
-                en: "All participants are alowed to create Stories",
+                en: "All participants are allowed to create Stories",
             },
             turnCards: {
                 de: "Allen Teilnehmern erlauben, die Karten aufzudecken",
