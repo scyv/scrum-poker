@@ -124,6 +124,16 @@ function handleShortcuts(evt) {
 Template.story.onRendered(function () {
     selectedCardIdx.set(1);
     $(document).bind("keydown", handleShortcuts);
+
+    const preloadImage = (url) => {
+        var img = new Image();
+        img.src = url;
+        console.log(url);
+    };
+    Object.values(CARDS).forEach((card) => {
+        console.log(card);
+        preloadImage(card.img);
+    });
 });
 
 Template.story.onDestroyed(function () {
@@ -173,18 +183,31 @@ Template.story.helpers({
         }
         return null;
     },
-    cardImage() {
-        const story = getStory();
+    cardImage(type) {
         if (this.participant) {
-            if (story.allVisible && this.participant.ready) {
-                return CARDS[this.participant.estimate];
+            if (this.participant.name === Common.getUserName()) {
+                return CARDS[getSelectedCardKey()];
             } else {
-                if (this.participant.name === Common.getUserName()) {
-                    return CARDS[getSelectedCardKey()];
+                if (this.participant.ready) {
+                    return type === "front" ? CARDS.COVER : CARDS[this.participant.estimate];
                 } else {
                     return CARDS.COVER;
                 }
             }
+        }
+    },
+    cardTitle() {
+        if (this.participant.name === Common.getUserName()) {
+            return CARDS[getSelectedCardKey()].title;
+        } else {
+            const story = getStory();
+            return story.allVisible && this.participant.ready ? CARDS[this.participant.estimate].title : "";
+        }
+    },
+    turnCardos() {
+        if (this.participant.name !== Common.getUserName()) {
+            const story = getStory();
+            return story.allVisible && this.participant.ready ? "turn" : "";
         }
     },
     isAllowed(perm) {
@@ -212,7 +235,7 @@ Template.story.events({
     "click .btn-cancel-participation"() {
         Meteor.call("cancelParticipation", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
     },
-    "click .its-me img"() {
+    "click .its-me .flip-card"() {
         if (!this.participant.ready) {
             increaseCardIndex();
         }
