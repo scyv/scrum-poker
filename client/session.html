@@ -28,7 +28,7 @@
                                 </button>
                             </h4>
                         </td>
-                        <td>{{estimate}}</td>
+                        <td>{{displayValue estimate true}}</td>
                         <td>
                             {{#if isRunning}}
                             <button class="btn btn-xs btn-warning btn-start-poker" type="button">
@@ -49,11 +49,38 @@
                     </tr>
                 </tbody>
             </table>
-            {{else}} {{MSG "session.table.nostory.hello"}} {{userName}}{{MSG "session.table.nostory.text"}} {{/if}}
+            {{else}} {{#if typeSelected}} {{MSG "session.table.nostory.hello"}} {{userName}}{{MSG
+            "session.table.nostory.text"}} {{else}}
+            <div class="row">
+                {{MSG "session.types.choose"}}
+                <form class="form">
+                    <div class="radiobox">
+                        <label>
+                            <input type="radio" id="rbUseFibonacci" name="sessionType" checked value="fibonacci" />
+                            {{MSG "session.types.fibonacci"}} </label
+                        ><br />
+                        <small>{{MSG "session.types.fibonacciDescription"}}</small>
+                    </div>
+                    <div class="radiobox">
+                        <label>
+                            <input type="radio" id="rbUseTshirts" name="sessionType" value="tshirt" /> {{MSG
+                            "session.types.tshirt"}}
+                        </label>
+                        <br />
+                        <small>{{MSG "session.types.tshirtDescription"}}</small>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-success btn-choose-type">
+                            {{MSG "session.types.next"}}
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {{/if}} {{/if}}
         </div>
     </div>
-    {{/if}} {{#if isAllowed 'createStory'}}
-
+    {{/if}} {{#if typeSelected}} {{#if isAllowed 'createStory'}}
     <div class="row">
         <form class="form row">
             <div class="input-group col-md-6">
@@ -68,6 +95,7 @@
         </form>
     </div>
     {{/if}} {{#if isOwner}}
+
     <div class="row">
         <form class="form">
             <div class="checkbox">
@@ -90,7 +118,7 @@
             </div>
         </form>
     </div>
-    {{/if}}
+    {{/if}} {{/if}}
     <div class="row">{{> shareLink}}</div>
     <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">

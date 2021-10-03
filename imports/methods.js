@@ -35,6 +35,12 @@ Meteor.methods({
 
         return Sessions.update(sessionId, { $set: { owner } });
     },
+    chooseSessionType(type, sessionId) {
+        check(type, String);
+        check(sessionId, String);
+        const safeSessionType = type === "fibonacci" ? type : "tshirt";
+        return Sessions.update(sessionId, { $set: { type: safeSessionType } });
+    },
     createStory(name, sessionId) {
         check(name, String);
         check(sessionId, String);

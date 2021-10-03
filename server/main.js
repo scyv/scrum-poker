@@ -3,6 +3,7 @@ import { COLLECTIONS, Sessions, Statistics, Stories } from "../imports/collectio
 import * as Excel from "node-excel-export";
 import "../imports/methods";
 import "./statistics";
+import { TSHIRT } from "../imports/cards";
 
 Meteor.startup(() => {
     console.log("Ready for e-business.");
@@ -102,7 +103,7 @@ Router.route(
         };
 
         const session = Sessions.findOne(this.params.sessionId);
-        const dataset = Stories.find(
+        let dataset = Stories.find(
             { sessionId: this.params.sessionId },
             {
                 fields: {
@@ -111,6 +112,13 @@ Router.route(
                 },
             }
         ).fetch();
+        if (session.type === "tshirt") {
+            cards = TSHIRT;
+            dataset = dataset.map((story) => {
+                story.estimate = cards["SP" + story.estimate]?.displayValue ?? "-";
+                return story;
+            });
+        }
 
         const report = Excel.buildExport([
             {

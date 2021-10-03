@@ -1,5 +1,31 @@
 const imgPath = "/img/";
 
+export const TSHIRT = {
+    COVER: {
+        img: imgPath + "Cover - option 2.png",
+        title: "",
+    },
+    SP1: {
+        img: imgPath + "akshar-dave-9tnw9e0bluk-unsplash.jpg",
+        title: "S",
+        displayValue: "S",
+    },
+    SP2: {
+        img: imgPath + "max-simonov-HLUN_AQ4Yko-unsplash.jpg",
+        title: "M",
+        displayValue: "M",
+    },
+    SP3: {
+        img: imgPath + "nazarizal-mohammad-_q7ZWmsatxs-unsplash.jpg",
+        title: "L",
+        displayValue: "L",
+    },
+    SP5: {
+        img: imgPath + "muzammil-soorma-KFPr4hVsees-unsplash.jpg",
+        title: "XL",
+        displayValue: "XL",
+    },
+};
 export const CARDS = {
     COVER: {
         img: imgPath + "Cover - option 2.png",
@@ -13,23 +39,23 @@ export const CARDS = {
         img: imgPath + "planning poker_Here be dragons.png",
         title: "Here Be Dragons!?",
     },
-    SP01: {
+    SP1: {
         img: imgPath + "planning poker_Low hanging fruit.png",
         title: "Low hanging fruit",
     },
-    SP02: {
+    SP2: {
         img: imgPath + "planning poker_Piece of cake.png",
         title: "Piece of cake",
     },
-    SP03: {
+    SP3: {
         img: imgPath + "planning poker_It ain't rocket science.png",
         title: "It ain't rocket science",
     },
-    SP05: {
+    SP5: {
         img: imgPath + "planning poker-03.png",
         title: "Ornitorinco (Platypus)",
     },
-    SP08: {
+    SP8: {
         img: imgPath + "planning poker_An arm and a leg.png",
         title: "An arm and a leg",
     },

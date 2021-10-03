@@ -20,6 +20,20 @@ body {
     margin-right: auto;
 }
 
+.form > .radiobox {
+    text-align: left;
+    margin-top: 30px;
+}
+.form > .radiobox > label {
+    font-size: 130%;
+    cursor: pointer;
+}
+
+.radiobox + div {
+    margin-top: 30px;
+    text-align: left;
+}
+
 .landing h3 {
     text-align: center;
 }

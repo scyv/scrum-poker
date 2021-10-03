@@ -10,7 +10,7 @@
                     type="text"
                     class="form-control"
                     id="inputStoryPoints"
-                    value="{{estimate}}"
+                    value="{{displayValue estimate false}}"
                     autocomplete="off"
                     placeholder="Storypoints"
                 />
@@ -27,7 +27,7 @@
                     class="label label-primary btn-preset-estimate"
                     title="{{MSG 'story.suggestionTitle'}} {{.}}"
                     data-preset="{{.}}"
-                    >{{.}} SP</span
+                    >{{displayValue . true}}</span
                 >
                 {{/each}}
             </h4>
@@ -100,7 +100,7 @@
     <div class="row text-center hidden-xs">
         <span class="key">←</span> {{MSG "story.game.keys.previous"}} <span class="key">→</span> {{MSG
         "story.game.keys.next"}} <span class="key">Enter</span> {{MSG "story.game.keys.ready"}}
-        <span class="key">ESC</span> {{MSG "story.game.keys.change"}} <span class="key">1, 2, ..., 0</span> {{MSG
+        <span class="key">ESC</span> {{MSG "story.game.keys.change"}} <span class="key">1, 2, 3, ...</span> {{MSG
         "story.game.keys.direct"}}
     </div>
     {{/if}} {{/with}}

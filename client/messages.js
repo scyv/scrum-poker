@@ -136,6 +136,32 @@ export const messages = {
                 en: "Add",
             },
         },
+        types: {
+            choose: {
+                de: "Wählen Sie den Typ:",
+                en: "Choose the type:",
+            },
+            fibonacci: {
+                de: "Fibonacci ähnlich (0, 1, 2, 3, 5, ..., 100) mit Storypoints",
+                en: "Fibonacci like (0, 1, 2, 3, 5, ..., 100) with Storypoints",
+            },
+            fibonacciDescription: {
+                de: "Geeignet für das Schätzen von Stories, die gut verstanden sind und deren Umfänge genau bekannt sind.",
+                en: "Suitable for estimating stories, that are good understood.",
+            },
+            tshirt: {
+                de: "T-Shirt Größen (S, M, L, XL)",
+                en: "T-Shirt sizes (S, M, L, XL)",
+            },
+            tshirtDescription: {
+                de: "Geeignet für das Schätzen von Stories, die noch nicht so gut verstanden sind, deren Umfänge aber grob eingeordnet werden können.",
+                en: "Suitable for estimating stories, that are not well understood.",
+            },
+            next: {
+                de: "Weiter",
+                en: "Next",
+            },
+        },
         rights: {
             createStory: {
                 de: "Allen Teilnehmern erlauben, Stories zu erstellen",

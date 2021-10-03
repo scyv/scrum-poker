@@ -3,7 +3,7 @@ import { ReactiveVar } from "meteor/reactive-var";
 
 import * as Common from "../imports/common";
 import { SessionProps } from "../imports/sessionProperties";
-import { CARDS } from "../imports/cards";
+import { CARDS, TSHIRT } from "../imports/cards";
 import { Stories, Sessions } from "../imports/collections";
 
 import { sessionsHandle, storiesHandle } from "./main";
@@ -16,8 +16,17 @@ function isParticipant(story) {
     return story.participants && story.participants.some((entry) => entry.name === Common.getUserName());
 }
 
+function cardDeck() {
+    const selectedSession = Session.get(SessionProps.SELECTED_SESSION);
+    const session = Sessions.findOne(selectedSession);
+    if (session.type === "tshirt") {
+        return TSHIRT;
+    }
+    return CARDS;
+}
+
 function getSelectedCardKey() {
-    const keys = Object.keys(CARDS);
+    const keys = Object.keys(cardDeck());
     return keys[selectedCardIdx.get() % keys.length];
 }
 
@@ -28,7 +37,7 @@ function increaseCardIndex() {
 function decreaseCardIndex() {
     const currentIdx = selectedCardIdx.get();
     if (currentIdx === 0) {
-        selectedCardIdx.set(Object.keys(CARDS).length - 1);
+        selectedCardIdx.set(Object.keys(cardDeck()).length - 1);
     } else {
         selectedCardIdx.set(currentIdx - 1);
     }
@@ -63,9 +72,22 @@ function saveEstimate() {
         Meteor.call(
             "saveEstimate",
             Session.get(SessionProps.SELECTED_STORY),
-            parseFloat($("#inputStoryPoints").val().replace(",", ".")) || 0
+            getEstimate($("#inputStoryPoints").val())
         );
     }
+}
+
+function getEstimate(input) {
+    let estimate = 0;
+    const trimmedInput = input.trim().toLowerCase().replace(",", ".");
+    const cards = cardDeck();
+    Object.keys(cards).forEach((key) => {
+        const card = cards[key];
+        if (card.displayValue?.toLowerCase() === trimmedInput || key.substring(2) === trimmedInput) {
+            estimate = parseFloat(key.substring(2), 10);
+        }
+    });
+    return estimate;
 }
 
 function setReady() {
@@ -79,31 +101,30 @@ function setNotReady() {
 function handleShortcuts(evt) {
     const isReady = Session.get("ready");
     if (!isReady) {
+        const cards = cardDeck();
         if (evt.key === "ArrowLeft") {
             // left
             decreaseCardIndex();
+            return;
         }
         if (evt.key === "ArrowRight") {
             // right
             increaseCardIndex();
+            return;
         }
-        if (evt.key === "1") {
-            selectedCardIdx.set(3);
+
+        let idx = Object.keys(cards).indexOf("SP" + evt.key);
+        if (idx >= 0) {
+            selectedCardIdx.set(idx);
+            return;
         }
-        if (evt.key === "2") {
-            selectedCardIdx.set(4);
-        }
-        if (evt.key === "3") {
-            selectedCardIdx.set(5);
-        }
-        if (evt.key === "5") {
-            selectedCardIdx.set(6);
-        }
-        if (evt.key === "8") {
-            selectedCardIdx.set(7);
-        }
-        if (evt.key === "0") {
-            selectedCardIdx.set(14);
+
+        idx = Object.keys(cards).findIndex(
+            (card) => cards[card].displayValue?.toLowerCase().indexOf(evt.key.toLowerCase()) === 0
+        );
+        if (idx >= 0) {
+            selectedCardIdx.set(idx);
+            return;
         }
     }
 
@@ -128,10 +149,8 @@ Template.story.onRendered(function () {
     const preloadImage = (url) => {
         var img = new Image();
         img.src = url;
-        console.log(url);
     };
     Object.values(CARDS).forEach((card) => {
-        console.log(card);
         preloadImage(card.img);
     });
 });
@@ -184,24 +203,25 @@ Template.story.helpers({
         return null;
     },
     cardImage(type) {
+        const cards = cardDeck();
         if (this.participant) {
             if (this.participant.name === Common.getUserName()) {
-                return CARDS[getSelectedCardKey()];
+                return cards[getSelectedCardKey()];
             } else {
                 if (this.participant.ready) {
-                    return type === "front" ? CARDS.COVER : CARDS[this.participant.estimate];
+                    return type === "front" ? cards.COVER : cards[this.participant.estimate];
                 } else {
-                    return CARDS.COVER;
+                    return cards.COVER;
                 }
             }
         }
     },
     cardTitle() {
         if (this.participant.name === Common.getUserName()) {
-            return CARDS[getSelectedCardKey()].title;
+            return cardDeck()[getSelectedCardKey()].title;
         } else {
             const story = getStory();
-            return story.allVisible && this.participant.ready ? CARDS[this.participant.estimate].title : "";
+            return story.allVisible && this.participant.ready ? cardDeck()[this.participant.estimate].title : "";
         }
     },
     turnCardos() {

@@ -51,17 +51,19 @@ Template.session.helpers({
     selectedStoryObj() {
         return Session.get(SessionProps.SELECTED_STORY_OBJ);
     },
-    estimate() {
-        return this.estimate >= 0 ? this.estimate + "SP" : "--";
-    },
     spsum() {
+        const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+        if (Sessions.findOne({ _id: sessionId }).type === "tshirt") {
+            return "---";
+        }
+
         let sum = 0;
         Stories.find().forEach((s) => {
             if (s.estimate) {
                 sum += s.estimate;
             }
         });
-        return (sum.toFixed(1).includes(".0") ? sum : sum.toFixed(1)) + "SP";
+        return (sum.toFixed(1).includes(".0") ? sum : sum.toFixed(1)) + " SP";
     },
     checkpermission(perm) {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
@@ -83,9 +85,21 @@ Template.session.helpers({
         const session = Sessions.findOne({ _id: sessionId });
         return this._id === session.showStory;
     },
+    typeSelected() {
+        const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+        return Sessions.findOne({ _id: sessionId }).type;
+    },
 });
 
 Template.session.events({
+    "click .btn-choose-type"(evt) {
+        evt.preventDefault();
+        Meteor.call(
+            "chooseSessionType",
+            $("input:radio[name=sessionType]:checked").val(),
+            Session.get(SessionProps.SELECTED_SESSION)
+        );
+    },
     "click .btn-create-story"(evt) {
         evt.preventDefault();
         createStory();

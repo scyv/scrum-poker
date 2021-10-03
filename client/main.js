@@ -1,7 +1,9 @@
 import { Template } from "meteor/templating";
-import { COLLECTIONS } from "../imports/collections";
+import { COLLECTIONS, Sessions } from "../imports/collections";
 import { SessionProps } from "../imports/sessionProperties";
 import * as Common from "../imports/common";
+import { TSHIRT } from "../imports/cards";
+import { messages } from "./messages";
 
 import "../imports/routes.js";
 import "../imports/methods.js";
@@ -11,7 +13,6 @@ import "./session.html";
 import "./landing.html";
 import "./shareLink.html";
 import "./datenschutz.html";
-import { messages } from "./messages";
 
 export let sessionsHandle;
 export let storiesHandle;
@@ -69,4 +70,19 @@ const deepJsonSelect = (selector, obj) => {
 
 Template.registerHelper("MSG", (textId) => {
     return deepJsonSelect(textId + "." + language, messages);
+});
+
+Template.registerHelper("displayValue", (value, withSP) => {
+    if (!value) {
+        return "";
+    }
+    const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+    const session = Sessions.findOne({ _id: sessionId });
+    if (session) {
+        if (session.type === "tshirt") {
+            return TSHIRT["SP" + value]?.displayValue ?? "";
+        }
+        return value + (withSP === true ? " SP" : "");
+    }
+    return "";
 });
