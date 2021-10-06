@@ -20,9 +20,9 @@ function startSession() {
         if (err) {
             alert(err);
         } else {
-            Session.set(SessionProps.SELECTED_SESSION, null);
-            Session.set(SessionProps.SELECTED_STORY, null);
-            Session.set(SessionProps.SELECTED_STORY_OBJ, null);
+            Session.set(SessionProps.SELECTED_SESSION, undefined);
+            Session.set(SessionProps.SELECTED_STORY, undefined);
+            Session.set(SessionProps.SELECTED_STORY_OBJ, undefined);
             Router.go("session", { sessionId: id });
         }
     });

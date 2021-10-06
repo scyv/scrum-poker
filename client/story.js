@@ -10,7 +10,19 @@ import { sessionsHandle, storiesHandle } from "./main";
 
 import "./story.html";
 
-let selectedCardIdx = new ReactiveVar(0);
+let selectedCardIdx = {
+    set(newIdx) {
+        Session.set("SELECTED_CARD_IDX", newIdx);
+        sessionStorage.setItem("SELECTED_CARD_IDX_" + Session.get(SessionProps.SELECTED_STORY), newIdx);
+    },
+    get() {
+        Session.get("SELECTED_CARD_IDX");
+        return parseInt(
+            sessionStorage.getItem("SELECTED_CARD_IDX_" + Session.get(SessionProps.SELECTED_STORY)) ?? 1,
+            10
+        );
+    },
+};
 
 function isParticipant(story) {
     return story.participants && story.participants.some((entry) => entry.name === Common.getUserName());
@@ -143,8 +155,7 @@ function handleShortcuts(evt) {
 }
 
 Template.story.onRendered(function () {
-    selectedCardIdx.set(1);
-    $(document).bind("keydown", handleShortcuts);
+    $(document).on("keydown", handleShortcuts);
 
     const preloadImage = (url) => {
         var img = new Image();
@@ -156,7 +167,7 @@ Template.story.onRendered(function () {
 });
 
 Template.story.onDestroyed(function () {
-    $(document).unbind("keydown", handleShortcuts);
+    $(document).off("keydown", handleShortcuts);
 });
 
 Template.story.helpers({

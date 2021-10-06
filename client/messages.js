@@ -249,7 +249,7 @@ export const messages = {
             en: "Join",
         },
         leave: {
-            de: "Teilnehmen",
+            de: "Nur beobachten",
             en: "Leave",
         },
         cards: {
