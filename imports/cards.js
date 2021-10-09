@@ -6,22 +6,22 @@ export const TSHIRT = {
         title: "",
     },
     SP1: {
-        img: imgPath + "akshar-dave-9tnw9e0bluk-unsplash.jpg",
+        img: imgPath + "s.jpg",
         title: "S",
         displayValue: "S",
     },
     SP2: {
-        img: imgPath + "max-simonov-HLUN_AQ4Yko-unsplash.jpg",
+        img: imgPath + "m.jpg",
         title: "M",
         displayValue: "M",
     },
     SP3: {
-        img: imgPath + "nazarizal-mohammad-_q7ZWmsatxs-unsplash.jpg",
+        img: imgPath + "l.jpg",
         title: "L",
         displayValue: "L",
     },
     SP5: {
-        img: imgPath + "muzammil-soorma-KFPr4hVsees-unsplash.jpg",
+        img: imgPath + "xl.jpg",
         title: "XL",
         displayValue: "XL",
     },
