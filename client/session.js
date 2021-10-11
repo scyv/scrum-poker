@@ -1,7 +1,8 @@
 import { Meteor } from "meteor/meteor";
 import { SessionProps } from "../imports/sessionProperties";
 import * as Common from "../imports/common";
-import { Sessions, Stories } from "../imports/collections";
+import { Sessions, Stories, LiveStatistics } from "../imports/collections";
+import { confetti } from "./confetti";
 
 import { sessionsHandle, storiesHandle } from "./main";
 
@@ -25,6 +26,18 @@ Template.session.onRendered(() => {
     const session = Sessions.findOne({ _id: sessionId });
     if (session && !session.owner) {
         Meteor.call("setSessionOwner", sessionId, Common.getUserName());
+    }
+
+    if (!localStorage.getItem("confetti1000")) {
+        const sessionCount = LiveStatistics.findOne()?.sessionCount ?? 0;
+        if (sessionCount >= 1000 && sessionCount < 1015) {
+            window.setTimeout(() => {
+                confetti.stop();
+                localStorage.setItem("confetti1000", true);
+            }, 10000);
+            $("#confetti-modal").modal().show();
+            confetti.start();
+        }
     }
 });
 
