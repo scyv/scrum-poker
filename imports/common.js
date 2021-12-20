@@ -2,7 +2,15 @@ import { SessionProps } from "./sessionProperties";
 
 export function getUserName() {
     Session.get(SessionProps.USER_NAME); // needed for reactivity
-    return localStorage.getItem("userName");
+    const userName = localStorage.getItem("userName");
+
+    // we removed ostrio:cstorage which stores strings with " around
+    if (userName && userName.startsWith("\"") && userName.endsWith("\"")) {
+        const normalized = userName.substring(1,userName.length - 1);
+        setUserName(normalized);
+        return normalized;
+    }
+    return userName;
 }
 
 export function setUserName(userName) {
