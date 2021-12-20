@@ -5,8 +5,8 @@ export function getUserName() {
     const userName = localStorage.getItem("userName");
 
     // we removed ostrio:cstorage which stores strings with " around
-    if (userName && userName.startsWith("\"") && userName.endsWith("\"")) {
-        const normalized = userName.substring(1,userName.length - 1);
+    if (userName && userName.startsWith('"') && userName.endsWith('"')) {
+        const normalized = userName.substring(1, userName.length - 1);
         setUserName(normalized);
         return normalized;
     }

@@ -262,8 +262,8 @@ Template.story.helpers({
         return _.uniq([Common.median(estimates), _.max(estimates)]);
     },
     isCover() {
-        return getSelectedCardKey() === "COVER"
-    }
+        return getSelectedCardKey() === "COVER";
+    },
 });
 
 Template.story.events({
