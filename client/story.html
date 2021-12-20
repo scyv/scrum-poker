@@ -86,10 +86,17 @@
                 {{#if isReady}}
                 <button class="btn btn-xs btn-danger btn-not-ready">{{MSG "story.game.change"}}</button>
                 {{else}}
+                    {{#if isCover}}
+<br><button class="btn btn-xs btn-default btn-ready disabled" disabled="disabled">
+                        <i class="glyphicon glyphicon-ok"></i>
+                        {{MSG "story.game.ready"}}
+                    </button>
+                        {{else}}
                 <button class="btn btn-xs btn-default btn-ready">
                     <i class="glyphicon glyphicon-ok"></i>
                     {{MSG "story.game.ready"}}
                 </button>
+                {{/if}}
                 {{/if}}
             </div>
             {{/if}}

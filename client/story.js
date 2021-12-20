@@ -103,7 +103,11 @@ function getEstimate(input) {
 }
 
 function setReady() {
-    Meteor.call("estimateReady", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY), getSelectedCardKey());
+    const cardKey = getSelectedCardKey();
+    if (cardKey === "COVER") {
+        return;
+    }
+    Meteor.call("estimateReady", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY), cardKey);
 }
 
 function setNotReady() {
@@ -257,6 +261,9 @@ Template.story.helpers({
         }
         return _.uniq([Common.median(estimates), _.max(estimates)]);
     },
+    isCover() {
+        return getSelectedCardKey() === "COVER"
+    }
 });
 
 Template.story.events({
