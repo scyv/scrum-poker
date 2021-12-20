@@ -31,8 +31,8 @@ function startSession() {
 let sessionNameChangeInterval;
 Template.landing.onRendered(() => {
     document.title = "Scrum-Poker";
-    const setSessionName = ()=>{
-        console.log("set")
+    const setSessionName = () => {
+        console.log("set");
         const customConfig = {
             dictionaries: [adjectives, colors, animals, countries, names, starWars],
             separator: " ",
@@ -40,7 +40,7 @@ Template.landing.onRendered(() => {
             style: "capital",
         };
         $("#inputSessionName").attr("placeholder", uniqueNamesGenerator(customConfig));
-    }
+    };
     setSessionName();
     sessionNameChangeInterval = Meteor.setInterval(setSessionName, 3000);
 });
