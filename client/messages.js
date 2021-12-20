@@ -62,6 +62,16 @@ export const messages = {
             de: "Wie funktioniert das?",
             en: "How does it work?",
         },
+        chooseType: {
+            title: {
+                de: "Typ wählen",
+                en: "Choose type",
+            },
+            text: {
+                de: "Wählen Sie zwischen Fibonacci ähnlichen Zahlen und T-Shirt Größen.",
+                en: "Choose Fibonacci like numbers or T-Shirt sizes.",
+            },
+        },
         addStories: {
             title: {
                 de: "Stories anlegen",

@@ -28,12 +28,12 @@ Template.session.onRendered(() => {
         Meteor.call("setSessionOwner", sessionId, Common.getUserName());
     }
 
-    if (!localStorage.getItem("confetti1000")) {
+    if (!localStorage.getItem("confetti2000")) {
         const sessionCount = LiveStatistics.findOne()?.sessionCount ?? 0;
-        if (sessionCount >= 1000 && sessionCount < 1015) {
+        if (sessionCount >= 2000 && sessionCount < 2015) {
             window.setTimeout(() => {
                 confetti.stop();
-                localStorage.setItem("confetti1000", true);
+                localStorage.setItem("confetti2000", true);
             }, 10000);
             $("#confetti-modal").modal().show();
             confetti.start();

@@ -6,7 +6,7 @@ import { SessionProps } from "../imports/sessionProperties";
 import "./landing.html";
 
 function startSession() {
-    let name = $("#inputSessionName").val();
+    let name = $("#inputSessionName").val() || $("#inputSessionName").attr("placeholder");
     if (!name) {
         const customConfig = {
             dictionaries: [adjectives, colors, animals, countries, names, starWars],
@@ -28,8 +28,25 @@ function startSession() {
     });
 }
 
+let sessionNameChangeInterval;
 Template.landing.onRendered(() => {
     document.title = "Scrum-Poker";
+    const setSessionName = ()=>{
+        console.log("set")
+        const customConfig = {
+            dictionaries: [adjectives, colors, animals, countries, names, starWars],
+            separator: " ",
+            length: 3,
+            style: "capital",
+        };
+        $("#inputSessionName").attr("placeholder", uniqueNamesGenerator(customConfig));
+    }
+    setSessionName();
+    sessionNameChangeInterval = Meteor.setInterval(setSessionName, 3000);
+});
+
+Template.landing.onDestroyed(() => {
+    Meteor.clearInterval(sessionNameChangeInterval);
 });
 
 Template.landing.events({
@@ -42,25 +59,6 @@ Template.landing.events({
             evt.preventDefault();
             startSession();
             return false;
-        }
-    },
-    "click .btn-open-session"() {
-        const id = $("#inputSessionId").val();
-
-        const storyRegex = /\/story\/([a-zA-Z0-9-]+)$/;
-        const sessionRegex = /\/session\/([a-zA-Z0-9-]+)/;
-
-        const storyMatch = id.match(storyRegex);
-        const sessionMatch = id.match(sessionRegex);
-        if (storyMatch) {
-            Router.go("story", {
-                sessionId: sessionMatch[1],
-                storyId: storyMatch[1],
-            });
-        } else if (sessionMatch) {
-            Router.go("session", { sessionId: sessionMatch[1] });
-        } else {
-            Router.go("session", { sessionId: id });
         }
     },
 });
