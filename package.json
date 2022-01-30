@@ -14,11 +14,11 @@
         "format": "prettier --write ."
     },
     "dependencies": {
-        "@babel/runtime": "7.14.0",
-        "chart.js": "^3.2.1",
-        "meteor-node-stubs": "^1.0.3",
-        "node-excel-export": "^1.4.4",
-        "unique-names-generator": "^4.5.0"
+        "@babel/runtime": "7.16.7",
+        "chart.js": "3.7.0",
+        "meteor-node-stubs": "1.1.0",
+        "node-excel-export": "1.4.4",
+        "unique-names-generator": "4.6.0"
     },
     "devDependencies": {
         "prettier": "^2.3.0"
