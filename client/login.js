@@ -1,12 +1,21 @@
+import { Random } from "meteor/random";
+
 import * as Common from "../imports/common";
 
 import "./login.html";
 
 Template.login.events({
-    "click .btn-save-username"(evt) {
+    async "click .btn-save-username"(evt) {
         evt.preventDefault();
         const name = $("#inputUserName").val();
-        Common.setUserName(name);
+        const oldUserInfo = Common.getUserInfo();
+        await Common.setUserInfo({
+            name: name,
+            id: oldUserInfo?.id ?? Random.id(64),
+        });
+        if (oldUserInfo) {
+            history.go(-1);
+        }
     },
 });
 

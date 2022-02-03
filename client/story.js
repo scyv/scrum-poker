@@ -1,5 +1,4 @@
 import { Meteor } from "meteor/meteor";
-import { ReactiveVar } from "meteor/reactive-var";
 
 import * as Common from "../imports/common";
 import { SessionProps } from "../imports/sessionProperties";
@@ -25,7 +24,7 @@ let selectedCardIdx = {
 };
 
 function isParticipant(story) {
-    return story.participants && story.participants.some((entry) => entry.name === Common.getUserName());
+    return story.participants && story.participants.some((entry) => entry.id === Common.getUserId());
 }
 
 function cardDeck() {
@@ -80,7 +79,7 @@ function getStory() {
 
 function saveEstimate() {
     const session = getSession();
-    if (session.owner === Common.getUserName() || session.perm_setEstimate) {
+    if (session.owner === Common.getUserId() || session.perm_setEstimate) {
         Meteor.call(
             "saveEstimate",
             Session.get(SessionProps.SELECTED_STORY),
@@ -107,11 +106,11 @@ function setReady() {
     if (cardKey === "COVER") {
         return;
     }
-    Meteor.call("estimateReady", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY), cardKey);
+    Meteor.call("estimateReady", Common.getUserInfo(), Session.get(SessionProps.SELECTED_STORY), cardKey);
 }
 
 function setNotReady() {
-    Meteor.call("estimateNotReady", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
+    Meteor.call("estimateNotReady", Common.getUserId(), Session.get(SessionProps.SELECTED_STORY));
 }
 
 function handleShortcuts(evt) {
@@ -193,9 +192,9 @@ Template.story.helpers({
     },
     participants() {
         return [
-            ...this.participants.filter((p) => p.name === Common.getUserName()),
+            ...this.participants.filter((p) => p.id === Common.getUserId()),
             ..._.sortBy(
-                this.participants.filter((p) => p.name !== Common.getUserName()),
+                this.participants.filter((p) => p.id !== Common.getUserId()),
                 (p) => {
                     return p.name;
                 }
@@ -212,7 +211,7 @@ Template.story.helpers({
         return "primary";
     },
     itsMe() {
-        if (this.name === Common.getUserName()) {
+        if (this.id === Common.getUserId()) {
             return "its-me";
         }
         return null;
@@ -220,7 +219,7 @@ Template.story.helpers({
     cardImage(type) {
         const cards = cardDeck();
         if (this.participant) {
-            if (this.participant.name === Common.getUserName()) {
+            if (this.participant.id === Common.getUserId()) {
                 return cards[getSelectedCardKey()];
             } else {
                 if (this.participant.ready) {
@@ -232,7 +231,7 @@ Template.story.helpers({
         }
     },
     cardTitle() {
-        if (this.participant.name === Common.getUserName()) {
+        if (this.participant.id === Common.getUserId()) {
             return cardDeck()[getSelectedCardKey()].title;
         } else {
             const story = getStory();
@@ -240,14 +239,14 @@ Template.story.helpers({
         }
     },
     turnCardos() {
-        if (this.participant.name !== Common.getUserName()) {
+        if (this.participant.id !== Common.getUserId()) {
             const story = getStory();
             return story.allVisible && this.participant.ready ? "turn" : "";
         }
     },
     isAllowed(perm) {
         const session = getSession();
-        return session.owner === Common.getUserName() || session["perm_" + perm];
+        return session.owner === Common.getUserId() || session["perm_" + perm];
     },
     suggestedEstimate() {
         if (!this.allVisible) {
@@ -268,10 +267,10 @@ Template.story.helpers({
 
 Template.story.events({
     "click .btn-participate"() {
-        Meteor.call("participate", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
+        Meteor.call("participate", Common.getUserInfo(), Session.get(SessionProps.SELECTED_STORY));
     },
     "click .btn-cancel-participation"() {
-        Meteor.call("cancelParticipation", Common.getUserName(), Session.get(SessionProps.SELECTED_STORY));
+        Meteor.call("cancelParticipation", Common.getUserId(), Session.get(SessionProps.SELECTED_STORY));
     },
     "click .its-me .flip-card"() {
         if (!this.participant.ready) {

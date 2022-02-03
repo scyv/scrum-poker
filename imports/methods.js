@@ -1,12 +1,15 @@
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
-import { uniqueNamesGenerator, adjectives, colors, animals, names, starWars } from "unique-names-generator";
+import { uniqueNamesGenerator, adjectives, colors, animals, names } from "unique-names-generator";
 import { Sessions, Stories } from "./collections";
 
 Meteor.methods({
     createSession(name, owner) {
         check(name, String);
-        check(owner, String);
+        check(owner, {
+            name: String,
+            id: String,
+        });
 
         let id = "";
         do {
@@ -23,7 +26,7 @@ Meteor.methods({
             _id: id,
             timestamp: new Date(),
             name: name,
-            owner: owner,
+            owner: owner.id,
             perm_turnCards: true,
             perm_createStory: true,
             perm_setEstimate: true,
@@ -31,7 +34,10 @@ Meteor.methods({
     },
     setSessionOwner(sessionId, owner) {
         check(sessionId, String);
-        check(owner, String);
+        check(owner, {
+            name: String,
+            id: String,
+        });
 
         return Sessions.update(sessionId, { $set: { owner } });
     },
@@ -61,7 +67,7 @@ Meteor.methods({
             participants: [],
         };
 
-        return Stories.insert(story, (err, storyId) => {
+        return Stories.insert(story, (err) => {
             if (err) {
                 console.err(err);
             }
@@ -82,53 +88,61 @@ Meteor.methods({
 
         Sessions.update({ _id: sessionId }, { $set: { showStory: storyId } });
     },
-    participate(name, storyId) {
-        check(name, String);
+    participate(participant, storyId) {
+        check(participant, {
+            name: String,
+            id: String,
+        });
         check(storyId, String);
         Stories.update(
             { _id: storyId },
             {
                 $addToSet: {
                     participants: {
-                        name: name,
+                        id: participant.id,
+                        name: participant.name,
                         ready: false,
                     },
                 },
             }
         );
     },
-    cancelParticipation(name, storyId) {
-        check(name, String);
+    cancelParticipation(participantId, storyId) {
+        check(participantId, String);
         check(storyId, String);
         Stories.update(
             { _id: storyId },
             {
                 $pull: {
                     participants: {
-                        name: name,
+                        id: participantId,
                     },
                 },
             }
         );
     },
-    estimateReady(name, storyId, value) {
-        check(name, String);
+    estimateReady(participant, storyId, value) {
+        check(participant, {
+            name: String,
+            id: String,
+        });
         check(storyId, String);
         Stories.update(
-            { _id: storyId, "participants.name": name },
+            { _id: storyId, "participants.id": participant.id },
             {
                 $set: {
+                    "participants.$.name": participant.name,
                     "participants.$.ready": true,
                     "participants.$.estimate": value,
                 },
             }
         );
     },
-    estimateNotReady(name, storyId) {
-        check(name, String);
+    estimateNotReady(participantId, storyId) {
+        check(participantId, String);
         check(storyId, String);
         Stories.update(
-            { _id: storyId, "participants.name": name },
+            { _id: storyId, "participants.id": participantId },
             {
                 $set: { "participants.$.ready": false },
             }
@@ -161,5 +175,20 @@ Meteor.methods({
         check(value, Boolean);
         const prop = "perm_" + permission;
         return Sessions.update(sessionId, JSON.parse('{ "$set": { "' + prop + '" : ' + value + " } }"));
+    },
+    changeUsername(participant) {
+        check(participant, {
+            name: String,
+            id: String,
+        });
+        Stories.update(
+            { "participants.id": participant.id },
+            {
+                $set: {
+                    "participants.$.name": participant.name,
+                },
+            },
+            { multi: true }
+        );
     },
 });

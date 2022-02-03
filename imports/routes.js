@@ -8,7 +8,7 @@ Router.configure({
 });
 
 function isLoggedIn() {
-    return Common.getUserName();
+    return Common.getUserInfo();
 }
 
 Router.route(

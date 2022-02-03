@@ -16,7 +16,7 @@ function startSession() {
         };
         name = uniqueNamesGenerator(customConfig);
     }
-    Meteor.call("createSession", name, Common.getUserName() || "", (err, id) => {
+    Meteor.call("createSession", name, Common.getUserInfo(), (err, id) => {
         if (err) {
             alert(err);
         } else {
@@ -32,7 +32,6 @@ let sessionNameChangeInterval;
 Template.landing.onRendered(() => {
     document.title = "Scrum-Poker";
     const setSessionName = () => {
-        console.log("set");
         const customConfig = {
             dictionaries: [adjectives, colors, animals, countries, names, starWars],
             separator: " ",

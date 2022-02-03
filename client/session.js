@@ -25,7 +25,7 @@ Template.session.onRendered(() => {
     document.title = Sessions.findOne({ _id: sessionId }).name;
     const session = Sessions.findOne({ _id: sessionId });
     if (session && !session.owner) {
-        Meteor.call("setSessionOwner", sessionId, Common.getUserName());
+        Meteor.call("setSessionOwner", sessionId, Common.getUserId());
     }
 
     if (!localStorage.getItem("confetti2000")) {
@@ -85,13 +85,13 @@ Template.session.helpers({
     isAllowed(perm) {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
         const session = Sessions.findOne({ _id: sessionId });
-        return session.owner === Common.getUserName() || session["perm_" + perm];
+        return session.owner === Common.getUserId() || session["perm_" + perm];
     },
     isOwner() {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
         const session = Sessions.findOne({ _id: sessionId });
 
-        return session.owner === Common.getUserName();
+        return session.owner === Common.getUserId();
     },
     isRunning() {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
