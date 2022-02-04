@@ -25,7 +25,7 @@ Template.session.onRendered(() => {
     document.title = Sessions.findOne({ _id: sessionId }).name;
     const session = Sessions.findOne({ _id: sessionId });
     if (session && !session.owner) {
-        Meteor.call("setSessionOwner", sessionId, Common.getUserId());
+        Meteor.call("setSessionOwner", sessionId, Common.getUserInfo());
     }
 
     if (!localStorage.getItem("confetti2000")) {

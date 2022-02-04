@@ -21,18 +21,17 @@ export function setUserInfo(userInfo) {
         Session.set(SessionProps.USER_INFO, userInfo);
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
         Meteor.call("changeUsername", userInfo, () => {
-            console.log("reoslvoo");
             resolve();
         });
     });
 }
 
 export function getUserId() {
-    return getUserInfo().id;
+    return getUserInfo()?.id;
 }
 
 export function getUserName() {
-    return getUserInfo().name;
+    return getUserInfo()?.name;
 }
 
 export function getUserInfo() {

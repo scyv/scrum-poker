@@ -1,15 +1,20 @@
 import { Meteor } from "meteor/meteor";
-import { check } from "meteor/check";
+import { check, Match } from "meteor/check";
 import { uniqueNamesGenerator, adjectives, colors, animals, names } from "unique-names-generator";
 import { Sessions, Stories } from "./collections";
 
 Meteor.methods({
     createSession(name, owner) {
         check(name, String);
-        check(owner, {
-            name: String,
-            id: String,
-        });
+        check(
+            owner,
+            Match.Maybe([
+                {
+                    name: String,
+                    id: String,
+                },
+            ])
+        );
 
         let id = "";
         do {
@@ -26,7 +31,7 @@ Meteor.methods({
             _id: id,
             timestamp: new Date(),
             name: name,
-            owner: owner.id,
+            owner: owner?.id,
             perm_turnCards: true,
             perm_createStory: true,
             perm_setEstimate: true,
@@ -39,7 +44,7 @@ Meteor.methods({
             id: String,
         });
 
-        return Sessions.update(sessionId, { $set: { owner } });
+        return Sessions.update(sessionId, { $set: { owner: owner.id } });
     },
     chooseSessionType(type, sessionId) {
         check(type, String);
