@@ -8,12 +8,10 @@ Meteor.methods({
         check(name, String);
         check(
             owner,
-            Match.Maybe([
-                {
-                    name: String,
-                    id: String,
-                },
-            ])
+            Match.Maybe({
+                name: String,
+                id: String,
+            })
         );
 
         let id = "";
@@ -91,7 +89,30 @@ Meteor.methods({
         check(sessionId, String);
         check(storyId, String);
 
-        Sessions.update({ _id: sessionId }, { $set: { showStory: storyId } });
+        let participantsFromPreviousStory = [];
+        const session = Sessions.findOne({ _id: sessionId });
+        if (session && session.previousStory) {
+            const previousStory = Stories.findOne({ _id: session.previousStory });
+            participantsFromPreviousStory = previousStory.participants.map((p) => ({
+                id: p.id,
+                name: p.name,
+                ready: false,
+            }));
+        }
+
+        Sessions.update({ _id: sessionId }, { $set: { showStory: storyId, previousStory: storyId } });
+
+        const story = Stories.findOne({ _id: storyId });
+        if (!story.participants || story.participants.length === 0) {
+            Stories.update(
+                { _id: storyId },
+                {
+                    $set: {
+                        participants: [...participantsFromPreviousStory],
+                    },
+                }
+            );
+        }
     },
     participate(participant, storyId) {
         check(participant, {
@@ -195,5 +216,9 @@ Meteor.methods({
             },
             { multi: true }
         );
+    },
+    cancelEstimate(sessionId) {
+        check(sessionId, String);
+        Sessions.update({ _id: sessionId }, { $set: { showStory: null } });
     },
 });

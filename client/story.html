@@ -1,6 +1,7 @@
 <template name="story">
     {{#if isLoading}} {{> loading}} {{else}} {{#with story}}
     <button class="btn btn-link btn-overview">{{MSG "story.back"}}</button>
+    <button class="btn btn-link btn-cancel">{{MSG "story.cancel"}}</button>
     <div class="panel panel-default">
         <div class="panel-body">
             <p class="lead"><span class="text-muted">{{MSG "story.title"}}</span> {{name}}</p>
@@ -13,9 +14,10 @@
                     value="{{displayValue estimate false}}"
                     autocomplete="off"
                     placeholder="Storypoints"
+                    disabled="{{allHidden}}"
                 />
                 <span class="input-group-btn">
-                    <button type="submit" class="btn btn-default btn-save-estimate">
+                    <button type="submit" class="btn btn-default btn-save-estimate" disabled="{{allHidden}}">
                         {{MSG "story.btnSaveEstimate"}}
                     </button>
                 </span>
@@ -53,7 +55,7 @@
     </div>
     <div class="gamezone">
         {{#each participants}}
-        <div class="gamer {{itsMe}}">
+        <div class="gamer {{itsMe}} {{readyStateClass}}">
             <div class="user-name">
                 {{name}} {{#if ready}}
                 <i class="glyphicon glyphicon-ok"></i>

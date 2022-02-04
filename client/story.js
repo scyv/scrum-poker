@@ -204,6 +204,9 @@ Template.story.helpers({
     allVisible() {
         return this.allVisible;
     },
+    allHidden() {
+        return !this.allVisible;
+    },
     btnReadyClass() {
         if (this.participants.every((p) => p.ready)) {
             return "success";
@@ -215,6 +218,9 @@ Template.story.helpers({
             return "its-me";
         }
         return null;
+    },
+    readyStateClass() {
+        return this.ready ? "ready" : "";
     },
     cardImage(type) {
         const cards = cardDeck();
@@ -298,6 +304,9 @@ Template.story.events({
     },
     "click .btn-overview"() {
         Router.go("session", { sessionId: Session.get(SessionProps.SELECTED_SESSION) });
+    },
+    "click .btn-cancel"() {
+        Meteor.call("cancelEstimate", Session.get(SessionProps.SELECTED_SESSION));
     },
     "click .btn-save-estimate"() {
         saveEstimate();

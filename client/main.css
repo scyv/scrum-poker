@@ -82,8 +82,11 @@ button.btn-overview {
 .gamezone .gamer.its-me {
     background: #fff0f0;
     border: 1px solid #ffaaaa;
-    width: auto;
-    transition: width 1s ease-out;
+    width: 25rem;
+}
+
+.gamezone .gamer.its-me.ready {
+    background: #f0fff0;
 }
 
 .gamezone .gamer.its-me img {

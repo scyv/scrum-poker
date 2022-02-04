@@ -234,6 +234,10 @@ export const messages = {
             de: "Zurück zur Übersicht",
             en: "Back to Overview",
         },
+        cancel: {
+            de: "Schätzung abbrechen",
+            en: "Cancel estimation",
+        },
         title: {
             de: "Pokerrunde für:",
             en: "Estimating: ",
