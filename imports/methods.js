@@ -4,7 +4,7 @@ import { uniqueNamesGenerator, adjectives, colors, animals, names } from "unique
 import { Sessions, Stories } from "./collections";
 
 Meteor.methods({
-    createSession(name, owner) {
+    createSession(name, owner, tryId) {
         check(name, String);
         check(
             owner,
@@ -13,17 +13,25 @@ Meteor.methods({
                 id: String,
             })
         );
+        check(tryId, String);
 
-        let id = "";
-        do {
-            id = uniqueNamesGenerator({
-                dictionaries: [adjectives, colors, animals, names],
-                separator: "-",
-                length: 4,
-            })
-                .toLowerCase()
-                .replace(/^[a-z]/g, "");
-        } while (Sessions.findOne({ _id: id }));
+        const normalize = (raw) => {
+            return raw.toLowerCase().replace(/[^a-z-]+/gi, "-");
+        };
+
+        const nextId = () =>
+            normalize(
+                uniqueNamesGenerator({
+                    dictionaries: [adjectives, colors, animals, names],
+                    separator: "-",
+                    length: 4,
+                })
+            );
+
+        let id = tryId && tryId.length > 10 ? normalize(tryId) : nextId();
+        while (Sessions.findOne({ _id: id })) {
+            id = nextId();
+        }
 
         return Sessions.insert({
             _id: id,

@@ -7,16 +7,8 @@ import "./landing.html";
 
 function startSession() {
     let name = $("#inputSessionName").val() || $("#inputSessionName").attr("placeholder");
-    if (!name) {
-        const customConfig = {
-            dictionaries: [adjectives, colors, animals, countries, names, starWars],
-            separator: " ",
-            length: 3,
-            style: "capital",
-        };
-        name = uniqueNamesGenerator(customConfig);
-    }
-    Meteor.call("createSession", name, Common.getUserInfo(), (err, id) => {
+    let tryId = $("#inputSessionName").attr("placeholder");
+    Meteor.call("createSession", name, Common.getUserInfo(), tryId, (err, id) => {
         if (err) {
             alert(err);
         } else {
