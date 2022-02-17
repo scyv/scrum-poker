@@ -83,6 +83,7 @@ Meteor.methods({
     },
     deleteStory(storyObj) {
         check(storyObj._id, String);
+        Sessions.update({ _id: Stories.findOne(storyObj._id).sessionId }, { $set: { showStory: null } });
         Stories.remove(storyObj._id);
     },
     setStory(sessionId, storyId) {
@@ -93,11 +94,13 @@ Meteor.methods({
         const session = Sessions.findOne({ _id: sessionId });
         if (session && session.previousStory) {
             const previousStory = Stories.findOne({ _id: session.previousStory });
-            participantsFromPreviousStory = previousStory.participants.map((p) => ({
-                id: p.id,
-                name: p.name,
-                ready: false,
-            }));
+            if (previousStory) {
+                participantsFromPreviousStory = previousStory.participants.map((p) => ({
+                    id: p.id,
+                    name: p.name,
+                    ready: false,
+                }));
+            }
         }
 
         Sessions.update({ _id: sessionId }, { $set: { showStory: storyId, previousStory: storyId } });
