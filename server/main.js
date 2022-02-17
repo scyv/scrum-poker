@@ -25,6 +25,19 @@ Meteor.publish(COLLECTIONS.LIVE_STATISTICS, function () {
 
     const poll = () => {
         const rawStories = Stories.rawCollection();
+
+        /* prepare for meteor 2.6
+        const cursor = rawStories.aggregate([
+            {
+                $group: {
+                    _id: "totalSP",
+                    sp: { $sum: "$estimate" },
+                },
+            },
+        ]);
+        const storyPointSumResult = Meteor.wrapAsync(cursor.toArray, cursor);
+*/
+
         const aggregate = Meteor.wrapAsync(rawStories.aggregate, rawStories);
         const storyPointSumResult = Promise.await(
             aggregate([
