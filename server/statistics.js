@@ -4,7 +4,6 @@ import { Stories, Sessions, Statistics } from "../imports/collections";
 const makeSnapshot = () => {
     const rawStories = Stories.rawCollection();
 
-    /* prepare for meteor 2.6
     const cursor = rawStories.aggregate([
         {
             $group: {
@@ -13,19 +12,7 @@ const makeSnapshot = () => {
             },
         },
     ]);
-    const storyPointSumResult = Meteor.wrapAsync(cursor.toArray, cursor);
-*/
-    const aggregate = Meteor.wrapAsync(rawStories.aggregate, rawStories);
-    const storyPointSumResult = Promise.await(
-        aggregate([
-            {
-                $group: {
-                    _id: "totalSP",
-                    sp: { $sum: "$estimate" },
-                },
-            },
-        ]).toArray()
-    );
+    const storyPointSumResult = Meteor.wrapAsync(cursor.toArray, cursor)();
     if (storyPointSumResult[0]) {
         const oldStat = undefined; //Statistics.findOne({}, { sort: { timestamp: -1 } });
         const sessionOffset = oldStat?.sessionCount ?? 0;
