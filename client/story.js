@@ -113,6 +113,17 @@ function setNotReady() {
     Meteor.call("estimateNotReady", Common.getUserId(), Session.get(SessionProps.SELECTED_STORY));
 }
 
+function toggleShowCards(visible) {
+    if (visible) {
+        Session.set(SessionProps.SHOW_CARDS, true);
+    } else {
+        // card hiding is deferred because we have to wait until the animation is done
+        window.setTimeout(() => {
+            Session.set(SessionProps.SHOW_CARDS, false);
+        }, 1000);
+    }
+}
+
 function handleShortcuts(evt) {
     const isReady = Session.get("ready");
     if (!isReady) {
@@ -202,6 +213,7 @@ Template.story.helpers({
         ];
     },
     allVisible() {
+        toggleShowCards(this.allVisible);
         return this.allVisible;
     },
     allHidden() {
@@ -228,7 +240,7 @@ Template.story.helpers({
             if (this.participant.id === Common.getUserId()) {
                 return cards[getSelectedCardKey()];
             } else {
-                if (this.participant.ready) {
+                if (this.participant.ready && Session.get(SessionProps.SHOW_CARDS)) {
                     return type === "front" ? cards.COVER : cards[this.participant.estimate];
                 } else {
                     return cards.COVER;
