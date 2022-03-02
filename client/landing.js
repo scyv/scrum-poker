@@ -1,5 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { uniqueNamesGenerator, adjectives, colors, animals, countries, names, starWars } from "unique-names-generator";
+
 import * as Common from "../imports/common";
 import { SessionProps } from "../imports/sessionProperties";
 
@@ -8,13 +9,14 @@ import "./landing.html";
 function startSession() {
     let name = $("#inputSessionName").val() || $("#inputSessionName").attr("placeholder");
     let tryId = $("#inputSessionName").attr("placeholder");
+    Session.set(SessionProps.SELECTED_SESSION, undefined);
+    Session.set(SessionProps.SELECTED_STORY, undefined);
+    Session.set(SessionProps.SELECTED_STORY_OBJ, undefined);
     Meteor.call("createSession", name, Common.getUserInfo(), tryId, (err, id) => {
         if (err) {
             alert(err);
         } else {
-            Session.set(SessionProps.SELECTED_SESSION, undefined);
-            Session.set(SessionProps.SELECTED_STORY, undefined);
-            Session.set(SessionProps.SELECTED_STORY_OBJ, undefined);
+            Session.set(SessionProps.SELECTED_SESSION, id);
             Router.go("session", { sessionId: id });
         }
     });
