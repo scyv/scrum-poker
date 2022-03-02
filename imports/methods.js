@@ -103,11 +103,13 @@ Meteor.methods({
         if (session && session.previousStory) {
             const previousStory = Stories.findOne({ _id: session.previousStory });
             if (previousStory) {
-                participantsFromPreviousStory = previousStory.participants.map((p) => ({
-                    id: p.id,
-                    name: p.name,
-                    ready: false,
-                }));
+                participantsFromPreviousStory = previousStory.participants
+                    .filter((p) => p.ready)
+                    .map((p) => ({
+                        id: p.id,
+                        name: p.name,
+                        ready: false,
+                    }));
             }
         }
 
