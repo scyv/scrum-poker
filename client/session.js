@@ -98,9 +98,6 @@ Template.session.helpers({
         const session = Sessions.findOne({ _id: sessionId });
         return this._id === session.showStory;
     },
-    participantCount() {
-        return this.participants.length;
-    },
     typeSelected() {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
         return Sessions.findOne({ _id: sessionId }).type;
