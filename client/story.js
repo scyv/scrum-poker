@@ -113,13 +113,18 @@ function setNotReady() {
     Meteor.call("estimateNotReady", Common.getUserId(), Session.get(SessionProps.SELECTED_STORY));
 }
 
+let keepVisible = false;
 function toggleShowCards(visible) {
     if (visible) {
+        keepVisible = true;
         Session.set(SessionProps.SHOW_CARDS, true);
     } else {
         // card hiding is deferred because we have to wait until the animation is done
         window.setTimeout(() => {
-            Session.set(SessionProps.SHOW_CARDS, false);
+            if (!keepVisible) {
+                Session.set(SessionProps.SHOW_CARDS, false);
+            }
+            keepVisible = false;
         }, 1000);
     }
 }
