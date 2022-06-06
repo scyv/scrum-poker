@@ -289,6 +289,18 @@ Template.story.helpers({
     visibleWhenNotHidden() {
         return this.allVisible ? "" : "notVisible";
     },
+    hasNext() {
+        const allStories = Stories.find().fetch();
+        const selectedStoryId = Session.get(SessionProps.SELECTED_STORY);
+        const currentIdx = allStories.findIndex((s) => s._id === selectedStoryId);
+        return currentIdx < allStories.length - 1;
+    },
+    hasPrevious() {
+        const allStories = Stories.find().fetch();
+        const selectedStoryId = Session.get(SessionProps.SELECTED_STORY);
+        const currentIdx = allStories.findIndex((s) => s._id === selectedStoryId);
+        return currentIdx > 0;
+    },
 });
 
 Template.story.events({
@@ -344,5 +356,17 @@ Template.story.events({
     "click .btn-preset-estimate"(evt) {
         $("#inputStoryPoints").val($(evt.target).data("preset"));
         saveEstimate();
+    },
+    "click .btn-previous"() {
+        const allStories = Stories.find().fetch();
+        const selectedStoryId = Session.get(SessionProps.SELECTED_STORY);
+        const currentIdx = allStories.findIndex((s) => s._id === selectedStoryId);
+        Meteor.call("setStory", Session.get(SessionProps.SELECTED_SESSION), allStories[currentIdx - 1]?._id);
+    },
+    "click .btn-next"() {
+        const allStories = Stories.find().fetch();
+        const selectedStoryId = Session.get(SessionProps.SELECTED_STORY);
+        const currentIdx = allStories.findIndex((s) => s._id === selectedStoryId);
+        Meteor.call("setStory", Session.get(SessionProps.SELECTED_SESSION), allStories[currentIdx + 1]?._id);
     },
 });
