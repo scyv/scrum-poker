@@ -286,6 +286,9 @@ Template.story.helpers({
     isCover() {
         return getSelectedCardKey() === "COVER";
     },
+    visibleWhenNotHidden() {
+        return this.allVisible ? "" : "notVisible";
+    },
 });
 
 Template.story.events({

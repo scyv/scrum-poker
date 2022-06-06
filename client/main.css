@@ -195,3 +195,11 @@ button.btn-overview {
         line-height: 11.25rem;
     }
 }
+
+.panel-body .input-group {
+    transition: opacity 300ms ease-in-out;
+}
+
+.notVisible {
+    opacity: 0;
+}
