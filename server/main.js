@@ -12,6 +12,15 @@ Meteor.startup(() => {
         { _id: "drop-list" },
         { since: "2022-06-12T00:00:00Z", title: "features.drop-list", text: "features.drop-list-text" }
     );
+
+    Features.upsert(
+        { _id: "navigate-back-and-forth" },
+        {
+            since: "2022-06-11T00:00:00Z",
+            title: "features.navigate-back-and-forth",
+            text: "features.navigate-back-and-forth-text",
+        }
+    );
 });
 
 Meteor.publish(COLLECTIONS.SESSIONS, function (sessionId) {

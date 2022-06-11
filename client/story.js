@@ -73,7 +73,7 @@ function getSession() {
 
 function getStory() {
     const story = Stories.findOne(Session.get(SessionProps.SELECTED_STORY));
-    document.title = story.name;
+    document.title = story?.name;
     return story;
 }
 

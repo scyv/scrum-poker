@@ -342,5 +342,13 @@ export const messages = {
             de: 'Um das erstellen der Story Liste zu vereinfachen, ist es nun möglich, via "Drag and Drop" oder STRG+V eine odere mehrere Stories anzulegen. Unterstützt werden alle Quellen, die Text oder HTML exportieren (z.B. Excel, JIRA, Notepad, ...)',
             en: "Stories can now be added easily per Drag and Drop or CTRL+V. We support all sources that export the data in text or HTML (z.B. Excel, JIRA, Notepad, ...)",
         },
+        "navigate-back-and-forth": {
+            de: "Vor- und Zurücknavigation",
+            en: "Navigate to next and previous Story",
+        },
+        "navigate-back-and-forth-text": {
+            de: "Zwei neue Schaltflächen ermöglichen das schnelle Navigieren zwischen den Stories. Ein Zwischenschritt über die Übersicht ist nicht mehr erforderlich.",
+            en: "Two new buttons allow to navigate between stories.",
+        },
     },
 };
