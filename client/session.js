@@ -95,6 +95,13 @@ Template.session.helpers({
     isRunning() {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
         const session = Sessions.findOne({ _id: sessionId });
+
+        if (session.showStory && session.showStory !== Session.get(SessionProps.SELECTED_STORY)) {
+            Router.go("story", {
+                sessionId: sessionId,
+                storyId: session.showStory,
+            });
+        }
         return this._id === session.showStory;
     },
     typeSelected() {
