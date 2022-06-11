@@ -1,7 +1,8 @@
 <template name="session">
     {{#if isLoading}} {{> loading}} {{else}}
     <div class="row">
-        <div class="col-md-6 story-table">
+        <div class="col-md-6 story-table dropzone">
+            {{> storyImporter}}
             <p class="lead">{{sessionName}}</p>
             {{#if storiesAvailable}}
             <table class="table table-hover">

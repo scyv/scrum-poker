@@ -3,13 +3,12 @@ import { SessionProps } from "../imports/sessionProperties";
 import * as Common from "../imports/common";
 import { Sessions, Stories, LiveStatistics } from "../imports/collections";
 import { confetti } from "./confetti";
-
 import { sessionsHandle, storiesHandle } from "./main";
+import { handleData } from "./storyImporter";
 
 import "./session.html";
 
-function createStory() {
-    let name = $("#inputStoryName").val().trim();
+function createStory(name = $("#inputStoryName").val().trim()) {
     const sessionId = Session.get(SessionProps.SELECTED_SESSION);
     Meteor.call("createStory", name, sessionId, (err) => {
         if (err) {
@@ -104,6 +103,11 @@ Template.session.helpers({
     },
 });
 
+function eventUnderControl(event) {
+    event.stopPropagation();
+    event.preventDefault();
+}
+
 Template.session.events({
     "click .btn-choose-type"(evt) {
         evt.preventDefault();
@@ -166,5 +170,35 @@ Template.session.events({
             $("#cbPermSetEstimate").prop("checked"),
             Session.get(SessionProps.SELECTED_SESSION)
         );
+    },
+
+    dragover(evt) {
+        const event = evt.originalEvent;
+        eventUnderControl(event);
+        event.dataTransfer.dropEffect = "copy";
+        return false;
+    },
+    dragenter(evt) {
+        const event = evt.originalEvent;
+        eventUnderControl(event);
+        $(".dropzone").addClass("dragging");
+        return false;
+    },
+    "mouseleave, mouseup, blur"() {
+        $(".dropzone").removeClass("dragging");
+    },
+    drop(evt) {
+        const event = evt.originalEvent;
+        eventUnderControl(event);
+        handleData(event.dataTransfer);
+        $("#import-modal").modal("show");
+        $(".dropzone").removeClass("dragging");
+    },
+    paste(evt) {
+        const event = evt.originalEvent;
+        eventUnderControl(event);
+        handleData(event.clipboardData);
+        $("#import-modal").modal("show");
+        $(".dropzone").removeClass("dragging");
     },
 });

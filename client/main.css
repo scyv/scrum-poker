@@ -203,3 +203,15 @@ button.btn-overview {
 .notVisible {
     opacity: 0;
 }
+
+.dropzone.dragging {
+    background-color: #fff4c6;
+}
+
+.importTable td {
+    padding: 10px;
+}
+
+#import-modal .modal-dialog {
+    width: 90%;
+}

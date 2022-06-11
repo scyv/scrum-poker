@@ -309,4 +309,34 @@ export const messages = {
             },
         },
     },
+    import: {
+        cancel: {
+            de: "Abbrechen",
+            en: "Cancel",
+        },
+        import: {
+            de: "Importieren",
+            en: "Import",
+        },
+        chooseCells: {
+            de: "Wählen Sie die zu importierenden Zeilen und (ggf.) Spalten aus. Jede Zeile wird dann als eine Story importiert. Hinweis: Sie können auch innerhalb dieses Fensters die Daten mit STRG+V erneut verarbeiten lassen. Stories, die bereits importiert wurden, werden nicht nochmal importiert.",
+            en: "Choose the rows and (if applicable) columns you want to use for the import. Each row is imported as a story. Hint: Use CTRL+V to reimport your data. Stories with the same name cannot be imported twice.",
+        },
+    },
+    features: {
+        dialog: {
+            close: {
+                de: "Schließen",
+                en: "Close",
+            },
+        },
+        "drop-list": {
+            de: "Story Listen können per Drag And Drop in die Liste geladen werden",
+            en: "Add Stories by drag an drop to the story list",
+        },
+        "drop-list-text": {
+            de: 'Um das erstellen der Story Liste zu vereinfachen, ist es nun möglich, via "Drag and Drop" oder STRG+V eine odere mehrere Stories anzulegen.',
+            en: "Stories can now be added easily per Drag and Drop or CTRL+V",
+        },
+    },
 };

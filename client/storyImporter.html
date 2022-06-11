@@ -1,0 +1,43 @@
+<template name="storyImporter">
+    <div id="import-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{MSG 'import.cancel'}}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">{{MSG 'import.import'}}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{MSG "import.chooseCells"}}</p>
+                    <table class="importTable">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                {{#each firstData}}
+                                <td><input type="checkbox" data-idx="{{@index}}" checked="{{checkedCol @index}}" /></td>
+                                {{/each}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each importData}}
+                            <tr>
+                                <td><input type="checkbox" data-idx="{{@index}}" checked="{{checkedRow @index}}" /></td>
+                                {{#each .}}
+                                <td>{{.}}</td>
+                                {{/each}}
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{MSG 'import.cancel'}}</button>
+                    <button type="button" class="btn btn-primary" id="btn-import" data-dismiss="modal">
+                        {{MSG 'import.import'}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

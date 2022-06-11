@@ -71,6 +71,10 @@ Meteor.methods({
             });
         }
 
+        if (Stories.findOne({ name: name, sessionId: sessionId })) {
+            return;
+        }
+
         const story = {
             name: name,
             timestamp: new Date(),
