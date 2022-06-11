@@ -29,6 +29,7 @@
             {{#if userName}}
             <span class="text-muted">{{MSG "layout.hello"}} {{userName}}!</span>
             {{/if}}
+            <a href="" class="featmodalopen" data-toggle="modal" data-target="#features-modal"> Features {{isHot}} </a>
             <a href="/login">Einstellungen</a>
             <a href="/datenschutz">Datenschutz</a>
         </p>
@@ -38,6 +39,7 @@
         </p>
         <div>{{> yield}}</div>
     </div>
+    {{> features}}
     <footer class="text-muted small">
         <hr />
         Version: <span>{{version}}</span><br />

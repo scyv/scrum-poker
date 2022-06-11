@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { COLLECTIONS, Sessions, Statistics, Stories } from "../imports/collections";
+import { COLLECTIONS, Features, Sessions, Statistics, Stories } from "../imports/collections";
 import * as Excel from "node-excel-export";
 import "../imports/methods";
 import "./statistics";
@@ -7,6 +7,11 @@ import { TSHIRT } from "../imports/cards";
 
 Meteor.startup(() => {
     console.log("Ready for e-business.");
+
+    Features.upsert(
+        { _id: "drop-list" },
+        { since: "2022-06-12T00:00:00Z", title: "features.drop-list", text: "features.drop-list-text" }
+    );
 });
 
 Meteor.publish(COLLECTIONS.SESSIONS, function (sessionId) {
@@ -18,6 +23,9 @@ Meteor.publish(COLLECTIONS.STORIES, function (sessionId) {
 });
 Meteor.publish(COLLECTIONS.STATISTICS, function () {
     return Statistics.find({});
+});
+Meteor.publish(COLLECTIONS.FEATURES, function () {
+    return Features.find({}, { sort: { since: -1 } });
 });
 
 Meteor.publish(COLLECTIONS.LIVE_STATISTICS, function () {

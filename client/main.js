@@ -1,5 +1,5 @@
 import { Template } from "meteor/templating";
-import { COLLECTIONS, Sessions } from "../imports/collections";
+import { COLLECTIONS, Features, Sessions } from "../imports/collections";
 import { SessionProps } from "../imports/sessionProperties";
 import * as Common from "../imports/common";
 import { TSHIRT } from "../imports/cards";
@@ -13,6 +13,8 @@ import "./session.html";
 import "./landing.html";
 import "./shareLink.html";
 import "./datenschutz.html";
+
+import "./features";
 
 export let sessionsHandle;
 export let storiesHandle;
@@ -52,6 +54,21 @@ Template.layout.helpers({
     },
     version() {
         return version.get();
+    },
+    isHot() {
+        const lastOpen = localStorage.getItem("lastOpen");
+        if (!lastOpen) {
+            return "🔥";
+        }
+        if (Features.findOne()?.since > lastOpen) {
+            return "🔥";
+        }
+    },
+});
+
+Template.layout.events({
+    "click .featmodalopen"() {
+        localStorage.setItem("lastOpen", new Date().toISOString());
     },
 });
 

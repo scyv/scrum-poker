@@ -325,18 +325,22 @@ export const messages = {
     },
     features: {
         dialog: {
+            teaser: {
+                de: "Wir freuen uns Ihnen hier die neuen Features von Digital-Scrum-Poker vorzustellen!",
+                en: "We are happy to annouce our new features here!",
+            },
             close: {
                 de: "Schließen",
                 en: "Close",
             },
         },
         "drop-list": {
-            de: "Story Listen können per Drag And Drop in die Liste geladen werden",
+            de: "Stories können per Drag And Drop in die Liste geladen werden",
             en: "Add Stories by drag an drop to the story list",
         },
         "drop-list-text": {
-            de: 'Um das erstellen der Story Liste zu vereinfachen, ist es nun möglich, via "Drag and Drop" oder STRG+V eine odere mehrere Stories anzulegen.',
-            en: "Stories can now be added easily per Drag and Drop or CTRL+V",
+            de: 'Um das erstellen der Story Liste zu vereinfachen, ist es nun möglich, via "Drag and Drop" oder STRG+V eine odere mehrere Stories anzulegen. Unterstützt werden alle Quellen, die Text oder HTML exportieren (z.B. Excel, JIRA, Notepad, ...)',
+            en: "Stories can now be added easily per Drag and Drop or CTRL+V. We support all sources that export the data in text or HTML (z.B. Excel, JIRA, Notepad, ...)",
         },
     },
 };

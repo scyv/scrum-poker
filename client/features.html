@@ -1,0 +1,33 @@
+<template name="features">
+    <div id="features-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="{{MSG 'features.dialog.close'}}"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">🔥🔥 Features 😍😍</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{MSG "features.dialog.teaser"}}</p>
+                    {{#if isLoading}} {{else}} {{#each features}}
+                    <div>
+                        <strong>{{since}} - {{MSG title}}</strong>
+                        <p>{{MSG text}}</p>
+                    </div>
+                    {{/each}} {{/if}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        {{MSG "features.dialog.close"}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

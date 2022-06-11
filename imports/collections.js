@@ -5,6 +5,7 @@ export const COLLECTIONS = {
     STORIES: "stories",
     STATISTICS: "statistics",
     LIVE_STATISTICS: "liveStatistics",
+    FEATURES: "features",
 };
 
 /**
@@ -22,6 +23,12 @@ export const Sessions = new Mongo.Collection(COLLECTIONS.SESSIONS);
  * estimates[]: list of estimates
  */
 export const Stories = new Mongo.Collection(COLLECTIONS.STORIES);
+
+/**
+ * _id: id
+ * title: string
+ */
+export const Features = new Mongo.Collection(COLLECTIONS.FEATURES);
 
 /**
  * _id: the id
