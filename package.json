@@ -15,12 +15,12 @@
     },
     "dependencies": {
         "@babel/runtime": "7.16.7",
-        "chart.js": "3.7.0",
-        "meteor-node-stubs": "1.1.0",
+        "chart.js": "3.8.0",
+        "meteor-node-stubs": "1.2.3",
         "node-excel-export": "1.4.4",
-        "unique-names-generator": "4.6.0"
+        "unique-names-generator": "4.7.1"
     },
     "devDependencies": {
-        "prettier": "^2.3.0"
+        "prettier": "2.3.0"
     }
 }
