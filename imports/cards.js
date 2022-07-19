@@ -88,3 +88,39 @@ export const CARDS = {
         title: "Yak Shaving",
     },
 };
+export const VOTE = {
+    COVER: {
+        img: imgPath + "Cover - option 2.png",
+        title: "",
+    },
+    SP1: {
+        img: imgPath + "s.jpg",
+        title: "Very Good!",
+        displayValue: "1",
+    },
+    SP2: {
+        img: imgPath + "m.jpg",
+        title: "Good!",
+        displayValue: "2",
+    },
+    SP3: {
+        img: imgPath + "l.jpg",
+        title: "It's Okay!",
+        displayValue: "3",
+    },
+    SP4: {
+        img: imgPath + "xl.jpg",
+        title: "Not sooo good :-(",
+        displayValue: "4",
+    },
+    SP5: {
+        img: imgPath + "xl.jpg",
+        title: "No go.",
+        displayValue: "5",
+    },
+    SP6: {
+        img: imgPath + "xl.jpg",
+        title: "Absolutely Not!",
+        displayValue: "6",
+    },
+};

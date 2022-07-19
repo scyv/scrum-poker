@@ -19,6 +19,11 @@ function createStory(name = $("#inputStoryName").val().trim()) {
     });
 }
 
+function typeSelected() {
+    const sessionId = Session.get(SessionProps.SELECTED_SESSION);
+    return Sessions.findOne({ _id: sessionId }).type;
+}
+
 Template.session.onRendered(() => {
     const sessionId = Session.get(SessionProps.SELECTED_SESSION);
     document.title = Sessions.findOne({ _id: sessionId }).name;
@@ -65,7 +70,7 @@ Template.session.helpers({
     },
     spsum() {
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
-        if (Sessions.findOne({ _id: sessionId }).type === "tshirt") {
+        if (Sessions.findOne({ _id: sessionId }).type !== "fibonacci") {
             return "---";
         }
 
@@ -105,8 +110,7 @@ Template.session.helpers({
         return this._id === session.showStory;
     },
     typeSelected() {
-        const sessionId = Session.get(SessionProps.SELECTED_SESSION);
-        return Sessions.findOne({ _id: sessionId }).type;
+        return typeSelected();
     },
 });
 
@@ -195,6 +199,9 @@ Template.session.events({
         $(".dropzone").removeClass("dragging");
     },
     drop(evt) {
+        if (!typeSelected()) {
+            return;
+        }
         const event = evt.originalEvent;
         eventUnderControl(event);
         handleData(event.dataTransfer);
@@ -202,6 +209,9 @@ Template.session.events({
         $(".dropzone").removeClass("dragging");
     },
     paste(evt) {
+        if (!typeSelected()) {
+            return;
+        }
         const event = evt.originalEvent;
         eventUnderControl(event);
         handleData(event.clipboardData);

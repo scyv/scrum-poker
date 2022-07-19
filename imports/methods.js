@@ -55,7 +55,16 @@ Meteor.methods({
     chooseSessionType(type, sessionId) {
         check(type, String);
         check(sessionId, String);
-        const safeSessionType = type === "fibonacci" ? type : "tshirt";
+
+        let safeSessionType = "fibonacci";
+        switch (type) {
+            case "tshirt":
+                safeSessionType = "tshirt";
+                break;
+            case "vote":
+                safeSessionType = "vote";
+                break;
+        }
         return Sessions.update(sessionId, { $set: { type: safeSessionType } });
     },
     createStory(name, sessionId) {

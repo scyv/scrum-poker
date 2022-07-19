@@ -2,7 +2,7 @@ import { Template } from "meteor/templating";
 import { COLLECTIONS, Features, Sessions } from "../imports/collections";
 import { SessionProps } from "../imports/sessionProperties";
 import * as Common from "../imports/common";
-import { TSHIRT } from "../imports/cards";
+import { TSHIRT, VOTE } from "../imports/cards";
 import { messages } from "./messages";
 
 import "../imports/routes.js";
@@ -98,6 +98,9 @@ Template.registerHelper("displayValue", (value, withSP) => {
     if (session) {
         if (session.type === "tshirt") {
             return TSHIRT["SP" + value]?.displayValue ?? "";
+        }
+        if (session.type === "vote") {
+            return VOTE["SP" + value]?.displayValue ?? "";
         }
         return value + (withSP === true ? " SP" : "");
     }

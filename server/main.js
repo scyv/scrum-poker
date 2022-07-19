@@ -6,21 +6,12 @@ import "./statistics";
 import { TSHIRT } from "../imports/cards";
 
 Meteor.startup(() => {
+    Features.upsert(
+        { _id: "type-vote" },
+        { since: "2022-07-19T00:00:00Z", title: "features.type-vote", text: "features.type-vote-text" }
+    );
+
     console.log("Ready for e-business.");
-
-    Features.upsert(
-        { _id: "drop-list" },
-        { since: "2022-06-12T00:00:00Z", title: "features.drop-list", text: "features.drop-list-text" }
-    );
-
-    Features.upsert(
-        { _id: "navigate-back-and-forth" },
-        {
-            since: "2022-06-11T00:00:00Z",
-            title: "features.navigate-back-and-forth",
-            text: "features.navigate-back-and-forth-text",
-        }
-    );
 });
 
 Meteor.publish(COLLECTIONS.SESSIONS, function (sessionId) {
@@ -105,6 +96,7 @@ Router.route(
             },
         };
 
+        const session = Sessions.findOne(this.params.sessionId);
         const specification = {
             name: {
                 displayName: "Name",
@@ -112,13 +104,12 @@ Router.route(
                 headerStyle: styles.header,
             },
             estimate: {
-                displayName: "Schätzung",
+                displayName: session.type === "vote" ? "Bewertung" : "Schätzung",
                 width: "10",
                 headerStyle: styles.header,
             },
         };
 
-        const session = Sessions.findOne(this.params.sessionId);
         let dataset = Stories.find(
             { sessionId: this.params.sessionId },
             {

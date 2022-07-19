@@ -5,8 +5,8 @@ export const messages = {
             en: "Welcome to Digital Scrum Poker!",
         },
         sessions: {
-            de: "Runden,",
-            en: "Sessions,",
+            de: "Runden gespielt",
+            en: "Sessions played",
         },
     },
     login: {
@@ -166,6 +166,14 @@ export const messages = {
             tshirtDescription: {
                 de: "Geeignet für das Schätzen von Stories, die noch nicht so gut verstanden sind, deren Umfänge aber grob eingeordnet werden können.",
                 en: "Suitable for estimating stories, that are not well understood.",
+            },
+            vote: {
+                de: "Schulnoten (1, 2, 3, 4, 5, 6)",
+                en: "School Marks (1, 2, 3, 4, 5, 6)",
+            },
+            voteDescription: {
+                de: "",
+                en: "",
             },
             next: {
                 de: "Weiter",
@@ -349,6 +357,14 @@ export const messages = {
         "navigate-back-and-forth-text": {
             de: "Zwei neue Schaltflächen ermöglichen das schnelle Navigieren zwischen den Stories. Ein Zwischenschritt über die Übersicht ist nicht mehr erforderlich.",
             en: "Two new buttons allow to navigate between stories.",
+        },
+        "type-vote": {
+            de: "Neuer Typ: Bewertung",
+            en: "New Type: Voting",
+        },
+        "type-vote-text": {
+            de: "Ein Neuer Typ erlaubt das Bewerten von Dingen durch Vergabe von Schulnoten",
+            en: "A new Type allows voting for things through providing school marks",
         },
     },
 };

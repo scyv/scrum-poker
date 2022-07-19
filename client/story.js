@@ -2,7 +2,7 @@ import { Meteor } from "meteor/meteor";
 
 import * as Common from "../imports/common";
 import { SessionProps } from "../imports/sessionProperties";
-import { CARDS, TSHIRT } from "../imports/cards";
+import { CARDS, TSHIRT, VOTE } from "../imports/cards";
 import { Stories, Sessions } from "../imports/collections";
 
 import { sessionsHandle, storiesHandle } from "./main";
@@ -32,6 +32,9 @@ function cardDeck() {
     const session = Sessions.findOne(selectedSession);
     if (session.type === "tshirt") {
         return TSHIRT;
+    }
+    if (session.type === "vote") {
+        return VOTE;
     }
     return CARDS;
 }
