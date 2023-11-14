@@ -5,6 +5,7 @@ import "../imports/methods";
 import "./statistics";
 import { TSHIRT } from "../imports/cards";
 
+// Wird aufgerufen, wenn die Anwendung gestrarted ist
 Meteor.startup(() => {
     Features.upsert(
         { _id: "type-vote" },
