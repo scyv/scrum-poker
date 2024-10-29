@@ -215,3 +215,20 @@ button.btn-overview {
 #import-modal .modal-dialog {
     width: 90%;
 }
+
+.animate-fade-delay {
+    animation-duration: 0.3s;
+    animation-name: animate-fade;
+    animation-timing-function: ease-out;
+    animation-delay: 3s;
+    animation-fill-mode: backwards;
+}
+
+@keyframes animate-fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
