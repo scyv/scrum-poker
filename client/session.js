@@ -8,15 +8,14 @@ import { handleData } from "./storyImporter";
 
 import "./session.html";
 
-function createStory(name = $("#inputStoryName").val().trim()) {
+async function createStory(name = $("#inputStoryName").val().trim()) {
     const sessionId = Session.get(SessionProps.SELECTED_SESSION);
-    Meteor.call("createStory", name, sessionId, (err) => {
-        if (err) {
-            alert(err);
-        } else {
-            $("#inputStoryName").val("");
-        }
-    });
+    try {
+        await Meteor.callAsync("createStory", name, sessionId);
+        $("#inputStoryName").val("");
+    } catch (err) {
+        alert(err);
+    }
 }
 
 function typeSelected() {
@@ -24,12 +23,12 @@ function typeSelected() {
     return Sessions.findOne({ _id: sessionId }).type;
 }
 
-Template.session.onRendered(() => {
+Template.session.onRendered(async () => {
     const sessionId = Session.get(SessionProps.SELECTED_SESSION);
-    document.title = Sessions.findOne({ _id: sessionId }).name;
-    const session = Sessions.findOne({ _id: sessionId });
+    document.title = (await Sessions.findOneAsync({ _id: sessionId })).name;
+    const session = await Sessions.findOneAsync({ _id: sessionId });
     if (session && !session.owner) {
-        Meteor.call("setSessionOwner", sessionId, Common.getUserInfo());
+        await Meteor.callAsync("setSessionOwner", sessionId, Common.getUserInfo());
     }
 
     if (!localStorage.getItem("confetti2000")) {
@@ -120,9 +119,9 @@ function eventUnderControl(event) {
 }
 
 Template.session.events({
-    "click .btn-choose-type"(evt) {
+    async "click .btn-choose-type"(evt) {
         evt.preventDefault();
-        Meteor.call(
+        await Meteor.callAsync(
             "chooseSessionType",
             $("input:radio[name=sessionType]:checked").val(),
             Session.get(SessionProps.SELECTED_SESSION)
@@ -139,43 +138,42 @@ Template.session.events({
             return false;
         }
     },
-    "click .btn-start-poker"() {
+    async "click .btn-start-poker"() {
         const storyId = this._id;
-        Meteor.call("setStory", Session.get(SessionProps.SELECTED_SESSION), this._id, () => {
-            Router.go("story", {
-                sessionId: Session.get(SessionProps.SELECTED_SESSION),
-                storyId: storyId,
-            });
+        await Meteor.callAsync("setStory", Session.get(SessionProps.SELECTED_SESSION), this._id);
+        Router.go("story", {
+            sessionId: Session.get(SessionProps.SELECTED_SESSION),
+            storyId: storyId,
         });
     },
     "click .btn-edit-story"() {
         Session.set(SessionProps.SELECTED_STORY_OBJ, this);
     },
-    "click .btn-update-story"() {
+    async "click .btn-update-story"() {
         const newName = $(".inputStoryName").val();
-        Meteor.call("updateStory", Session.get(SessionProps.SELECTED_STORY_OBJ), newName);
+        await Meteor.callAsync("updateStory", Session.get(SessionProps.SELECTED_STORY_OBJ), newName);
     },
-    "click .btn-delete-story"() {
-        Meteor.call("deleteStory", Session.get(SessionProps.SELECTED_STORY_OBJ));
+    async "click .btn-delete-story"() {
+        await Meteor.callAsync("deleteStory", Session.get(SessionProps.SELECTED_STORY_OBJ));
     },
-    "change #cbPermCreateStory"() {
-        Meteor.call(
+    async "change #cbPermCreateStory"() {
+        await Meteor.callAsync(
             "setPermission",
             "createStory",
             $("#cbPermCreateStory").prop("checked"),
             Session.get(SessionProps.SELECTED_SESSION)
         );
     },
-    "change #cbPermTurnCards"() {
-        Meteor.call(
+    async "change #cbPermTurnCards"() {
+        await Meteor.callAsync(
             "setPermission",
             "turnCards",
             $("#cbPermTurnCards").prop("checked"),
             Session.get(SessionProps.SELECTED_SESSION)
         );
     },
-    "change #cbPermSetEstimate"() {
-        Meteor.call(
+    async "change #cbPermSetEstimate"() {
+        await Meteor.callAsync(
             "setPermission",
             "setEstimate",
             $("#cbPermSetEstimate").prop("checked"),

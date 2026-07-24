@@ -80,10 +80,10 @@ function getStory() {
     return story;
 }
 
-function saveEstimate() {
+async function saveEstimate() {
     const session = getSession();
     if (session.owner === Common.getUserId() || session.perm_setEstimate) {
-        Meteor.call(
+        await Meteor.callAsync(
             "saveEstimate",
             Session.get(SessionProps.SELECTED_STORY),
             getEstimate($("#inputStoryPoints").val())
@@ -104,16 +104,16 @@ function getEstimate(input) {
     return estimate;
 }
 
-function setReady() {
+async function setReady() {
     const cardKey = getSelectedCardKey();
     if (cardKey === "COVER") {
         return;
     }
-    Meteor.call("estimateReady", Common.getUserInfo(), Session.get(SessionProps.SELECTED_STORY), cardKey);
+    await Meteor.callAsync("estimateReady", Common.getUserInfo(), Session.get(SessionProps.SELECTED_STORY), cardKey);
 }
 
-function setNotReady() {
-    Meteor.call("estimateNotReady", Common.getUserId(), Session.get(SessionProps.SELECTED_STORY));
+async function setNotReady() {
+    await Meteor.callAsync("estimateNotReady", Common.getUserId(), Session.get(SessionProps.SELECTED_STORY));
 }
 
 let keepVisible = false;
@@ -212,12 +212,9 @@ Template.story.helpers({
     participants() {
         return [
             ...this.participants.filter((p) => p.id === Common.getUserId()),
-            ..._.sortBy(
-                this.participants.filter((p) => p.id !== Common.getUserId()),
-                (p) => {
-                    return p.name;
-                }
-            ),
+            ...this.participants
+                .filter((p) => p.id !== Common.getUserId())
+                .sort((a, b) => a.name.localeCompare(b.name)),
         ];
     },
     allVisible() {
@@ -278,13 +275,17 @@ Template.story.helpers({
         if (!this.allVisible) {
             return null;
         }
-        const estimates = _.compact(
-            this.participants.filter((p) => p.estimate).map((p) => parseFloat(p.estimate.substring(2), 10))
-        );
+        const estimates = this.participants
+            .filter((p) => p.estimate)
+            .map((p) => parseFloat(p.estimate.substring(2), 10))
+            .filter((v) => !isNaN(v));
         if (estimates.length === 0) {
             return null;
         }
-        return _.uniq([Common.median(estimates), _.max(estimates)]);
+        const medianVal = Common.median(estimates);
+        const maxVal = Math.max(...estimates);
+        const uniqueEstimates = [...new Set([medianVal, maxVal])];
+        return uniqueEstimates;
     },
     isCover() {
         return getSelectedCardKey() === "COVER";
@@ -307,11 +308,11 @@ Template.story.helpers({
 });
 
 Template.story.events({
-    "click .btn-participate"() {
-        Meteor.call("participate", Common.getUserInfo(), Session.get(SessionProps.SELECTED_STORY));
+    async "click .btn-participate"() {
+        await Meteor.callAsync("participate", Common.getUserInfo(), Session.get(SessionProps.SELECTED_STORY));
     },
-    "click .btn-cancel-participation"() {
-        Meteor.call("cancelParticipation", Common.getUserId(), Session.get(SessionProps.SELECTED_STORY));
+    async "click .btn-cancel-participation"() {
+        await Meteor.callAsync("cancelParticipation", Common.getUserId(), Session.get(SessionProps.SELECTED_STORY));
     },
     "click .its-me .flip-card"() {
         if (!this.participant.ready) {
@@ -334,42 +335,42 @@ Template.story.events({
     "click .btn-not-ready"() {
         setNotReady();
     },
-    "click .btn-turn-cards"() {
-        Meteor.call("turnCards", Session.get(SessionProps.SELECTED_STORY));
+    async "click .btn-turn-cards"() {
+        await Meteor.callAsync("turnCards", Session.get(SessionProps.SELECTED_STORY));
     },
     "click .btn-overview"() {
         Router.go("session", { sessionId: Session.get(SessionProps.SELECTED_SESSION) });
     },
-    "click .btn-cancel"() {
-        Meteor.call("cancelEstimate", Session.get(SessionProps.SELECTED_SESSION));
+    async "click .btn-cancel"() {
+        await Meteor.callAsync("cancelEstimate", Session.get(SessionProps.SELECTED_SESSION));
     },
     "click .btn-save-estimate"() {
         saveEstimate();
     },
-    "keydown #inputStoryPoints"(evt) {
+    async "keydown #inputStoryPoints"(evt) {
         if (evt.keyCode === 13) {
             evt.preventDefault();
-            saveEstimate();
+            await saveEstimate();
             evt.target.blur();
             Router.go("session", { sessionId: Session.get(SessionProps.SELECTED_SESSION) });
 
             return false;
         }
     },
-    "click .btn-preset-estimate"(evt) {
+    async "click .btn-preset-estimate"(evt) {
         $("#inputStoryPoints").val($(evt.target).data("preset"));
-        saveEstimate();
+        await saveEstimate();
     },
-    "click .btn-previous"() {
+    async "click .btn-previous"() {
         const allStories = Stories.find().fetch();
         const selectedStoryId = Session.get(SessionProps.SELECTED_STORY);
         const currentIdx = allStories.findIndex((s) => s._id === selectedStoryId);
-        Meteor.call("setStory", Session.get(SessionProps.SELECTED_SESSION), allStories[currentIdx - 1]?._id);
+        await Meteor.callAsync("setStory", Session.get(SessionProps.SELECTED_SESSION), allStories[currentIdx - 1]?._id);
     },
-    "click .btn-next"() {
+    async "click .btn-next"() {
         const allStories = Stories.find().fetch();
         const selectedStoryId = Session.get(SessionProps.SELECTED_STORY);
         const currentIdx = allStories.findIndex((s) => s._id === selectedStoryId);
-        Meteor.call("setStory", Session.get(SessionProps.SELECTED_SESSION), allStories[currentIdx + 1]?._id);
+        await Meteor.callAsync("setStory", Session.get(SessionProps.SELECTED_SESSION), allStories[currentIdx + 1]?._id);
     },
 });

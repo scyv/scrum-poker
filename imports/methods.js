@@ -4,7 +4,7 @@ import { uniqueNamesGenerator, adjectives, colors, animals, names } from "unique
 import { Sessions, Stories } from "./collections";
 
 Meteor.methods({
-    createSession(name, owner, tryId) {
+    async createSession(name, owner, tryId) {
         check(name, String);
         check(
             owner,
@@ -29,11 +29,11 @@ Meteor.methods({
             );
 
         let id = tryId && tryId.length > 10 ? normalize(tryId) : nextId();
-        while (Sessions.findOne({ _id: id })) {
+        while (await Sessions.findOneAsync({ _id: id })) {
             id = nextId();
         }
 
-        return Sessions.insert({
+        return await Sessions.insertAsync({
             _id: id,
             timestamp: new Date(),
             name: name,
@@ -43,16 +43,16 @@ Meteor.methods({
             perm_setEstimate: true,
         });
     },
-    setSessionOwner(sessionId, owner) {
+    async setSessionOwner(sessionId, owner) {
         check(sessionId, String);
         check(owner, {
             name: String,
             id: String,
         });
 
-        return Sessions.update(sessionId, { $set: { owner: owner.id } });
+        return await Sessions.updateAsync(sessionId, { $set: { owner: owner.id } });
     },
-    chooseSessionType(type, sessionId) {
+    async chooseSessionType(type, sessionId) {
         check(type, String);
         check(sessionId, String);
 
@@ -65,9 +65,9 @@ Meteor.methods({
                 safeSessionType = "vote";
                 break;
         }
-        return Sessions.update(sessionId, { $set: { type: safeSessionType } });
+        return await Sessions.updateAsync(sessionId, { $set: { type: safeSessionType } });
     },
-    createStory(name, sessionId) {
+    async createStory(name, sessionId) {
         check(name, String);
         check(sessionId, String);
 
@@ -80,7 +80,7 @@ Meteor.methods({
             });
         }
 
-        if (Stories.findOne({ name: name, sessionId: sessionId })) {
+        if (await Stories.findOneAsync({ name: name, sessionId: sessionId })) {
             return;
         }
 
@@ -91,30 +91,27 @@ Meteor.methods({
             participants: [],
         };
 
-        return Stories.insert(story, (err) => {
-            if (err) {
-                console.err(err);
-            }
-        });
+        return await Stories.insertAsync(story);
     },
-    updateStory(storyObj, newName) {
+    async updateStory(storyObj, newName) {
         check(newName, String);
         check(storyObj._id, String);
-        Stories.update(storyObj._id, { $set: { name: newName } });
+        await Stories.updateAsync(storyObj._id, { $set: { name: newName } });
     },
-    deleteStory(storyObj) {
+    async deleteStory(storyObj) {
         check(storyObj._id, String);
-        Sessions.update({ _id: Stories.findOne(storyObj._id).sessionId }, { $set: { showStory: null } });
-        Stories.remove(storyObj._id);
+        const story = await Stories.findOneAsync(storyObj._id);
+        await Sessions.updateAsync({ _id: story.sessionId }, { $set: { showStory: null } });
+        await Stories.removeAsync(storyObj._id);
     },
-    setStory(sessionId, storyId) {
+    async setStory(sessionId, storyId) {
         check(sessionId, String);
         check(storyId, String);
 
         let participantsFromPreviousStory = [];
-        const session = Sessions.findOne({ _id: sessionId });
+        const session = await Sessions.findOneAsync({ _id: sessionId });
         if (session && session.previousStory) {
-            const previousStory = Stories.findOne({ _id: session.previousStory });
+            const previousStory = await Stories.findOneAsync({ _id: session.previousStory });
             if (previousStory) {
                 participantsFromPreviousStory = previousStory.participants
                     .filter((p) => p.ready)
@@ -126,11 +123,11 @@ Meteor.methods({
             }
         }
 
-        Sessions.update({ _id: sessionId }, { $set: { showStory: storyId, previousStory: storyId } });
+        await Sessions.updateAsync({ _id: sessionId }, { $set: { showStory: storyId, previousStory: storyId } });
 
-        const story = Stories.findOne({ _id: storyId });
+        const story = await Stories.findOneAsync({ _id: storyId });
         if (!story.participants || story.participants.length === 0) {
-            Stories.update(
+            await Stories.updateAsync(
                 { _id: storyId },
                 {
                     $set: {
@@ -140,13 +137,13 @@ Meteor.methods({
             );
         }
     },
-    participate(participant, storyId) {
+    async participate(participant, storyId) {
         check(participant, {
             name: String,
             id: String,
         });
         check(storyId, String);
-        Stories.update(
+        await Stories.updateAsync(
             { _id: storyId },
             {
                 $addToSet: {
@@ -159,10 +156,10 @@ Meteor.methods({
             }
         );
     },
-    cancelParticipation(participantId, storyId) {
+    async cancelParticipation(participantId, storyId) {
         check(participantId, String);
         check(storyId, String);
-        Stories.update(
+        await Stories.updateAsync(
             { _id: storyId },
             {
                 $pull: {
@@ -173,13 +170,13 @@ Meteor.methods({
             }
         );
     },
-    estimateReady(participant, storyId, value) {
+    async estimateReady(participant, storyId, value) {
         check(participant, {
             name: String,
             id: String,
         });
         check(storyId, String);
-        Stories.update(
+        await Stories.updateAsync(
             { _id: storyId, "participants.id": participant.id },
             {
                 $set: {
@@ -190,50 +187,51 @@ Meteor.methods({
             }
         );
     },
-    estimateNotReady(participantId, storyId) {
+    async estimateNotReady(participantId, storyId) {
         check(participantId, String);
         check(storyId, String);
-        Stories.update(
+        await Stories.updateAsync(
             { _id: storyId, "participants.id": participantId },
             {
                 $set: { "participants.$.ready": false },
             }
         );
     },
-    turnCards(storyId) {
+    async turnCards(storyId) {
         check(storyId, String);
-        const story = Stories.findOne({ _id: storyId });
-        Stories.update(
+        const story = await Stories.findOneAsync({ _id: storyId });
+        await Stories.updateAsync(
             { _id: storyId },
             {
                 $set: { allVisible: !story.allVisible },
             }
         );
     },
-    saveEstimate(storyId, estimate) {
+    async saveEstimate(storyId, estimate) {
         check(storyId, String);
         check(estimate, Number);
-        Stories.update(
+        await Stories.updateAsync(
             { _id: storyId },
             {
                 $set: { estimate: estimate },
             }
         );
-        Sessions.update({ _id: Stories.findOne(storyId).sessionId }, { $set: { showStory: null } });
+        const story = await Stories.findOneAsync(storyId);
+        await Sessions.updateAsync({ _id: story.sessionId }, { $set: { showStory: null } });
     },
-    setPermission(permission, value, sessionId) {
+    async setPermission(permission, value, sessionId) {
         check(permission, String);
         check(sessionId, String);
         check(value, Boolean);
         const prop = "perm_" + permission;
-        return Sessions.update(sessionId, JSON.parse('{ "$set": { "' + prop + '" : ' + value + " } }"));
+        return await Sessions.updateAsync(sessionId, { $set: { [prop]: value } });
     },
-    changeUsername(participant) {
+    async changeUsername(participant) {
         check(participant, {
             name: String,
             id: String,
         });
-        Stories.update(
+        await Stories.updateAsync(
             { "participants.id": participant.id },
             {
                 $set: {
@@ -243,8 +241,8 @@ Meteor.methods({
             { multi: true }
         );
     },
-    cancelEstimate(sessionId) {
+    async cancelEstimate(sessionId) {
         check(sessionId, String);
-        Sessions.update({ _id: sessionId }, { $set: { showStory: null } });
+        await Sessions.updateAsync({ _id: sessionId }, { $set: { showStory: null } });
     },
 });

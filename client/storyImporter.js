@@ -115,12 +115,12 @@ Template.storyImporter.events({
             });
 
         const sessionId = Session.get(SessionProps.SELECTED_SESSION);
-        stories.forEach((story) =>
-            Meteor.call("createStory", story, sessionId, (err) => {
-                if (err) {
-                    alert(err);
-                }
-            })
-        );
+        stories.forEach(async (story) => {
+            try {
+                await Meteor.callAsync("createStory", story, sessionId);
+            } catch (err) {
+                alert(err);
+            }
+        });
     },
 });

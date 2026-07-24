@@ -6,20 +6,19 @@ import { SessionProps } from "../imports/sessionProperties";
 
 import "./landing.html";
 
-function startSession() {
+async function startSession() {
     let name = $("#inputSessionName").val() || $("#inputSessionName").attr("placeholder");
     let tryId = $("#inputSessionName").attr("placeholder");
     Session.set(SessionProps.SELECTED_SESSION, undefined);
     Session.set(SessionProps.SELECTED_STORY, undefined);
     Session.set(SessionProps.SELECTED_STORY_OBJ, undefined);
-    Meteor.call("createSession", name, Common.getUserInfo(), tryId, (err, id) => {
-        if (err) {
-            alert(err);
-        } else {
-            Session.set(SessionProps.SELECTED_SESSION, id);
-            Router.go("session", { sessionId: id });
-        }
-    });
+    try {
+        const id = await Meteor.callAsync("createSession", name, Common.getUserInfo(), tryId);
+        Session.set(SessionProps.SELECTED_SESSION, id);
+        Router.go("session", { sessionId: id });
+    } catch (err) {
+        alert(err);
+    }
 }
 
 let sessionNameChangeInterval;

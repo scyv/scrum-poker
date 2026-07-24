@@ -1,3 +1,4 @@
+import { Meteor } from "meteor/meteor";
 import { Random } from "meteor/random";
 
 import { SessionProps } from "./sessionProperties";
@@ -16,14 +17,10 @@ export function getUserNameDeprecated() {
     return userName;
 }
 
-export function setUserInfo(userInfo) {
-    return new Promise((resolve) => {
-        Session.set(SessionProps.USER_INFO, userInfo);
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        Meteor.call("changeUsername", userInfo, () => {
-            resolve();
-        });
-    });
+export async function setUserInfo(userInfo) {
+    Session.set(SessionProps.USER_INFO, userInfo);
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    await Meteor.callAsync("changeUsername", userInfo);
 }
 
 export function getUserId() {

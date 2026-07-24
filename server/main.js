@@ -5,11 +5,10 @@ import "../imports/methods";
 import "./statistics";
 import { TSHIRT } from "../imports/cards";
 
-// Wird aufgerufen, wenn gestartet ist
-Meteor.startup(() => {
-    Features.upsert(
+Meteor.startup(async () => {
+    await Features.upsertAsync(
         { _id: "type-vote" },
-        { since: "2022-07-19T00:00:00Z", title: "features.type-vote", text: "features.type-vote-text" }
+        { $set: { since: "2022-07-19T00:00:00Z", title: "features.type-vote", text: "features.type-vote-text" } }
     );
 
     console.log("Ready for e-business.");
@@ -29,10 +28,10 @@ Meteor.publish(COLLECTIONS.FEATURES, function () {
     return Features.find({}, { sort: { since: -1 } });
 });
 
-Meteor.publish(COLLECTIONS.LIVE_STATISTICS, function () {
+Meteor.publish(COLLECTIONS.LIVE_STATISTICS, async function () {
     const publishedKeys = {};
 
-    const poll = () => {
+    const poll = async () => {
         const rawStories = Stories.rawCollection();
 
         const cursor = rawStories.aggregate([
@@ -43,7 +42,7 @@ Meteor.publish(COLLECTIONS.LIVE_STATISTICS, function () {
                 },
             },
         ]);
-        const storyPointSumResult = Meteor.wrapAsync(cursor.toArray, cursor)();
+        const storyPointSumResult = await cursor.toArray();
 
         if (!storyPointSumResult[0]) {
             return;
@@ -51,8 +50,8 @@ Meteor.publish(COLLECTIONS.LIVE_STATISTICS, function () {
         const data = [
             {
                 _id: "singleDoc",
-                sessionCount: Sessions.find().count(),
-                storyCount: Stories.find().count(),
+                sessionCount: await Sessions.find().countAsync(),
+                storyCount: await Stories.find().countAsync(),
                 storyPoints: storyPointSumResult[0].sp,
             },
         ];
@@ -67,10 +66,10 @@ Meteor.publish(COLLECTIONS.LIVE_STATISTICS, function () {
         });
     };
 
-    poll();
+    await poll();
     this.ready();
 
-    const interval = Meteor.setInterval(poll, 60000);
+    const interval = Meteor.setInterval(() => poll(), 60000);
 
     this.onStop(() => {
         Meteor.clearInterval(interval);
@@ -79,7 +78,7 @@ Meteor.publish(COLLECTIONS.LIVE_STATISTICS, function () {
 
 Router.route(
     "/session/download/:sessionId",
-    function () {
+    async function () {
         const styles = {
             header: {
                 fill: {
@@ -97,7 +96,7 @@ Router.route(
             },
         };
 
-        const session = Sessions.findOne(this.params.sessionId);
+        const session = await Sessions.findOneAsync(this.params.sessionId);
         const specification = {
             name: {
                 displayName: "Name",
@@ -111,7 +110,7 @@ Router.route(
             },
         };
 
-        let dataset = Stories.find(
+        let dataset = await Stories.find(
             { sessionId: this.params.sessionId },
             {
                 fields: {
@@ -119,9 +118,9 @@ Router.route(
                     estimate: 1,
                 },
             }
-        ).fetch();
+        ).fetchAsync();
         if (session.type === "tshirt") {
-            cards = TSHIRT;
+            const cards = TSHIRT;
             dataset = dataset.map((story) => {
                 story.estimate = cards["SP" + story.estimate]?.displayValue ?? "-";
                 return story;
