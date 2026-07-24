@@ -1,6 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { COLLECTIONS, Features, Sessions, Statistics, Stories } from "../imports/collections";
-import * as Excel from "node-excel-export";
+import ExcelJS from "exceljs";
 import "../imports/methods";
 import "./statistics";
 import { TSHIRT } from "../imports/cards";
@@ -79,36 +79,7 @@ Meteor.publish(COLLECTIONS.LIVE_STATISTICS, async function () {
 Router.route(
     "/session/download/:sessionId",
     async function () {
-        const styles = {
-            header: {
-                fill: {
-                    fgColor: {
-                        rgb: "FFFFFFFF",
-                    },
-                },
-                font: {
-                    color: {
-                        rgb: "FF000000",
-                    },
-                    bold: true,
-                    underline: false,
-                },
-            },
-        };
-
         const session = await Sessions.findOneAsync(this.params.sessionId);
-        const specification = {
-            name: {
-                displayName: "Name",
-                width: "50",
-                headerStyle: styles.header,
-            },
-            estimate: {
-                displayName: session.type === "vote" ? "Bewertung" : "Schätzung",
-                width: "10",
-                headerStyle: styles.header,
-            },
-        };
 
         let dataset = await Stories.find(
             { sessionId: this.params.sessionId },
@@ -127,20 +98,36 @@ Router.route(
             });
         }
 
-        const report = Excel.buildExport([
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet(session.name);
+
+        worksheet.columns = [
+            { header: "Name", key: "name", width: 50 },
             {
-                name: session.name,
-                specification: specification,
-                data: dataset,
+                header: session.type === "vote" ? "Bewertung" : "Schätzung",
+                key: "estimate",
+                width: 10,
             },
-        ]);
+        ];
+
+        const headerRow = worksheet.getRow(1);
+        headerRow.font = { bold: true, color: { argb: "FF000000" } };
+        headerRow.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "FFFFFFFF" },
+        };
+
+        dataset.forEach((story) => worksheet.addRow(story));
+
+        const buffer = await workbook.xlsx.writeBuffer();
 
         const headers = {
-            "Content-type": "application/vnd.openxmlformats",
+            "Content-type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             "Content-Disposition": "attachment; filename=Stories.xlsx",
         };
         this.response.writeHead(200, headers);
-        this.response.end(report, "binary");
+        this.response.end(buffer);
     },
     { where: "server" }
 );
